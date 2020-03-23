@@ -1,0 +1,91 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
+RSpec.describe Aegis::QueryStatus do
+  let(:query_status) { described_class.new(status) }
+
+  describe '.initialize' do
+    subject { query_status }
+
+    context 'when given status is known' do
+      let(:correct_statuses) { [:queued, :running, :finished, :failed, :cancelled] }
+
+      it 'creates QueryStatus object' do
+        correct_statuses.each do |query_status|
+          expect { query_status }.not_to raise_error(ArgumentError)
+        end
+      end
+    end
+
+    context 'when given status is unknown' do
+      let(:status) { :unknown }
+
+      it { expect { subject }.to raise_error(ArgumentError).with_message('Unsupported status unknown') }
+    end
+  end
+
+  describe '.finished?' do
+    subject { query_status.finished? }
+
+    context 'when status running' do
+      let(:status) { :running }
+
+      it { is_expected.to be(false) }
+    end
+
+    context 'when status finished' do
+      let(:status) { :finished }
+
+      it { is_expected.to be(true) }
+    end
+  end
+
+  describe '.failed?' do
+    subject { query_status.failed? }
+
+    context 'when status failed' do
+      let(:status) { :failed }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when status finished' do
+      let(:status) { :finished }
+
+      it { is_expected.to be(false) }
+    end
+  end
+
+  describe '.queued?' do
+    subject { query_status.queued? }
+
+    context 'when status queued' do
+      let(:status) { :queued }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when status finished' do
+      let(:status) { :finished }
+
+      it { is_expected.to be(false) }
+    end
+  end
+
+  describe '.running?' do
+    subject { query_status.running? }
+
+    context 'when status running' do
+      let(:status) { :running }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when status finished' do
+      let(:status) { :finished }
+
+      it { is_expected.to be(false) }
+    end
+  end
+end
