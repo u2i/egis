@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Agnieszka Czereba', 'Marek Mateja']
   spec.email         = %w[agnieszka.czereba@u2i.com marek.mateja@u2i.com]
 
-  spec.summary       = 'A toolkit supporting runnnig AWS Athena queries'
-  spec.description   = 'A toolkit supporting runnnig AWS Athena queries'
+  spec.summary       = 'A handy wrapper for AWS Athena Ruby SDK.'
+  spec.description   = 'A handy wrapper for AWS Athena Ruby SDK.'
   spec.homepage      = 'https://github.com/u2i/aegis'
   spec.license       = 'proprietary'
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'http://gemstash.talkwit.tv/private'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/u2i/aegis'
+  spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['changelog_uri'] = 'https://github.com/u2i/aegis/blob/master/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.

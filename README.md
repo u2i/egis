@@ -1,24 +1,24 @@
 # Aegis
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/aegis`. To experiment with that code, run `bin/console` for an interactive prompt.
+A handy wrapper for AWS Athena Ruby SDK.
 
-TODO: Delete this and the text above, and describe your gem
+>*...and among them went bright-eyed Athene, holding the precious aegis which is ageless and immortal:
+> a hundred tassels of pure gold hang fluttering from it, tight-woven each of them,
+> and each the worth of a hundred oxen. (Homer, The Iliad)*
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'aegis'
+source 'http://gemstash.talkwit.tv/private' do
+  gem 'aegis'
+end
 ```
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install aegis
 
 ## Usage
 
@@ -33,7 +33,3 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/aegis.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
