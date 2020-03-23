@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Aegis
   class TableSchema
     def self.define(&block)
@@ -35,9 +37,9 @@ module Aegis
       return if @partitions.empty?
 
       <<~SQL
-      PARTITIONED BY (
-        #{@partitions.map(&:to_sql).join(",\n")}
-      )
+        PARTITIONED BY (
+          #{@partitions.map(&:to_sql).join(",\n")}
+        )
       SQL
     end
 
@@ -48,7 +50,7 @@ module Aegis
       when :tsv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'"
       when :orc
-        "STORED AS ORC"
+        'STORED AS ORC'
       else
         raise UnsupportedTableFormat, format.to_s
       end
