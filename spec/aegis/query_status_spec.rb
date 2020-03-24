@@ -5,8 +5,14 @@ require 'spec_helper'
 RSpec.describe Aegis::QueryStatus do
   let(:query_status) { described_class.new(status) }
 
-  describe '.initialize' do
+  describe '#initialize' do
     subject { query_status }
+
+    context 'when given status is correct one' do
+      let(:status) { :finished }
+
+      it { expect(subject).to be_a(described_class) }
+    end
 
     context 'when given status is unknown' do
       let(:status) { :unknown }
