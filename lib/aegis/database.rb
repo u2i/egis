@@ -11,8 +11,9 @@ module Aegis
       client.execute_query("CREATE DATABASE #{database_name};", async: false)
     end
 
-    def create_table(table_name, table_schema, table_location, options = {format: :tsv})
-      client.create_table(database_name, table_name, table_schema, table_location, options)
+    def create_table(table_name, table_schema, location, format: :tsv)
+      create_table_sql = table_schema.to_sql(table_name, location, format: format)
+      client.execute_query(create_table_sql, database: database_name, async: false)
     end
 
     def execute_query(query_string, options = {async: false})

@@ -27,9 +27,17 @@ RSpec.describe Aegis::Database do
   describe '#create_table' do
     subject { database.create_table(table_name, table_schema, table_location) }
 
+    let(:table_schema) { instance_double(Aegis::TableSchema) }
+    let(:create_table_sql) { 'CREATE TABLE table' }
+
+    before do
+      allow(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv).
+        and_return(create_table_sql)
+    end
+
     it 'delegates method to the client with given database' do
-      expect(client).to receive(:create_table).
-          with(database_name, table_name, table_schema, table_location, format: :tsv)
+      expect(client).to receive(:execute_query).with(create_table_sql, database: database_name, async: false)
+
       subject
     end
   end
