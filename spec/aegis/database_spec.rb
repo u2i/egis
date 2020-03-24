@@ -15,10 +15,19 @@ RSpec.describe Aegis::Database do
   end
   let(:table_location) { 's3://aegis/table' }
 
+  describe '#create' do
+    subject { database.create }
+
+    it 'creates Athena database' do
+      expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
+      subject
+    end
+  end
+
   describe '#create_table' do
     subject { database.create_table(table_name, table_schema, table_location) }
 
-    it 'delegates method to client with given database' do
+    it 'delegates method to the client with given database' do
       expect(client).to receive(:create_table).
           with(database_name, table_name, table_schema, table_location, format: :tsv)
       subject
@@ -30,8 +39,8 @@ RSpec.describe Aegis::Database do
 
     let(:query) { 'select * from table;' }
 
-    it 'delegates method to client with given database' do
-      expect(client).to receive(:execute_query).with(database_name, query, async: false)
+    it 'delegates method to the client with given database' do
+      expect(client).to receive(:execute_query).with(query, database: database_name, async: false)
       subject
     end
   end
@@ -41,7 +50,7 @@ RSpec.describe Aegis::Database do
 
     let(:query_execution_id) { '123' }
 
-    it 'delegates method to client with given database' do
+    it 'delegates method to the client' do
       expect(client).to receive(:query_status).with(query_execution_id)
       subject
     end

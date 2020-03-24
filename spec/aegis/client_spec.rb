@@ -53,6 +53,12 @@ RSpec.describe Aegis::Client do
     end
   end
 
+  describe '#database' do
+    subject { client.database('database') }
+
+    it { is_expected.to be_a(Aegis::Database) }
+  end
+
   describe '#create_table' do
     subject(:create_table) { client.create_table(database_name, table_name, table_schema, location) }
 

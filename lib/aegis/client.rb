@@ -16,23 +16,21 @@ module Aegis
       @aws_athena_client = aws_athena_client
     end
 
-    def create_database(database_name)
+    def database(database_name)
       Database.new(self, database_name)
     end
 
+    # TODO: do we need that method when we have Database.create_table ?
     def create_table(database_name, table_name, table_schema, location, format: :tsv)
       create_table_sql = table_schema.to_sql(table_name, location, format: format)
-      execute_query(database_name, create_table_sql, async: false)
+      execute_query(create_table_sql, database: database_name, async: false)
     end
 
     # TODO: add result_configuration and work_group
-    def execute_query(database_name, query, async: true)
-      query_execution_params = {
-          query_string: query,
-          query_execution_context: {
-              database: database_name
-          }
-      }
+    def execute_query(query, database: nil, async: true)
+      query_execution_params = {query_string: query}
+      query_execution_params.merge!(query_execution_context: {database: database}) if database
+
       query_execution_id = aws_athena_client.start_query_execution(query_execution_params).query_execution_id
 
       return query_execution_id if async
@@ -63,7 +61,7 @@ module Aegis
     def wait_for_execution_end(query_execution_id)
       status = query_status(query_execution_id)
 
-      return status unless status.queued? || status.running?
+      status unless status.queued? || status.running?
     end
   end
 end
