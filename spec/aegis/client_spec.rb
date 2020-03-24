@@ -54,7 +54,7 @@ RSpec.describe Aegis::Client do
   end
 
   describe '#create_table' do
-    subject(:create_table) { client.create_table(table_schema, table_name, location) }
+    subject(:create_table) { client.create_table(database_name, table_name, table_schema, location) }
 
     let(:table_schema) do
       Aegis::TableSchema.define do
@@ -64,6 +64,7 @@ RSpec.describe Aegis::Client do
         partition :dth, :int
       end
     end
+    let(:database_name) { 'database' }
     let(:table_name) { 'table' }
     let(:location) { 's3://bucket/file' }
     let(:response) do

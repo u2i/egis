@@ -16,14 +16,24 @@ module Aegis
       @aws_athena_client = aws_athena_client
     end
 
-    def create_table(table_schema, table_name, location, format: :tsv)
+    def create_database(database_name)
+      Database.new(self, database_name)
+    end
+
+    def create_table(database_name, table_name, table_schema, location, format: :tsv)
       create_table_sql = table_schema.to_sql(table_name, location, format: format)
-      execute_query(create_table_sql, async: false)
+      execute_query(database_name, create_table_sql, async: false)
     end
 
     # TODO: add result_configuration and work_group
-    def execute_query(query, async: true)
-      query_execution_id = aws_athena_client.start_query_execution({query_string: query}).query_execution_id
+    def execute_query(database_name, query, async: true)
+      query_execution_params = {
+          query_string: query,
+          query_execution_context: {
+              database: database_name
+          }
+      }
+      query_execution_id = aws_athena_client.start_query_execution(query_execution_params).query_execution_id
 
       return query_execution_id if async
 
