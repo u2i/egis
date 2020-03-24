@@ -3,6 +3,7 @@
 require 'aegis/version'
 require 'aegis/errors'
 require 'aegis/client'
+require 'aegis/database'
 require 'aegis/query_status'
 require 'aegis/table_schema'
 
