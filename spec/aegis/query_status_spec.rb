@@ -8,16 +8,6 @@ RSpec.describe Aegis::QueryStatus do
   describe '.initialize' do
     subject { query_status }
 
-    context 'when given status is known' do
-      let(:correct_statuses) { [:queued, :running, :finished, :failed, :cancelled] }
-
-      it 'creates QueryStatus object' do
-        correct_statuses.each do |query_status|
-          expect { query_status }.not_to raise_error(ArgumentError)
-        end
-      end
-    end
-
     context 'when given status is unknown' do
       let(:status) { :unknown }
 

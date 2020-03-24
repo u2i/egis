@@ -23,7 +23,7 @@ module Aegis
 
     # TODO: add result_configuration and work_group
     def execute_query(query, async: true)
-      query_execution_id = aws_athena_client.start_query_execution({query_string: query})
+      query_execution_id = aws_athena_client.start_query_execution({query_string: query}).query_execution_id
 
       return query_execution_id if async
 
@@ -34,7 +34,7 @@ module Aegis
       end
 
       unless query_status.finished?
-        raise SynchronousQueryExecutionError, "Query execution status #{query_status.status}"
+        raise Aegis::SynchronousQueryExecutionError, "Query execution status #{query_status.status}"
       end
 
       query_status

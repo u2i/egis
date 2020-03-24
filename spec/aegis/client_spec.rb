@@ -52,4 +52,51 @@ RSpec.describe Aegis::Client do
       it { expect(subject.status).to eq(:cancelled) }
     end
   end
+
+  describe '#create_table' do
+    subject(:create_table) { client.create_table(table_schema, table_name, location) }
+
+    let(:table_schema) do
+      Aegis::TableSchema.define do
+        column :id, :int
+        column :message, :string
+        column :time, :timestamp
+        partition :dth, :int
+      end
+    end
+    let(:table_name) { 'table' }
+    let(:location) { 's3://bucket/file' }
+    let(:response) do
+      {
+        query_execution: {
+          status: {
+            state: state
+          }
+        }
+      }
+    end
+    let(:query_execution_id) { '123' }
+
+    before do
+      aws_athena_client.stub_responses(:start_query_execution, query_execution_id: query_execution_id)
+      aws_athena_client.stub_responses(:get_query_execution, response)
+    end
+
+    context 'when athena returns SUCCEEDED status' do
+      let(:state) { 'SUCCEEDED' }
+
+      it 'returns QueryStatus object' do
+        expect(create_table.finished?).to be(true)
+      end
+    end
+
+    context 'when athena raise failed error' do
+      let(:state) { 'FAILED' }
+      let(:error_message) { 'Query execution status failed' }
+
+      it 'raises error' do
+        expect { create_table }.to raise_error(Aegis::SynchronousQueryExecutionError).with_message(error_message)
+      end
+    end
+  end
 end
