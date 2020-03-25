@@ -27,9 +27,9 @@ module Aegis
     end
 
     # TODO: add result_configuration and work_group
-    def execute_query(query, database: nil, async: true)
+    def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true)
       query_execution_id = aws_athena_client.start_query_execution(
-        query_execution_params(query, database)
+        query_execution_params(query, work_group, database, output_location)
       ).query_execution_id
 
       return query_execution_id if async
@@ -47,11 +47,13 @@ module Aegis
       query_status
     end
 
-    def query_execution_params(query, database)
-      params = {
-        query_string: query, work_group: configuration.work_group
-      }
+    def query_execution_params(query, work_group, database, output_location)
+      work_group_params = work_group || configuration.work_group
+
+      params = {query_string: query}
+      params[:work_group] = work_group_params if work_group_params
       params[:query_execution_context] = {database: database} if database
+      params[:result_configuration] = {output_location: output_location} if output_location
       params
     end
 

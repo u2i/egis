@@ -69,7 +69,7 @@ RSpec.describe Aegis::Client do
   end
 
   describe '#execute_query' do
-    subject(:execute_query) { client.execute_query(query, database: database, async: async) }
+    subject { client.execute_query(query, database: database, async: async) }
 
     let(:query) { 'select * from table;' }
     let(:database) { 'database' }
@@ -82,6 +82,37 @@ RSpec.describe Aegis::Client do
       aws_athena_client.stub_responses(:start_query_execution, start_query_execution_response)
     end
 
+    context 'when work_group passed as parameter' do
+      subject { client.execute_query(query, database: database, work_group: work_group_parameter) }
+
+      let(:work_group_parameter) { 'test_work_group_parameter' }
+
+      it 'executes Athena query' do
+        expect(aws_athena_client).to receive(:start_query_execution).with(
+          query_string: query, work_group: work_group_parameter, query_execution_context: {database: database}
+        ).and_return(start_query_execution_response)
+
+        subject
+      end
+    end
+
+    context 'when output_location as parameter' do
+      subject { client.execute_query(query, database: database, output_location: output_location) }
+
+      let(:output_location) { 'output_location' }
+
+      it 'executes Athena query' do
+        expect(aws_athena_client).to receive(:start_query_execution).with(
+          query_string: query,
+          work_group: work_group,
+          result_configuration: {output_location: output_location},
+          query_execution_context: {database: database}
+        ).and_return(start_query_execution_response)
+
+        subject
+      end
+    end
+
     context 'when async true' do
       let(:async) { true }
 
@@ -90,11 +121,11 @@ RSpec.describe Aegis::Client do
           query_string: query, work_group: work_group, query_execution_context: {database: database}
         ).and_return(start_query_execution_response)
 
-        execute_query
+        subject
       end
 
       it 'return query_execution_id' do
-        expect(execute_query).to eq(query_execution_id)
+        expect(subject).to eq(query_execution_id)
       end
     end
 
@@ -128,10 +159,10 @@ RSpec.describe Aegis::Client do
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
             and_return(get_query_execution_response[state]).once
 
-          execute_query
+          subject
         end
 
-        it { expect(execute_query.status).to be(:finished) }
+        it { expect(subject.status).to be(:finished) }
       end
 
       context 'when get_query_execution returns FAILED at first time' do
@@ -145,7 +176,7 @@ RSpec.describe Aegis::Client do
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
             and_return(get_query_execution_response[state]).once
 
-          expect { execute_query }.to raise_error(Aegis::SynchronousQueryExecutionError).
+          expect { subject }.to raise_error(Aegis::SynchronousQueryExecutionError).
             with_message('Query execution status failed')
         end
       end
@@ -164,7 +195,7 @@ RSpec.describe Aegis::Client do
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
             and_return(get_query_execution_response['SUCCEEDED'])
 
-          execute_query
+          subject
         end
       end
     end
