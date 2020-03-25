@@ -24,6 +24,15 @@ RSpec.describe Aegis::Database do
     end
   end
 
+  describe '#drop' do
+    subject { database.drop }
+
+    it 'removes Athena database' do
+      expect(client).to receive(:execute_query).with('DROP DATABASE name;', async: false)
+      subject
+    end
+  end
+
   describe '#create_table' do
     subject { database.create_table(table_name, table_schema, table_location) }
 

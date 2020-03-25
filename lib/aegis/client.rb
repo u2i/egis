@@ -26,7 +26,6 @@ module Aegis
       Database.new(self, database_name)
     end
 
-    # TODO: add result_configuration and work_group
     def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true)
       query_execution_id = aws_athena_client.start_query_execution(
         query_execution_params(query, work_group, database, output_location)
