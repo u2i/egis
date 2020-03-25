@@ -17,9 +17,9 @@ module Aegis
 
     private_constant :QUERY_STATUS_MAPPING, :EXECUTE_QUERY_START_TIME, :EXECUTE_QUERY_MULTIPLIER
 
-    def initialize(aws_athena_client, work_group: Aegis.configuration.work_group)
-      @aws_athena_client = aws_athena_client
-      @work_group = work_group
+    def initialize(aws_athena_client: nil, configuration: Aegis.configuration)
+      @configuration = configuration
+      @aws_athena_client = aws_athena_client || Aws::Athena::Client.new(athena_config)
     end
 
     def database(database_name)
@@ -49,7 +49,7 @@ module Aegis
 
     def query_execution_params(query, database)
       params = {
-        query_string: query, work_group: work_group
+        query_string: query, work_group: configuration.work_group
       }
       params[:query_execution_context] = {database: database} if database
       params
@@ -63,7 +63,15 @@ module Aegis
 
     private
 
-    attr_reader :aws_athena_client, :work_group
+    attr_reader :aws_athena_client, :configuration
+
+    def athena_config
+      config = {}
+      config[:region] = configuration.aws_region if configuration.aws_region
+      config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id
+      config[:secret_access_key] = configuration.aws_secret_access_key if configuration.aws_secret_access_key
+      config
+    end
 
     def wait_for_execution_end(query_execution_id)
       status = query_status(query_execution_id)

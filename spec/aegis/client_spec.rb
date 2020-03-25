@@ -4,12 +4,12 @@ require 'spec_helper'
 
 RSpec.describe Aegis::Client do
   let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
-  let(:client) { described_class.new(aws_athena_client) }
+  let(:client) { described_class.new(aws_athena_client: aws_athena_client) }
   let(:work_group) { 'test_work_group' }
 
   before do
     ::Aegis.configure do |config|
-      config.work_group = 'test_work_group'
+      config.work_group = work_group
     end
     stub_const('Aegis::Client::EXECUTE_QUERY_START_TIME', 0.001)
     stub_const('Aegis::Client::EXECUTE_QUERY_MULTIPLIER', 0.002)
