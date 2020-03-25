@@ -2,11 +2,12 @@
 
 module Aegis
   class QueryStatus
-    attr_reader :status
+    attr_reader :status, :message
     STATUSES = [:queued, :running, :finished, :failed, :cancelled].freeze
 
-    def initialize(status)
+    def initialize(status, message)
       @status = status
+      @message = message
 
       raise ArgumentError, "Unsupported status #{status}" unless STATUSES.include?(status)
     end

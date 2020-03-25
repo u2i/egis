@@ -176,8 +176,7 @@ RSpec.describe Aegis::Client do
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
             and_return(get_query_execution_response[state]).once
 
-          expect { subject }.to raise_error(Aegis::SynchronousQueryExecutionError).
-            with_message('Query execution status failed')
+          expect { subject }.to raise_error(Aegis::QueryExecutionError)
         end
       end
 

@@ -3,7 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::QueryStatus do
-  let(:query_status) { described_class.new(status) }
+  let(:query_status) { described_class.new(status, message) }
+  let(:message) { nil }
 
   describe '#initialize' do
     subject { query_status }

@@ -10,11 +10,12 @@ require 'aegis/table_schema'
 
 module Aegis
   class << self
-    attr_accessor :configuration
-
     def configure
-      @configuration ||= Configuration.new
       yield(configuration)
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
     end
   end
 end

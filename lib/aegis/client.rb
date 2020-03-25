@@ -39,9 +39,7 @@ module Aegis
         waiting_time *= EXECUTE_QUERY_MULTIPLIER
       end
 
-      unless query_status.finished?
-        raise Aegis::SynchronousQueryExecutionError, "Query execution status #{query_status.status}"
-      end
+      raise Aegis::QueryExecutionError, query_status.message unless query_status.finished?
 
       query_status
     end
@@ -56,10 +54,12 @@ module Aegis
       params
     end
 
-    # TODO: think about resp.query_execution.status.state_change_reason
     def query_status(query_execution_id)
       resp = aws_athena_client.get_query_execution({query_execution_id: query_execution_id})
-      Aegis::QueryStatus.new(QUERY_STATUS_MAPPING.fetch(resp.query_execution.status.state))
+      Aegis::QueryStatus.new(
+        QUERY_STATUS_MAPPING.fetch(resp.query_execution.status.state),
+        resp.query_execution.status.state_change_reason
+      )
     end
 
     private
