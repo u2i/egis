@@ -14,3 +14,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+def strip_whitespaces(string)
+  string.each_line.map(&:strip).reject(&:empty?).join("\n")
+end

@@ -3,10 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::TableSchema do
-  def strip_whitespaces(string)
-    string.each_line.map(&:strip).reject(&:empty?).join("\n")
-  end
-
   let(:schema) do
     described_class.define do
       column :id, :int

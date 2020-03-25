@@ -2,9 +2,10 @@
 
 module Aegis
   class Database
-    def initialize(client, database_name)
+    def initialize(client, database_name, partitions_generator: Aegis::PartitionsGenerator.new)
       @client = client
       @database_name = database_name
+      @partitions_generator = partitions_generator
     end
 
     def create
@@ -20,6 +21,11 @@ module Aegis
       client.execute_query(create_table_sql, database: database_name, async: false)
     end
 
+    def load_partitions(table_name, partitions)
+      load_partitions_sql = partitions_generator.to_sql(table_name, partitions)
+      client.execute_query(load_partitions_sql, database: database_name, async: false)
+    end
+
     def execute_query(query_string, options = {async: false})
       client.execute_query(query_string, options.merge(database: database_name))
     end
@@ -30,6 +36,6 @@ module Aegis
 
     private
 
-    attr_reader :client, :database_name
+    attr_reader :client, :database_name, :partitions_generator
   end
 end
