@@ -22,7 +22,7 @@ RSpec.describe Aegis::QueryStatus do
     end
   end
 
-  describe '.finished?' do
+  describe '#finished?' do
     subject { query_status.finished? }
 
     context 'when status running' do
@@ -38,7 +38,7 @@ RSpec.describe Aegis::QueryStatus do
     end
   end
 
-  describe '.failed?' do
+  describe '#failed?' do
     subject { query_status.failed? }
 
     context 'when status failed' do
@@ -54,7 +54,7 @@ RSpec.describe Aegis::QueryStatus do
     end
   end
 
-  describe '.queued?' do
+  describe '#queued?' do
     subject { query_status.queued? }
 
     context 'when status queued' do
@@ -70,7 +70,7 @@ RSpec.describe Aegis::QueryStatus do
     end
   end
 
-  describe '.running?' do
+  describe '#running?' do
     subject { query_status.running? }
 
     context 'when status running' do
