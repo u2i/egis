@@ -17,16 +17,13 @@ module Aegis
 
     private_constant :QUERY_STATUS_MAPPING, :EXECUTE_QUERY_START_TIME, :EXECUTE_QUERY_MULTIPLIER
 
-    def initialize(aws_athena_client)
+    def initialize(aws_athena_client, work_group: Aegis.configuration.work_group)
       @aws_athena_client = aws_athena_client
+      @work_group = work_group
     end
 
     def database(database_name)
       Database.new(self, database_name)
-    end
-
-    def work_group
-      Aegis.configuration.work_group
     end
 
     # TODO: add result_configuration and work_group
@@ -66,7 +63,7 @@ module Aegis
 
     private
 
-    attr_reader :aws_athena_client
+    attr_reader :aws_athena_client, :work_group
 
     def wait_for_execution_end(query_execution_id)
       status = query_status(query_execution_id)
