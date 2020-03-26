@@ -24,12 +24,26 @@ RSpec.describe Aegis::Client do
         query_execution: {
           status: {
             state: state
+          },
+          result_configuration: {
+            output_location: 's3://output_bucket/query_output_location/output_file.csv'
           }
         }
       }
     end
+    let(:state) { 'SUCCEEDED' }
 
     before { aws_athena_client.stub_responses(:get_query_execution, response) }
+
+    it 'returns query output location' do
+      expected_output = Aegis::QueryOutputLocation.new(
+          's3://output_bucket/query_output_location/output_file.csv',
+          'output_bucket',
+          'query_output_location/output_file.csv'
+      )
+
+      expect(subject.output_location).to eq(expected_output)
+    end
 
     context 'when QUEUED state' do
       let(:state) { 'QUEUED' }
@@ -138,6 +152,9 @@ RSpec.describe Aegis::Client do
                                         query_execution: {
                                           status: {
                                             state: state
+                                          },
+                                          result_configuration: {
+                                              output_location: 's3://output_bucket/query_output_location'
                                           }
                                         }
                                       })

@@ -7,6 +7,7 @@ require 'aegis/client'
 require 'aegis/partitions_generator'
 require 'aegis/database'
 require 'aegis/query_status'
+require 'aegis/query_output_location'
 require 'aegis/table_schema'
 
 module Aegis
