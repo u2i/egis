@@ -8,12 +8,14 @@ module Aegis
       @partitions_generator = partitions_generator
     end
 
-    def create
-      client.execute_query("CREATE DATABASE #{database_name};", async: false)
+    def create(permissive: false)
+      permissive_statement = 'IF NOT EXISTS ' if permissive
+      client.execute_query("CREATE DATABASE #{permissive_statement}#{database_name};", async: false)
     end
 
-    def drop
-      client.execute_query("DROP DATABASE #{database_name};", async: false)
+    def drop(permissive: false)
+      permissive_statement = 'IF EXISTS ' if permissive
+      client.execute_query("DROP DATABASE #{permissive_statement}#{database_name};", async: false)
     end
 
     def create_table(table_name, table_schema, location, format: :tsv)
