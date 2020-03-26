@@ -20,14 +20,14 @@ module Aegis
     def partitions_definition(partitions)
       partition_names = partitions.keys
 
-      partition_value_combinations = partition_value_combinatons(partitions).
+      partition_value_combinations = partition_value_combinations(partitions).
         map { |value_combination| partition_value(partition_names, value_combination) }.
         map { |partition_values| PartitionValueCombination.new(partition_values) }
 
       PartitionsDefinition.new(partition_value_combinations)
     end
 
-    def partition_value_combinatons(partitions)
+    def partition_value_combinations(partitions)
       return partitions.values.first.map { |value| [value] } if partitions.size <= 1
 
       partitions.values.reduce(&:product).map(&:flatten)
