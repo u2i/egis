@@ -17,7 +17,7 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:expected_query) do
       strip_whitespaces <<~SQL
         ALTER TABLE #{table_name} ADD
-        PARTITION (country = 'us'),
+        PARTITION (country = 'us')
         PARTITION (country = 'it');
       SQL
     end
@@ -38,13 +38,13 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:expected_query) do
       strip_whitespaces <<~SQL
         ALTER TABLE #{table_name} ADD
-          PARTITION (country = 'us', dth = 2020031000, types = 'likes', publicity = 'owned'),
-          PARTITION (country = 'us', dth = 2020031000, types = 'likes', publicity = 'earned'),
-          PARTITION (country = 'us', dth = 2020031000, types = 'tweets', publicity = 'owned'),
-          PARTITION (country = 'us', dth = 2020031000, types = 'tweets', publicity = 'earned'),
-          PARTITION (country = 'it', dth = 2020031000, types = 'likes', publicity = 'owned'),
-          PARTITION (country = 'it', dth = 2020031000, types = 'likes', publicity = 'earned'),
-          PARTITION (country = 'it', dth = 2020031000, types = 'tweets', publicity = 'owned'),
+          PARTITION (country = 'us', dth = 2020031000, types = 'likes', publicity = 'owned')
+          PARTITION (country = 'us', dth = 2020031000, types = 'likes', publicity = 'earned')
+          PARTITION (country = 'us', dth = 2020031000, types = 'tweets', publicity = 'owned')
+          PARTITION (country = 'us', dth = 2020031000, types = 'tweets', publicity = 'earned')
+          PARTITION (country = 'it', dth = 2020031000, types = 'likes', publicity = 'owned')
+          PARTITION (country = 'it', dth = 2020031000, types = 'likes', publicity = 'earned')
+          PARTITION (country = 'it', dth = 2020031000, types = 'tweets', publicity = 'owned')
           PARTITION (country = 'it', dth = 2020031000, types = 'tweets', publicity = 'earned');
       SQL
     end

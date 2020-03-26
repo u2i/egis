@@ -2,60 +2,51 @@
 
 module Aegis
   class PartitionsGenerator
-    def to_sql(table_name, partitions)
-      validate_partition_values(partitions)
+    def to_sql(table_name, values_by_partition)
+      validate_partition_values(values_by_partition)
 
       <<~SQL
         ALTER TABLE #{table_name} ADD
-          #{partitions_definition(partitions).to_sql};
+        #{partitions_definition(values_by_partition)};
       SQL
     end
 
     private
 
-    def validate_partition_values(partitions)
-      raise MissingPartitionValuesError if partitions.nil? || partitions.empty? || partitions.values.any?(&:empty?)
+    def validate_partition_values(values_by_partition)
+      if values_by_partition.nil? || values_by_partition.empty? || values_by_partition.values.any?(&:empty?)
+        raise MissingPartitionValuesError
+      end
     end
 
-    def partitions_definition(partitions)
-      partition_names = partitions.keys
-
-      partition_value_combinations = partition_value_combinations(partitions).
-        map { |value_combination| partition_value(partition_names, value_combination) }.
-        map { |partition_values| PartitionValueCombination.new(partition_values) }
-
-      PartitionsDefinition.new(partition_value_combinations)
+    def partitions_definition(values_by_partition)
+      cartesian_product(values_by_partition).
+        map { |partition_values_combination| partition_values_clause(partition_values_combination) }.
+        join("\n")
     end
 
-    def partition_value_combinations(partitions)
-      return partitions.values.first.map { |value| [value] } if partitions.size <= 1
+    def cartesian_product(values_by_partition)
+      partition_names = values_by_partition.keys
+      partition_values = values_by_partition.values
 
-      partitions.values.reduce(&:product).map(&:flatten)
+      head, *tail = partition_values
+
+      return partition_names.zip(head) unless tail
+
+      head.product(*tail).map { |values| partition_names.zip(values) }
     end
 
-    def partition_value(partition_names, value_combination)
-      partition_names.zip(value_combination).map { |partition, value| PartitionValue.new(partition, value) }
+    def partition_values_clause(partition_values_combination)
+      "PARTITION (#{partition_values(partition_values_combination).join(', ')})"
     end
 
-    PartitionValue = Struct.new(:partition_name, :value) do
-      def to_sql
+    def partition_values(partition_values_combination)
+      partition_values_combination.map do |partition_name, value|
         if value.is_a?(String)
           "#{partition_name} = '#{value}'"
         else
           "#{partition_name} = #{value}"
         end
-      end
-    end
-
-    PartitionValueCombination = Struct.new(:partition_column_values) do
-      def to_sql
-        "PARTITION (#{partition_column_values.map(&:to_sql).join(', ')})"
-      end
-    end
-
-    PartitionsDefinition = Struct.new(:partition_value_combinations) do
-      def to_sql
-        partition_value_combinations.map(&:to_sql).join(",\n")
       end
     end
   end
