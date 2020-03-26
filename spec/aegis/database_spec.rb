@@ -53,10 +53,10 @@ RSpec.describe Aegis::Database do
   end
 
   describe '#load_partitions' do
-    subject { database.load_partitions(table_name, partitions) }
+    subject { database.load_partitions(table_name, partitions, permissive: false) }
 
     before do
-      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions).
+      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: false).
         and_return(load_partitions_sql)
     end
 

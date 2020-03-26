@@ -75,4 +75,24 @@ RSpec.describe Aegis::PartitionsGenerator do
       expect { subject }.to raise_error(Aegis::MissingPartitionValuesError)
     end
   end
+
+  context 'when permissive true' do
+    subject { strip_whitespaces(described_class.new.to_sql(table_name, partitions, permissive: true)) }
+
+    let(:partitions) do
+      {
+        country: ['us', 'it']
+      }
+    end
+
+    let(:expected_query) do
+      strip_whitespaces <<~SQL
+        ALTER TABLE #{table_name} ADD IF NOT EXISTS
+        PARTITION (country = 'us'),
+        PARTITION (country = 'it');
+      SQL
+    end
+
+    it { is_expected.to eq(expected_query) }
+  end
 end

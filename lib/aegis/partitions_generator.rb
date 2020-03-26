@@ -2,12 +2,12 @@
 
 module Aegis
   class PartitionsGenerator
-    def to_sql(table_name, values_by_partition)
+    def to_sql(table_name, values_by_partition, permissive: false)
       validate_partition_values(values_by_partition)
 
       <<~SQL
-        ALTER TABLE #{table_name} ADD
-        #{partitions_definition(values_by_partition)};
+        ALTER TABLE #{table_name} ADD #{permissive_statement(permissive)}
+          #{partitions_definition(values_by_partition)};
       SQL
     end
 
@@ -19,6 +19,10 @@ module Aegis
 
     def partition_values_missing?(values_by_partition)
       values_by_partition.nil? || values_by_partition.empty? || values_by_partition.values.any?(&:empty?)
+    end
+
+    def permissive_statement(permissive)
+      'IF NOT EXISTS' if permissive
     end
 
     def partitions_definition(values_by_partition)
