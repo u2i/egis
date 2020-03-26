@@ -41,7 +41,7 @@ RSpec.describe Aegis::Database do
 
     context 'without permissive option' do
       it 'removes Athena database' do
-        expect(client).to receive(:execute_query).with('DROP DATABASE name;', async: false)
+        expect(client).to receive(:execute_query).with('DROP DATABASE name CASCADE;', async: false)
         subject
       end
     end
@@ -50,7 +50,7 @@ RSpec.describe Aegis::Database do
       subject { database.drop(permissive: true) }
 
       it 'creates Athena database' do
-        expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name;', async: false)
+        expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name CASCADE;', async: false)
         subject
       end
     end
