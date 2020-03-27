@@ -14,9 +14,11 @@ module Aegis
     private
 
     def validate_partition_values(values_by_partition)
-      if values_by_partition.nil? || values_by_partition.empty? || values_by_partition.values.any?(&:empty?)
-        raise MissingPartitionValuesError
-      end
+      raise MissingPartitionValuesError if partition_values_missing?(values_by_partition)
+    end
+
+    def partition_values_missing?(values_by_partition)
+      values_by_partition.nil? || values_by_partition.empty? || values_by_partition.values.any?(&:empty?)
     end
 
     def partitions_definition(values_by_partition)
