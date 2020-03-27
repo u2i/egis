@@ -63,7 +63,7 @@ RSpec.describe Aegis::Database do
     let(:create_table_sql) { 'CREATE TABLE table' }
 
     before do
-      allow(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv).
+      allow(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: false).
         and_return(create_table_sql)
     end
 

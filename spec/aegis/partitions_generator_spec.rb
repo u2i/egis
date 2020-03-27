@@ -88,7 +88,7 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:expected_query) do
       strip_whitespaces <<~SQL
         ALTER TABLE #{table_name} ADD IF NOT EXISTS
-        PARTITION (country = 'us'),
+        PARTITION (country = 'us')
         PARTITION (country = 'it');
       SQL
     end

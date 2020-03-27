@@ -139,5 +139,53 @@ RSpec.describe Aegis::TableSchema do
         end
       end
     end
+
+    describe 'permissive format' do
+      subject { strip_whitespaces(schema.to_sql(table_name, location, permissive: permissive)) }
+
+      context 'when given permissive true' do
+        let(:permissive) { true }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE IF NOT EXISTS #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when given permissive false' do
+        let(:permissive) { false }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+    end
   end
 end

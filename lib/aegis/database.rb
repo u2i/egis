@@ -18,8 +18,8 @@ module Aegis
       client.execute_query("DROP DATABASE #{permissive_statement}#{database_name};", async: false)
     end
 
-    def create_table(table_name, table_schema, location, format: :tsv)
-      create_table_sql = table_schema.to_sql(table_name, location, format: format)
+    def create_table(table_name, table_schema, location, options = {format: :tsv, permissive: false})
+      create_table_sql = table_schema.to_sql(table_name, location, options)
       client.execute_query(create_table_sql, database: database_name, async: false)
     end
 

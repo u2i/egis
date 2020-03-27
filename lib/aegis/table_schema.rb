@@ -12,9 +12,10 @@ module Aegis
       instance_eval(&block)
     end
 
-    def to_sql(table_name, location, format: :tsv)
+    def to_sql(table_name, location, format: :tsv, permissive: false)
+      permissive_statement = 'IF NOT EXISTS ' if permissive
       <<~SQL
-        CREATE EXTERNAL TABLE #{table_name} (
+        CREATE EXTERNAL TABLE #{permissive_statement}#{table_name} (
           #{@columns.map(&:to_sql).join(",\n")}
         )
         #{partition_statement}
