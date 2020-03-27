@@ -8,6 +8,14 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.options = %w[-a --display-cop-names --format simple]
 end
 
-RSpec::Core::RakeTask.new(:spec)
+namespace :spec do
+  RSpec::Core::RakeTask.new(:unit) do |task|
+    task.rspec_opts = '--tag ~integration'
+  end
 
-task default: [:rubocop, :spec]
+  RSpec::Core::RakeTask.new(:integration) do |task|
+    task.rspec_opts = '--tag integration'
+  end
+end
+
+task default: %w[rubocop spec:unit]

@@ -1,3 +1,5 @@
+[![Build Status](http://jenkins-ci.talkwit.tv/buildStatus/icon?job=u2i/aegis/master)](http://jenkins-ci.talkwit.tv/job/u2i/aegis/master)
+
 # Aegis
 
 A handy wrapper for AWS Athena Ruby SDK.
