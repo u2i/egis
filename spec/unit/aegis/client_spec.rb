@@ -37,9 +37,9 @@ RSpec.describe Aegis::Client do
 
     it 'returns query output location' do
       expected_output = Aegis::QueryOutputLocation.new(
-          's3://output_bucket/query_output_location/output_file.csv',
-          'output_bucket',
-          'query_output_location/output_file.csv'
+        's3://output_bucket/query_output_location/output_file.csv',
+        'output_bucket',
+        'query_output_location/output_file.csv'
       )
 
       expect(subject.output_location).to eq(expected_output)
@@ -154,7 +154,7 @@ RSpec.describe Aegis::Client do
                                             state: state
                                           },
                                           result_configuration: {
-                                              output_location: 's3://output_bucket/query_output_location'
+                                            output_location: 's3://output_bucket/query_output_location'
                                           }
                                         }
                                       })

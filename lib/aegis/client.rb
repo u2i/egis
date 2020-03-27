@@ -12,7 +12,7 @@ module Aegis
       'CANCELLED' => :cancelled
     }.freeze
 
-    S3_URL_PATTERN = /^s3:\/\/(?<bucket>\S+?)\/(?<key>\S+)$/
+    S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}.freeze
 
     EXECUTE_QUERY_START_TIME = 1
     EXECUTE_QUERY_MULTIPLIER = 2

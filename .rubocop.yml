@@ -3,3 +3,7 @@ inherit_gem:
     - default.yml
 Rails:
   Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/integration/**/*'
