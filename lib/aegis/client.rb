@@ -14,14 +14,14 @@ module Aegis
 
     S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}.freeze
 
-    EXECUTE_QUERY_START_TIME = 1
-    EXECUTE_QUERY_MULTIPLIER = 2
+    DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
 
-    private_constant :QUERY_STATUS_MAPPING, :EXECUTE_QUERY_START_TIME, :EXECUTE_QUERY_MULTIPLIER, :S3_URL_PATTERN
+    private_constant :QUERY_STATUS_MAPPING, :S3_URL_PATTERN, :DEFAULT_QUERY_STATUS_BACKOFF
 
     def initialize(aws_athena_client: nil, configuration: Aegis.configuration)
       @configuration = configuration
-      @aws_athena_client = aws_athena_client || Aws::Athena::Client.new(athena_config)
+      @aws_athena_client = aws_athena_client || Aws::Athena::Client.new(default_athena_client_config(configuration))
+      @query_status_backoff = configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
     end
 
     def database(database_name)
@@ -35,11 +35,7 @@ module Aegis
 
       return query_execution_id if async
 
-      waiting_time = EXECUTE_QUERY_START_TIME
-      until (query_status = wait_for_execution_end(query_execution_id))
-        sleep(waiting_time)
-        waiting_time *= EXECUTE_QUERY_MULTIPLIER
-      end
+      query_status = wait_for_query_to_finish(query_execution_id)
 
       raise Aegis::QueryExecutionError, query_status.message unless query_status.finished?
 
@@ -57,7 +53,15 @@ module Aegis
 
     private
 
-    attr_reader :aws_athena_client, :configuration
+    attr_reader :aws_athena_client, :configuration, :query_status_backoff
+
+    def default_athena_client_config(configuration)
+      config = {}
+      config[:region] = configuration.aws_region if configuration.aws_region
+      config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id
+      config[:secret_access_key] = configuration.aws_secret_access_key if configuration.aws_secret_access_key
+      config
+    end
 
     def query_execution_params(query, work_group, database, output_location)
       work_group_params = work_group || configuration.work_group
@@ -69,18 +73,15 @@ module Aegis
       params
     end
 
-    def athena_config
-      config = {}
-      config[:region] = configuration.aws_region if configuration.aws_region
-      config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id
-      config[:secret_access_key] = configuration.aws_secret_access_key if configuration.aws_secret_access_key
-      config
-    end
+    def wait_for_query_to_finish(query_execution_id)
+      attempt = 1
+      loop do
+        sleep(query_status_backoff.call(attempt))
+        status = query_status(query_execution_id)
+        return status unless status.queued? || status.running?
 
-    def wait_for_execution_end(query_execution_id)
-      status = query_status(query_execution_id)
-
-      status unless status.queued? || status.running?
+        attempt += 1
+      end
     end
 
     def parse_output_location(resp)

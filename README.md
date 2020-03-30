@@ -126,10 +126,11 @@ as well
 # with this option, Aegis automatically polls Athena API wating for query to finish
 result = database.execute_query('SELECT * FROM my_table ORDER BY id;', async: false)
 
-# it uses exponential backoff with consecutive polling delays generated with following formula: ->(i) { 2**i }
-# if you need to you can change it in the configuration block
+# it uses exponential backoff which you can configure as well
 Aegis.configure do |config|
-  config.query_status_backoff = ->(retry_index) { ... } # where retry_index is the retry number, starting from 0
+  # attempt is an API call number, starting from 1
+  # defaults to: ->(attempt) { 1.5**attempt - 1 }
+  config.query_status_backoff = ->(attempt) { ... }
 end
 ```
 

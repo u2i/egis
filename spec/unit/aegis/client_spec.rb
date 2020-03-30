@@ -3,16 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Client do
-  let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
   let(:client) { described_class.new(aws_athena_client: aws_athena_client) }
+  let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
   let(:work_group) { 'test_work_group' }
 
   before do
     ::Aegis.configure do |config|
       config.work_group = work_group
+      config.query_status_backoff = ->(_i) { 0.01 }
     end
-    stub_const('Aegis::Client::EXECUTE_QUERY_START_TIME', 0.001)
-    stub_const('Aegis::Client::EXECUTE_QUERY_MULTIPLIER', 0.002)
   end
 
   describe '#query_status' do
