@@ -24,10 +24,9 @@ module Aegis
     end
 
     def load_partitions(table_name, partitions: nil, permissive: false)
-      return load_all_partitions(table_name) if partitions.nil?
+      load_partitions_query = load_partitions_query(table_name, partitions, permissive)
 
-      load_partitions_sql = partitions_generator.to_sql(table_name, partitions, permissive: permissive)
-      client.execute_query(load_partitions_sql, database: database_name, async: false)
+      client.execute_query(load_partitions_query, database: database_name, async: false)
     end
 
     def execute_query(query_string, options = {async: false})
@@ -40,10 +39,14 @@ module Aegis
 
     private
 
-    def load_all_partitions(table_name)
-      client.execute_query("MSCK REPAIR TABLE #{table_name};", database: database_name, async: false)
-    end
-
     attr_reader :client, :database_name, :partitions_generator
+
+    def load_partitions_query(table_name, partitions, permissive)
+      if partitions
+        partitions_generator.to_sql(table_name, partitions, permissive: permissive)
+      else
+        "MSCK REPAIR TABLE #{table_name};"
+      end
+    end
   end
 end
