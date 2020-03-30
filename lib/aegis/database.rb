@@ -31,7 +31,7 @@ module Aegis
     end
 
     def execute_query(query_string, options = {async: false})
-      client.execute_query(query_string, options.merge(database: database_name))
+      client.execute_query(query_string, {database: database_name}.merge(options))
     end
 
     def query_status(query_execution_id)
