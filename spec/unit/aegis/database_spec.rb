@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Database do
-  let(:database) { described_class.new(client, database_name, partitions_generator: partitions_generator) }
+  let(:database) { described_class.new(database_name, client: client, partitions_generator: partitions_generator) }
   let(:client) { instance_double(Aegis::Client) }
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
 

@@ -25,7 +25,7 @@ module Aegis
     end
 
     def database(database_name)
-      Database.new(self, database_name)
+      Database.new(database_name, client: self)
     end
 
     def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true)

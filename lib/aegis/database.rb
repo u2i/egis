@@ -2,7 +2,7 @@
 
 module Aegis
   class Database
-    def initialize(client, database_name, partitions_generator: Aegis::PartitionsGenerator.new)
+    def initialize(database_name, client: Aegis::Client.new, partitions_generator: Aegis::PartitionsGenerator.new)
       @client = client
       @database_name = database_name
       @partitions_generator = partitions_generator
