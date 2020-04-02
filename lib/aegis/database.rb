@@ -43,7 +43,7 @@ module Aegis
       client.execute_query("MSCK REPAIR TABLE #{table_name};", async: false)
     end
 
-    def execute_query(query_string, options = {async: false})
+    def execute_query(query_string, options = {async: true})
       client.execute_query(query_string, {database: database_name}.merge(options))
     end
 
