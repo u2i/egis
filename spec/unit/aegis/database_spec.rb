@@ -71,7 +71,35 @@ RSpec.describe Aegis::Database do
   end
 
   describe '#add_partitions' do
-    subject { database.add_partitions(table_name, partitions, permissive: false) }
+    subject { database.add_partitions(table_name, partitions) }
+
+    before do
+      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: true).
+        and_return(load_partitions_sql)
+    end
+
+    let(:partitions) do
+      {
+        dth: [2_020_031_000, 2_020_031_001]
+      }
+    end
+    let(:load_partitions_sql) do
+      <<~SQL
+        ALTER TABLE #{table_name} ADD
+        PARTITION (dth = 2020031000)
+        PARTITION (dth = 2020031001)
+      SQL
+    end
+
+    it 'delegates method to the client with given database and permissive mode on' do
+      expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
+
+      subject
+    end
+  end
+
+  describe '#add_partitions!' do
+    subject { database.add_partitions!(table_name, partitions) }
 
     before do
       allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: false).
@@ -91,7 +119,7 @@ RSpec.describe Aegis::Database do
       SQL
     end
 
-    it 'delegates method to the client with given database' do
+    it 'delegates method to the client with given database and permissive mode off' do
       expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
 
       subject

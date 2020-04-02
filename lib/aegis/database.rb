@@ -29,9 +29,13 @@ module Aegis
       client.execute_query(create_table_sql, database: database_name, async: false)
     end
 
-    def add_partitions(table_name, partitions, permissive: false)
-      load_partitions_query = partitions_generator.to_sql(table_name, partitions, permissive: permissive)
+    def add_partitions(table_name, partitions)
+      load_partitions_query = partitions_generator.to_sql(table_name, partitions, permissive: true)
+      client.execute_query(load_partitions_query, database: database_name, async: false)
+    end
 
+    def add_partitions!(table_name, partitions)
+      load_partitions_query = partitions_generator.to_sql(table_name, partitions, permissive: false)
       client.execute_query(load_partitions_query, database: database_name, async: false)
     end
 
