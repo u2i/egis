@@ -8,9 +8,12 @@ module Aegis
       @partitions_generator = partitions_generator
     end
 
-    def create(permissive: false)
-      permissive_statement = 'IF NOT EXISTS ' if permissive
-      client.execute_query("CREATE DATABASE #{permissive_statement}#{database_name};", async: false)
+    def create
+      client.execute_query("CREATE DATABASE IF NOT EXISTS #{database_name};", async: false)
+    end
+
+    def create!
+      client.execute_query("CREATE DATABASE #{database_name};", async: false)
     end
 
     def drop(permissive: false)

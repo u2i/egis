@@ -19,20 +19,18 @@ RSpec.describe Aegis::Database do
   describe '#create' do
     subject { database.create }
 
-    context 'without permissive option' do
-      it 'creates Athena database' do
-        expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
-        subject
-      end
+    it 'creates Athena database ignoring when it already exists' do
+      expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false)
+      subject
     end
+  end
 
-    context 'with permissive option' do
-      subject { database.create(permissive: true) }
+  describe '#create!' do
+    subject { database.create! }
 
-      it 'creates Athena database' do
-        expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false)
-        subject
-      end
+    it 'creates Athena database failing when it already exists' do
+      expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
+      subject
     end
   end
 
