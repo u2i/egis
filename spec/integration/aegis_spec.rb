@@ -23,8 +23,8 @@ RSpec.describe 'Integration with AWS Athena' do
     database.drop
     database.create!
 
+    database.create_table!('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
     database.create_table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
-    database.create_table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}", permissive: true)
 
     database.add_partitions!('test_table', {country: %w[us mx], language: [1, 2]})
     database.add_partitions('test_table', {country: %w[us mx], language: [1, 2]})

@@ -13,9 +13,8 @@ module Aegis
     end
 
     def to_sql(table_name, location, format: :tsv, permissive: false)
-      permissive_statement = 'IF NOT EXISTS ' if permissive
       <<~SQL
-        CREATE EXTERNAL TABLE #{permissive_statement}#{table_name} (
+        CREATE EXTERNAL TABLE #{permissive_statement(permissive)}#{table_name} (
           #{@columns.map(&:to_sql).join(",\n")}
         )
         #{partition_statement}
@@ -32,6 +31,10 @@ module Aegis
 
     def partition(name, type)
       @partitions << Column.new(name, type)
+    end
+
+    def permissive_statement(permissive_flag)
+      'IF NOT EXISTS ' if permissive_flag
     end
 
     def partition_statement

@@ -56,14 +56,26 @@ RSpec.describe Aegis::Database do
     subject { database.create_table(table_name, table_schema, table_location) }
 
     let(:table_schema) { instance_double(Aegis::TableSchema) }
-    let(:create_table_sql) { 'CREATE TABLE table' }
+    let(:create_table_sql) { 'CREATE TABLE table IF NOT EXISTS;' }
 
-    before do
-      allow(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: false).
+    it 'delegates method to the client with given database and in permissive mode' do
+      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: true).
         and_return(create_table_sql)
-    end
+      expect(client).to receive(:execute_query).with(create_table_sql, database: database_name, async: false)
 
-    it 'delegates method to the client with given database' do
+      subject
+    end
+  end
+
+  describe '#create_table!' do
+    subject { database.create_table!(table_name, table_schema, table_location) }
+
+    let(:table_schema) { instance_double(Aegis::TableSchema) }
+    let(:create_table_sql) { 'CREATE TABLE table;' }
+
+    it 'delegates method to the client with given database and non-permissive mode' do
+      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: false).
+        and_return(create_table_sql)
       expect(client).to receive(:execute_query).with(create_table_sql, database: database_name, async: false)
 
       subject
