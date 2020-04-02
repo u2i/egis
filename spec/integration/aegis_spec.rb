@@ -20,19 +20,19 @@ RSpec.describe 'Integration with AWS Athena' do
     client = Aegis::Client.new
 
     database = client.database("aegis_integration_test_#{test_id}")
-    database.drop(permissive: true)
-    database.create
+    database.drop
+    database.create!
 
     database.create_table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
     database.create_table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}", permissive: true)
 
-    database.load_partitions('test_table', partitions: {country: %w[us mx], language: [1, 2]})
-    database.load_partitions('test_table', partitions: {country: %w[us mx], language: [1, 2]}, permissive: true)
+    database.add_partitions!('test_table', {country: %w[us mx], language: [1, 2]})
+    database.add_partitions('test_table', {country: %w[us mx], language: [1, 2]})
 
     result = database.execute_query('SELECT * FROM test_table ORDER BY id;', async: false)
 
+    database.drop!
     database.drop
-    database.drop(permissive: true)
 
     result
   end
