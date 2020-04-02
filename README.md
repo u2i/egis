@@ -51,8 +51,8 @@ client = Aegis::Client.new
 You can create and remove databases by using client's `database` factory method.
 ```ruby
 database = client.database('my_db')
-database.create
-database.drop
+database.create!
+database.drop!
 ```
 
 ### Creating tables
@@ -72,10 +72,10 @@ and use `create_table` method to create Athena table
 
 ```ruby
 # by default Aegis assumes that the data is in TSV format
-database.create_table('my_table', schema, 's3://my-s3-bucket/table-data-location')
+database.create_table!('my_table', schema, 's3://my-s3-bucket/table-data-location')
 
 # you can pass `format` option to change it (available options: tsv, csv, orc)
-database.create_table('my_table', schema, 's3://my-s3-bucket/table-data-location', format: :orc)
+database.create_table!('my_table', schema, 's3://my-s3-bucket/table-data-location', format: :orc)
 ```
 
 ### Executing queries
@@ -84,10 +84,10 @@ If the table is partitioned, you need to load the partitions first
 
 ```ruby
 # ask Athena to scan S3 location looking for partitions
-database.load_partitions('my_table')
+database.discover_partitions('my_table')
 
 # add partition value combinations manually (this method is much faster with large number of partitions)
-database.load_partitions('my_table', partitions: {country: %w[us mx], type: [1, 2]})
+database.add_partitions!('my_table', country: %w[us mx], type: [1, 2])
 ```
 
 Having proper databases and tables setup, you can execute a query
@@ -136,9 +136,9 @@ end
 
 ### Ignoring existing entities
 
-Database's `create`, `drop`, `create_table` and `load_partitions` methods all accept `permissive` param.
-Once set to `true`, it makes `Aegis` ignore situations where entities that are being created already exist
-(or these that don't in case of entities being removed).
+Database's `create`, `drop`, `create_table` and `add_partitions` methods have two versions, with and without a
+bang (`!`). Bang versions are not permissive. For example `Database.create!` will fail when the database already exists,
+whereas `Database.create` will simply ignore it and do nothing.
 
 
 ## Development
