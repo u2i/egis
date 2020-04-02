@@ -5,11 +5,11 @@ require 'aws-sdk-athena'
 module Aegis
   class Client
     QUERY_STATUS_MAPPING = {
-      'QUEUED' => :queued,
-      'RUNNING' => :running,
-      'SUCCEEDED' => :finished,
-      'FAILED' => :failed,
-      'CANCELLED' => :cancelled
+      'QUEUED' => Aegis::QueryStatus::QUEUED,
+      'RUNNING' => Aegis::QueryStatus::RUNNING,
+      'SUCCEEDED' => Aegis::QueryStatus::FINISHED,
+      'FAILED' => Aegis::QueryStatus::FAILED,
+      'CANCELLED' => Aegis::QueryStatus::CANCELLED
     }.freeze
 
     S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}.freeze

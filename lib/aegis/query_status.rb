@@ -2,7 +2,13 @@
 
 module Aegis
   class QueryStatus
-    STATUSES = [:queued, :running, :finished, :failed, :cancelled].freeze
+    QUEUED = :queued
+    RUNNING = :running
+    FINISHED = :finished
+    FAILED = :failed
+    CANCELLED = :cancelled
+
+    STATUSES = [QUEUED, RUNNING, FINISHED, FAILED, CANCELLED].freeze
 
     attr_reader :status, :message, :output_location
 
@@ -15,19 +21,19 @@ module Aegis
     end
 
     def finished?
-      status == :finished
+      status == FINISHED
     end
 
     def failed?
-      status == :failed
+      status == FAILED
     end
 
     def queued?
-      status == :queued
+      status == QUEUED
     end
 
     def running?
-      status == :running
+      status == RUNNING
     end
   end
 end
