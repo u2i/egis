@@ -70,45 +70,43 @@ RSpec.describe Aegis::Database do
     end
   end
 
-  describe '#load_partitions' do
-    subject { database.load_partitions(table_name, partitions: partitions, permissive: false) }
+  describe '#add_partitions' do
+    subject { database.add_partitions(table_name, partitions, permissive: false) }
 
-    context 'when partitions given' do
-      before do
-        allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: false).
-          and_return(load_partitions_sql)
-      end
-
-      let(:partitions) do
-        {
-          dth: [2_020_031_000, 2_020_031_001]
-        }
-      end
-      let(:load_partitions_sql) do
-        <<~SQL
-          ALTER TABLE #{table_name} ADD
-          PARTITION (dth = 2020031000)
-          PARTITION (dth = 2020031001)
-        SQL
-      end
-
-      it 'delegates method to the client with given database' do
-        expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
-
-        subject
-      end
+    before do
+      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: false).
+        and_return(load_partitions_sql)
     end
 
-    context 'without partitions' do
-      subject { database.load_partitions(table_name) }
+    let(:partitions) do
+      {
+        dth: [2_020_031_000, 2_020_031_001]
+      }
+    end
+    let(:load_partitions_sql) do
+      <<~SQL
+        ALTER TABLE #{table_name} ADD
+        PARTITION (dth = 2020031000)
+        PARTITION (dth = 2020031001)
+      SQL
+    end
 
-      let(:load_all_partitions_sql) { 'MSCK REPAIR TABLE table;' }
+    it 'delegates method to the client with given database' do
+      expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
 
-      it 'delegates method to the client with given database' do
-        expect(client).to receive(:execute_query).with(load_all_partitions_sql, database: database_name, async: false)
+      subject
+    end
+  end
 
-        subject
-      end
+  describe '#discover_partitions' do
+    subject { database.discover_partitions(table_name) }
+
+    let(:load_all_partitions_sql) { 'MSCK REPAIR TABLE table;' }
+
+    it 'delegates method to the client with given database' do
+      expect(client).to receive(:execute_query).with(load_all_partitions_sql, async: false)
+
+      subject
     end
   end
 
