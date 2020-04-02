@@ -16,9 +16,12 @@ module Aegis
       client.execute_query("CREATE DATABASE #{database_name};", async: false)
     end
 
-    def drop(permissive: false)
-      permissive_statement = 'IF EXISTS ' if permissive
-      client.execute_query("DROP DATABASE #{permissive_statement}#{database_name} CASCADE;", async: false)
+    def drop
+      client.execute_query("DROP DATABASE IF EXISTS #{database_name} CASCADE;", async: false)
+    end
+
+    def drop!
+      client.execute_query("DROP DATABASE #{database_name} CASCADE;", async: false)
     end
 
     def create_table(table_name, table_schema, location, options = {format: :tsv, permissive: false})
