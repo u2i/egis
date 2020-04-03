@@ -78,7 +78,7 @@ database.create_table!('my_table', schema, 's3://my-s3-bucket/table-data-locatio
 database.create_table!('my_table', schema, 's3://my-s3-bucket/table-data-location', format: :orc)
 ```
 
-### Executing queries
+### Loading partitions
 
 If the table is partitioned, you need to load the partitions first
 
@@ -89,7 +89,7 @@ database.discover_partitions('my_table')
 # add partition value combinations manually (this method is much faster with large number of partitions)
 database.add_partitions!('my_table', country: %w[us mx], type: [1, 2])
 ```
-
+### Executing queries
 Having proper databases and tables setup, you can execute a query
 
 ```ruby
