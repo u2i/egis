@@ -1,0 +1,9 @@
+inherit_gem:
+  ns-rubocop:
+    - default.yml
+Rails:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/integration/**/*'
