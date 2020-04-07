@@ -16,7 +16,7 @@ module Aegis
 
     DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
 
-    private_constant :QUERY_STATUS_MAPPING, :S3_URL_PATTERN, :DEFAULT_QUERY_STATUS_BACKOFF
+    private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
 
     def initialize(aws_athena_client: nil, configuration: Aegis.configuration)
       @configuration = configuration
@@ -68,8 +68,8 @@ module Aegis
 
       params = {query_string: query}
       params[:work_group] = work_group_params if work_group_params
-      params[:query_execution_context] = {database: database} if database
-      params[:result_configuration] = {output_location: output_location} if output_location
+      params[:query_execution_context] = {database: translate_name(database)} if database
+      params[:result_configuration] = {output_location: translate_path(output_location)} if output_location
       params
     end
 
@@ -90,6 +90,14 @@ module Aegis
       matched_data = S3_URL_PATTERN.match(url)
 
       QueryOutputLocation.new(url, matched_data[:bucket], matched_data[:key])
+    end
+
+    def translate_path(s3_url)
+      Aegis.data_location_mapper.translate_path(s3_url)
+    end
+
+    def translate_name(name)
+      Aegis.data_location_mapper.translate_name(name)
     end
   end
 end

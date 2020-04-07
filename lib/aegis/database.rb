@@ -9,28 +9,28 @@ module Aegis
     end
 
     def create
-      client.execute_query("CREATE DATABASE IF NOT EXISTS #{database_name};", async: false)
+      client.execute_query("CREATE DATABASE IF NOT EXISTS #{translate_name(database_name)};", async: false)
     end
 
     def create!
-      client.execute_query("CREATE DATABASE #{database_name};", async: false)
+      client.execute_query("CREATE DATABASE #{translate_name(database_name)};", async: false)
     end
 
     def drop
-      client.execute_query("DROP DATABASE IF EXISTS #{database_name} CASCADE;", async: false)
+      client.execute_query("DROP DATABASE IF EXISTS #{translate_name(database_name)} CASCADE;", async: false)
     end
 
     def drop!
-      client.execute_query("DROP DATABASE #{database_name} CASCADE;", async: false)
+      client.execute_query("DROP DATABASE #{translate_name(database_name)} CASCADE;", async: false)
     end
 
     def create_table(table_name, table_schema, location, options = {format: :tsv})
-      create_table_sql = table_schema.to_sql(table_name, location, options.merge(permissive: true))
+      create_table_sql = table_schema.to_sql(table_name, translate_path(location), options.merge(permissive: true))
       client.execute_query(create_table_sql, database: database_name, async: false)
     end
 
     def create_table!(table_name, table_schema, location, options = {format: :tsv})
-      create_table_sql = table_schema.to_sql(table_name, location, options.merge(permissive: false))
+      create_table_sql = table_schema.to_sql(table_name, translate_path(location), options.merge(permissive: false))
       client.execute_query(create_table_sql, database: database_name, async: false)
     end
 
@@ -59,5 +59,13 @@ module Aegis
     private
 
     attr_reader :client, :database_name, :partitions_generator
+
+    def translate_path(s3_url)
+      Aegis.data_location_mapper.translate_path(s3_url)
+    end
+
+    def translate_name(name)
+      Aegis.data_location_mapper.translate_name(name)
+    end
   end
 end

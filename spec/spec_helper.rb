@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'aegis'
+require 'aegis/testing'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

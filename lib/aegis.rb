@@ -9,6 +9,7 @@ require 'aegis/partitions_generator'
 require 'aegis/database'
 require 'aegis/query_output_location'
 require 'aegis/table_schema'
+require 'aegis/data_location_mapper'
 
 module Aegis
   class << self
@@ -18,6 +19,10 @@ module Aegis
 
     def configuration
       @configuration ||= Configuration.new
+    end
+
+    def data_location_mapper
+      @data_location_mapper ||= Aegis::DataLocationMapper.new
     end
   end
 end
