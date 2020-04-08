@@ -14,178 +14,30 @@ RSpec.describe Aegis::TableSchema do
     end
   end
 
-  describe '#to_sql' do
-    subject { strip_whitespaces(schema.to_sql(table_name, location)) }
+  describe '#columns' do
+    subject { schema.columns }
 
-    let(:table_name) { 'table' }
-    let(:location) { 's3://bucket/file' }
-
-    let(:expected_query) do
-      strip_whitespaces <<~SQL
-        CREATE EXTERNAL TABLE #{table_name} (
-          `id` int,
-          `message` string,
-          `time` timestamp
-        )
-        PARTITIONED BY (
-          `dth` int,
-          `type` string
-        )
-        ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
-        LOCATION '#{location}';
-      SQL
+    let(:expected_columns) do
+      [
+        Aegis::TableSchema::Column.new(:id, :int),
+        Aegis::TableSchema::Column.new(:message, :string),
+        Aegis::TableSchema::Column.new(:time, :timestamp)
+      ]
     end
 
-    it { is_expected.to eq(expected_query) }
+    it { is_expected.to eq(expected_columns) }
+  end
 
-    context 'when there is no partitioning' do
-      let(:schema) do
-        described_class.define do
-          column :id, :int
-          column :message, :string
-          column :time, :timestamp
-        end
-      end
+  describe '#partitions' do
+    subject { schema.partitions }
 
-      let(:expected_query) do
-        strip_whitespaces <<~SQL
-          CREATE EXTERNAL TABLE #{table_name} (
-            `id` int,
-            `message` string,
-            `time` timestamp
-          )
-          ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
-          LOCATION '#{location}';
-        SQL
-      end
-
-      it { is_expected.to eq(expected_query) }
+    let(:expected_columns) do
+      [
+        Aegis::TableSchema::Column.new(:dth, :int),
+        Aegis::TableSchema::Column.new(:type, :string)
+      ]
     end
 
-    describe 'table format' do
-      subject { strip_whitespaces(schema.to_sql(table_name, location, format: format)) }
-
-      context 'when given tsv format' do
-        let(:format) { :tsv }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-
-      context 'when given csv format' do
-        let(:format) { :csv }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-
-      context 'when given ORC format' do
-        let(:format) { :orc }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            STORED AS ORC
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-
-      context 'when given an unsupported format' do
-        let(:format) { :unknown_format }
-
-        it 'raises an error' do
-          expect { subject }.to raise_error(Aegis::UnsupportedTableFormat)
-        end
-      end
-    end
-
-    describe 'permissive format' do
-      subject { strip_whitespaces(schema.to_sql(table_name, location, permissive: permissive)) }
-
-      context 'when given permissive true' do
-        let(:permissive) { true }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE IF NOT EXISTS #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-
-      context 'when given permissive false' do
-        let(:permissive) { false }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-    end
+    it { is_expected.to eq(expected_columns) }
   end
 end

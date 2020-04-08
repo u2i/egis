@@ -4,7 +4,8 @@ require 'spec_helper'
 
 RSpec.describe Aegis::Table do
   let(:table) do
-    described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator)
+    described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
+                                                                            table_ddl_generator: table_ddl_generator)
   end
 
   let(:database) { instance_double(Aegis::Database) }
@@ -12,6 +13,7 @@ RSpec.describe Aegis::Table do
   let(:table_schema) { instance_double(Aegis::TableSchema) }
   let(:table_location) { 's3://bucket/path' }
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
+  let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
 
   describe '#create' do
     subject { table.create }
@@ -19,7 +21,7 @@ RSpec.describe Aegis::Table do
     let(:create_table_sql) { 'CREATE TABLE table IF NOT EXISTS;' }
 
     it 'delegates method to the client with given database and in permissive mode' do
-      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: true).
+      expect(table_ddl_generator).to receive(:create_table_sql).with(table, permissive: true).
         and_return(create_table_sql)
       expect(database).to receive(:execute_query).with(create_table_sql, async: false)
 
@@ -33,7 +35,7 @@ RSpec.describe Aegis::Table do
     let(:create_table_sql) { 'CREATE TABLE table;' }
 
     it 'delegates method to the client with given database and non-permissive mode' do
-      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: false).
+      expect(table_ddl_generator).to receive(:create_table_sql).with(table, permissive: false).
         and_return(create_table_sql)
       expect(database).to receive(:execute_query).with(create_table_sql, async: false)
 

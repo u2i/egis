@@ -23,11 +23,12 @@ RSpec.describe 'Integration with AWS Athena' do
     database.drop
     database.create!
 
-    database.create_table!('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
-    database.create_table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
+    table = database.table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
+    table.create!
+    table.create
 
-    database.add_partitions!('test_table', {country: %w[us mx], language: [1, 2]})
-    database.add_partitions('test_table', {country: %w[us mx], language: [1, 2]})
+    table.add_partitions!(country: %w[us mx], language: [1, 2])
+    table.add_partitions(country: %w[us mx], language: [1, 2])
 
     result = database.execute_query('SELECT * FROM test_table ORDER BY id;', async: false)
 
