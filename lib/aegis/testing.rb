@@ -23,7 +23,8 @@ module Aegis
 
   module Testing
     def self.remove_databases(test_id)
-      result = Aegis::Client.new.execute_query("SHOW DATABASES LIKE '#{test_id}.*';", async: false)
+      client = Aegis::Client.new
+      result = client.execute_query("SHOW DATABASES LIKE '#{test_id}.*';", async: false)
       output_location = result.output_location
       query_result = Aws::S3::Client.new.get_object(bucket: output_location.bucket, key: output_location.key)
       query_result.body.read.split("\n").each { |database| client.database(database).drop }

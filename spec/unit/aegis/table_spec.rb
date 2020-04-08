@@ -11,7 +11,7 @@ RSpec.describe Aegis::Table do
   let(:database) { instance_double(Aegis::Database) }
   let(:table_name) { 'table' }
   let(:table_schema) { instance_double(Aegis::TableSchema) }
-  let(:table_location) { 's3://bucket/path' }
+  let(:table_location) { 's3://bucket/table_key' }
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
   let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
 
@@ -106,6 +106,49 @@ RSpec.describe Aegis::Table do
 
     it 'delegates method to the client with given database' do
       expect(database).to receive(:execute_query).with(load_all_partitions_sql, async: false)
+
+      subject
+    end
+  end
+
+  describe '#upload_data' do
+    subject { table.upload_data(rows) }
+
+    let(:table_schema) do
+      Aegis::TableSchema.define do
+        column :message, :string
+        column :time, :timestamp
+
+        partition :country, :string
+        partition :type, :int
+      end
+    end
+
+    let(:time) { Time.utc(2020, 4, 8, 14, 21) }
+
+    let(:rows) do
+      [
+        ['hello world', time, 'mx', 1],
+        ['hello again', time, 'mx', 2],
+        ["hello 'once more'", time, 'us', 1],
+        ['hello for the fourth time', time, 'us', 2],
+        ['and once again', time, 'us', 2]
+      ]
+    end
+
+    let(:expected_query) do
+      <<~SQL
+        INSERT INTO table VALUES
+        ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
+        ('hello again', timestamp '2020-04-08 14:21:00', 'mx', 2),
+        ('hello ''once more''', timestamp '2020-04-08 14:21:00', 'us', 1),
+        ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2),
+        ('and once again', timestamp '2020-04-08 14:21:00', 'us', 2);
+      SQL
+    end
+
+    it 'uploads a file to S3 foe each of the partitions' do
+      expect(database).to receive(:execute_query).with(expected_query, async: false)
 
       subject
     end

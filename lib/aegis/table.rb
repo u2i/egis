@@ -44,6 +44,12 @@ module Aegis
       database.execute_query("MSCK REPAIR TABLE #{name};", async: false)
     end
 
+    def upload_data(rows)
+      query = data_insert_query(rows)
+
+      database.execute_query(query, async: false)
+    end
+
     def format
       options.fetch(:format)
     end
@@ -51,5 +57,29 @@ module Aegis
     private
 
     attr_reader :partitions_generator, :table_ddl_generator, :options
+
+    def data_insert_query(rows)
+      column_types = (schema.columns + schema.partitions).map(&:type)
+
+      <<~SQL
+        INSERT INTO #{name} VALUES
+        #{rows.map { |row| row_values_statement(column_types, row) }.join(",\n")};
+      SQL
+    end
+
+    def row_values_statement(column_types, row)
+      "(#{row.zip(column_types).map { |value, type| column_value_to_supported_type(value, type) }.join(', ')})"
+    end
+
+    def column_value_to_supported_type(value, type)
+      case type
+      when :timestamp
+        "timestamp '#{value.strftime('%Y-%m-%d %H:%M:%S')}'"
+      when :string
+        "'#{value.gsub("'", "''")}'"
+      else
+        value
+      end
+    end
   end
 end
