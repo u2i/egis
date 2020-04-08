@@ -16,11 +16,17 @@ module Aegis
     test_result = yield
     @data_location_mapper = mapper
 
-    result = Aegis::Client.new.execute_query("SHOW DATABASES LIKE '#{test_id}.*';", async: false)
-    output_location = result.output_location
-    query_result = Aws::S3::Client.new.get_object(bucket: output_location.bucket, key: output_location.key)
-    query_result.body.read.split("\n").each { |database| client.database(database).drop }
+    Testing.remove_databases(test_id)
 
     test_result
+  end
+
+  module Testing
+    def self.remove_databases(test_id)
+      result = Aegis::Client.new.execute_query("SHOW DATABASES LIKE '#{test_id}.*';", async: false)
+      output_location = result.output_location
+      query_result = Aws::S3::Client.new.get_object(bucket: output_location.bucket, key: output_location.key)
+      query_result.body.read.split("\n").each { |database| client.database(database).drop }
+    end
   end
 end

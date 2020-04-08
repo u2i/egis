@@ -3,9 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Database do
-  let(:database) { described_class.new(database_name, client: client, partitions_generator: partitions_generator) }
+  let(:database) { described_class.new(database_name, client: client) }
   let(:client) { instance_double(Aegis::Client) }
-  let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
 
   let(:database_name) { 'name' }
   let(:table_name) { 'table' }
@@ -52,101 +51,15 @@ RSpec.describe Aegis::Database do
     end
   end
 
-  describe '#create_table' do
-    subject { database.create_table(table_name, table_schema, table_location) }
+  describe '#table' do
+    subject { database.table(table_name, table_schema, table_location) }
 
+    let(:table_name) { 'table' }
     let(:table_schema) { instance_double(Aegis::TableSchema) }
-    let(:create_table_sql) { 'CREATE TABLE table IF NOT EXISTS;' }
+    let(:table_location) { 's3://bucket/path' }
 
-    it 'delegates method to the client with given database and in permissive mode' do
-      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: true).
-        and_return(create_table_sql)
-      expect(client).to receive(:execute_query).with(create_table_sql, database: database_name, async: false)
-
-      subject
-    end
-  end
-
-  describe '#create_table!' do
-    subject { database.create_table!(table_name, table_schema, table_location) }
-
-    let(:table_schema) { instance_double(Aegis::TableSchema) }
-    let(:create_table_sql) { 'CREATE TABLE table;' }
-
-    it 'delegates method to the client with given database and non-permissive mode' do
-      expect(table_schema).to receive(:to_sql).with(table_name, table_location, format: :tsv, permissive: false).
-        and_return(create_table_sql)
-      expect(client).to receive(:execute_query).with(create_table_sql, database: database_name, async: false)
-
-      subject
-    end
-  end
-
-  describe '#add_partitions' do
-    subject { database.add_partitions(table_name, partitions) }
-
-    before do
-      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: true).
-        and_return(load_partitions_sql)
-    end
-
-    let(:partitions) do
-      {
-        dth: [2_020_031_000, 2_020_031_001]
-      }
-    end
-    let(:load_partitions_sql) do
-      <<~SQL
-        ALTER TABLE #{table_name} ADD
-        PARTITION (dth = 2020031000)
-        PARTITION (dth = 2020031001)
-      SQL
-    end
-
-    it 'delegates method to the client with given database and permissive mode on' do
-      expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
-
-      subject
-    end
-  end
-
-  describe '#add_partitions!' do
-    subject { database.add_partitions!(table_name, partitions) }
-
-    before do
-      allow(partitions_generator).to receive(:to_sql).with(table_name, partitions, permissive: false).
-        and_return(load_partitions_sql)
-    end
-
-    let(:partitions) do
-      {
-        dth: [2_020_031_000, 2_020_031_001]
-      }
-    end
-    let(:load_partitions_sql) do
-      <<~SQL
-        ALTER TABLE #{table_name} ADD
-        PARTITION (dth = 2020031000)
-        PARTITION (dth = 2020031001)
-      SQL
-    end
-
-    it 'delegates method to the client with given database and permissive mode off' do
-      expect(client).to receive(:execute_query).with(load_partitions_sql, database: database_name, async: false)
-
-      subject
-    end
-  end
-
-  describe '#discover_partitions' do
-    subject { database.discover_partitions(table_name) }
-
-    let(:load_all_partitions_sql) { 'MSCK REPAIR TABLE table;' }
-
-    it 'delegates method to the client with given database' do
-      expect(client).to receive(:execute_query).with(load_all_partitions_sql, async: false)
-
-      subject
+    it 'creates Table object' do
+      expect(subject).to be_a(Aegis::Table)
     end
   end
 
