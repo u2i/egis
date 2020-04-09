@@ -1,6 +1,13 @@
 pipeline {
     agent none
 
+    environment {
+        AWS_REGION = 'us-east-1'
+        AWS_KEYPAIR = credentials('1d028e6f-89ba-4e99-9b79-5bbfcab77abc')
+        AWS_ACCESS_KEY_ID = "${env.AWS_KEYPAIR_USR}"
+        AWS_SECRET_ACCESS_KEY = "${env.AWS_KEYPAIR_PSW}"
+    }
+
     stages {
         stage('Rubocop') {
             agent { dockerfile { filename 'docker/ruby-2.7/Dockerfile' } }
@@ -29,12 +36,6 @@ pipeline {
             }
         }
         stage('Integration tests') {
-            environment {
-                AWS_REGION = 'us-east-1'
-                AWS_KEYPAIR = credentials('1d028e6f-89ba-4e99-9b79-5bbfcab77abc')
-                AWS_ACCESS_KEY_ID = "${env.AWS_KEYPAIR_USR}"
-                AWS_SECRET_ACCESS_KEY = "${env.AWS_KEYPAIR_PSW}"
-            }
             parallel {
                 stage('Ruby 2.5') {
                     agent { dockerfile { filename 'docker/ruby-2.5/Dockerfile' } }
