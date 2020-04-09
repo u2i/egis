@@ -10,7 +10,7 @@ module Aegis
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
-                   s3_client: Aws::S3::Client.new) # FIXME: use proper credentials
+                   aws_client_provider: Aegis::AwsClientProvider.new)
       @database = database
       @name = name
       @schema = schema
@@ -18,7 +18,7 @@ module Aegis
       @options = DEFAULT_OPTIONS.merge(options)
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
-      @s3_client = s3_client
+      @s3_client = aws_client_provider.s3_client
     end
     # rubocop:enable Metrics/ParameterLists
 

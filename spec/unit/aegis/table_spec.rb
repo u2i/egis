@@ -6,7 +6,7 @@ RSpec.describe Aegis::Table do
   let(:table) do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
                                                                             table_ddl_generator: table_ddl_generator,
-                                                                            s3_client: s3_client)
+                                                                            aws_client_provider: aws_client_provider)
   end
 
   let(:database) { instance_double(Aegis::Database) }
@@ -15,6 +15,7 @@ RSpec.describe Aegis::Table do
   let(:table_location) { 's3://bucket/table_key' }
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
   let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
+  let(:aws_client_provider) { instance_double(Aegis::AwsClientProvider, s3_client: s3_client) }
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
 
   describe '#create' do

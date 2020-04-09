@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'aws-sdk-athena'
-
 module Aegis
   class Client
     QUERY_STATUS_MAPPING = {
@@ -18,10 +16,9 @@ module Aegis
 
     private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
 
-    def initialize(aws_athena_client: nil, configuration: Aegis.configuration)
-      @configuration = configuration
-      @aws_athena_client = aws_athena_client || Aws::Athena::Client.new(default_athena_client_config(configuration))
-      @query_status_backoff = configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
+    def initialize(aws_client_provider: Aegis::AwsClientProvider.new)
+      @aws_athena_client = aws_client_provider.athena_client
+      @query_status_backoff = Aegis.configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
     end
 
     def database(database_name)
@@ -53,18 +50,10 @@ module Aegis
 
     private
 
-    attr_reader :aws_athena_client, :configuration, :query_status_backoff
-
-    def default_athena_client_config(configuration)
-      config = {}
-      config[:region] = configuration.aws_region if configuration.aws_region
-      config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id
-      config[:secret_access_key] = configuration.aws_secret_access_key if configuration.aws_secret_access_key
-      config
-    end
+    attr_reader :aws_athena_client, :query_status_backoff
 
     def query_execution_params(query, work_group, database, output_location)
-      work_group_params = work_group || configuration.work_group
+      work_group_params = work_group || Aegis.configuration.work_group
 
       params = {query_string: query}
       params[:work_group] = work_group_params if work_group_params

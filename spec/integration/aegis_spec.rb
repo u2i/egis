@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'aws-sdk-s3'
 
 RSpec.describe 'Integration with AWS Athena' do
   subject do

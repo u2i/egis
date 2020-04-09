@@ -3,7 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Client do
-  let(:client) { described_class.new(aws_athena_client: aws_athena_client) }
+  let(:client) { described_class.new(aws_client_provider: aws_client_provider) }
+  let(:aws_client_provider) { instance_double(Aegis::AwsClientProvider, athena_client: aws_athena_client) }
   let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
   let(:work_group) { 'test_work_group' }
 
