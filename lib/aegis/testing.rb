@@ -15,9 +15,9 @@ module Aegis
     test_result = yield
     @data_location_mapper = mapper
 
-    Testing.remove_databases(test_id)
-
     test_result
+  ensure
+    Testing.remove_databases(test_id)
   end
 
   module Testing
