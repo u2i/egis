@@ -5,7 +5,8 @@ require 'spec_helper'
 RSpec.describe Aegis::Table do
   let(:table) do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
-                                                                            table_ddl_generator: table_ddl_generator)
+                                                                            table_ddl_generator: table_ddl_generator,
+                                                                            s3_client: s3_client)
   end
 
   let(:database) { instance_double(Aegis::Database) }
@@ -14,6 +15,7 @@ RSpec.describe Aegis::Table do
   let(:table_location) { 's3://bucket/table_key' }
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
   let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
+  let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
 
   describe '#create' do
     subject { table.create }
@@ -151,6 +153,45 @@ RSpec.describe Aegis::Table do
       expect(database).to receive(:execute_query).with(expected_query, async: false)
 
       subject
+    end
+  end
+
+  describe '#download_data' do
+    subject { table.download_data }
+
+    let(:table_schema) do
+      Aegis::TableSchema.define do
+        column :message, :string
+        column :time, :timestamp
+
+        partition :country, :string
+        partition :type, :int
+      end
+    end
+
+    let(:time) { Time.utc(2020, 4, 8, 14, 21) }
+
+    let(:csv) do
+      <<~CSV
+        message,time,country,type
+        hello world,2020-04-08 14:21:04,mx,1
+        hello again,2020-04-08 14:21:01,mx,2
+      CSV
+    end
+
+    let(:expected_query) { 'SELECT * FROM table;' }
+
+    let(:query_status) { Aegis::QueryStatus.new(:finished, 'query message', output_location) }
+    let(:output_location) { Aegis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
+
+    it 'uploads a file to S3 foe each of the partitions' do
+      expect(database).to receive(:execute_query).with(expected_query, async: false).and_return(query_status)
+      s3_client.stub_responses(:get_object, {body: csv})
+
+      expect(subject).to eq([
+                              ['hello world', Time.new(2020, 4, 8, 14, 21, 4), 'mx', 1],
+                              ['hello again', Time.new(2020, 4, 8, 14, 21, 1), 'mx', 2]
+                            ])
     end
   end
 end

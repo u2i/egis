@@ -3,6 +3,7 @@
 require 'aegis/version'
 require 'aegis/errors'
 require 'aegis/configuration'
+require 'aegis/types'
 require 'aegis/query_status'
 require 'aegis/client'
 require 'aegis/partitions_generator'

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Aegis
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
@@ -7,7 +9,8 @@ module Aegis
     # rubocop:disable Metrics/ParameterLists
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
-                   table_ddl_generator: Aegis::TableDDLGenerator.new)
+                   table_ddl_generator: Aegis::TableDDLGenerator.new,
+                   s3_client: Aws::S3::Client.new) # FIXME: use proper credentials
       @database = database
       @name = name
       @schema = schema
@@ -15,6 +18,7 @@ module Aegis
       @options = DEFAULT_OPTIONS.merge(options)
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
+      @s3_client = s3_client
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -50,36 +54,48 @@ module Aegis
       database.execute_query(query, async: false)
     end
 
+    def download_data
+      result = database.execute_query("SELECT * FROM #{name};", async: false)
+      output_location = result.output_location
+
+      content = download_output_file(output_location)
+
+      parse_output_csv(content)
+    end
+
     def format
       options.fetch(:format)
     end
 
     private
 
-    attr_reader :partitions_generator, :table_ddl_generator, :options
+    attr_reader :partitions_generator, :table_ddl_generator, :s3_client, :options
+
+    def download_output_file(output_location)
+      s3_client.get_object(bucket: output_location.bucket, key: output_location.key).body.read
+    end
+
+    def parse_output_csv(content)
+      CSV.parse(content).drop(1).map do |row|
+        row.zip(column_types).map do |string, type|
+          Types.serializer(type).load(string)
+        end
+      end
+    end
 
     def data_insert_query(rows)
-      column_types = (schema.columns + schema.partitions).map(&:type)
-
       <<~SQL
         INSERT INTO #{name} VALUES
         #{rows.map { |row| row_values_statement(column_types, row) }.join(",\n")};
       SQL
     end
 
-    def row_values_statement(column_types, row)
-      "(#{row.zip(column_types).map { |value, type| column_value_to_supported_type(value, type) }.join(', ')})"
+    def column_types
+      (schema.columns + schema.partitions).map(&:type)
     end
 
-    def column_value_to_supported_type(value, type)
-      case type
-      when :timestamp
-        "timestamp '#{value.strftime('%Y-%m-%d %H:%M:%S')}'"
-      when :string
-        "'#{value.gsub("'", "''")}'"
-      else
-        value
-      end
+    def row_values_statement(column_types, row)
+      "(#{row.zip(column_types).map { |value, type| Types.serializer(type).dump(value) }.join(', ')})"
     end
   end
 end
