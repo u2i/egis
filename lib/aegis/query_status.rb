@@ -35,5 +35,9 @@ module Aegis
     def running?
       status == RUNNING
     end
+
+    def in_progress?
+      [RUNNING, QUEUED].include?(status)
+    end
   end
 end

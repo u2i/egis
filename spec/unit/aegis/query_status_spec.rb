@@ -86,4 +86,26 @@ RSpec.describe Aegis::QueryStatus do
       it { is_expected.to be(false) }
     end
   end
+
+  describe '#in_progress?' do
+    subject { query_status.in_progress? }
+
+    context 'when status running' do
+      let(:status) { :running }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when status queued' do
+      let(:status) { :queued }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when status finished' do
+      let(:status) { :finished }
+
+      it { is_expected.to be(false) }
+    end
+  end
 end
