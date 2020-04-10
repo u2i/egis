@@ -3,8 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Database do
-  let(:database) { described_class.new(database_name, client: client) }
+  let(:database) { described_class.new(database_name, client: client, output_downloader: output_downloader) }
   let(:client) { instance_double(Aegis::Client) }
+  let(:output_downloader) { instance_double(Aegis::OutputDownloader) }
 
   let(:database_name) { 'name' }
   let(:table_name) { 'table' }
@@ -82,6 +83,36 @@ RSpec.describe Aegis::Database do
     it 'delegates method to the client' do
       expect(client).to receive(:query_status).with(query_execution_id)
       subject
+    end
+  end
+
+  describe '#exists?' do
+    subject { database.exists? }
+
+    let(:location) { Aegis::QueryOutputLocation.new('url', 'bucket', 'key') }
+    let(:query_status) { Aegis::QueryStatus.new(Aegis::QueryStatus::FINISHED, 'ok', location) }
+    let(:query) { "SHOW DATABASES LIKE '#{database_name}';" }
+
+    context 'when db present' do
+      let(:query_result) { [[database_name]] }
+
+      it 'returns true' do
+        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+        expect(output_downloader).to receive(:download).with(location).and_return(query_result)
+
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when db not present' do
+      let(:query_result) { [] }
+
+      it 'returns false' do
+        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+        expect(output_downloader).to receive(:download).with(location).and_return(query_result)
+
+        expect(subject).to eq(false)
+      end
     end
   end
 end

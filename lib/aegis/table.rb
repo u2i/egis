@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'csv'
-
 module Aegis
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
@@ -10,7 +8,7 @@ module Aegis
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
-                   aws_client_provider: Aegis::AwsClientProvider.new,
+                   output_downloader: Aegis::OutputDownloader.new,
                    s3_cleaner: Aegis::S3Cleaner.new)
       @database = database
       @name = name
@@ -19,7 +17,7 @@ module Aegis
       @options = DEFAULT_OPTIONS.merge(options)
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
-      @s3_client = aws_client_provider.s3_client
+      @output_downloader = output_downloader
       @s3_cleaner = s3_cleaner
     end
     # rubocop:enable Metrics/ParameterLists
@@ -58,10 +56,7 @@ module Aegis
 
     def download_data
       result = database.execute_query("SELECT * FROM #{name};", async: false)
-      output_location = result.output_location
-
-      content = download_output_file(output_location)
-
+      content = output_downloader.download(result.output_location)
       parse_output_csv(content)
     end
 
@@ -76,14 +71,14 @@ module Aegis
 
     private
 
-    attr_reader :partitions_generator, :table_ddl_generator, :s3_client, :s3_cleaner, :options
+    attr_reader :partitions_generator, :table_ddl_generator, :output_downloader, :s3_cleaner, :options
 
     def download_output_file(output_location)
       s3_client.get_object(bucket: output_location.bucket, key: output_location.key).body.read
     end
 
     def parse_output_csv(content)
-      CSV.parse(content).drop(1).map do |row|
+      content.drop(1).map do |row|
         row.zip(column_types).map do |string, type|
           Types.serializer(type).load(string)
         end

@@ -2,9 +2,10 @@
 
 module Aegis
   class Database
-    def initialize(database_name, client: Aegis::Client.new)
+    def initialize(database_name, client: Aegis::Client.new, output_downloader: Aegis::OutputDownloader.new)
       @client = client
       @database_name = database_name
+      @output_downloader = output_downloader
     end
 
     def table(table_name, table_schema, table_location, options = {})
@@ -35,9 +36,15 @@ module Aegis
       client.query_status(query_execution_id)
     end
 
+    def exists?
+      query_status = client.execute_query("SHOW DATABASES LIKE '#{database_name}';", async: false)
+      parsed_result = output_downloader.download(query_status.output_location)
+      parsed_result.flatten.include?(database_name)
+    end
+
     private
 
-    attr_reader :client, :database_name
+    attr_reader :client, :database_name, :output_downloader
 
     def translate_name(name)
       Aegis.data_location_mapper.translate_name(name)
