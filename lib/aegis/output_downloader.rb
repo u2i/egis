@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# frozen_sting_literal: true
-
 require 'csv'
 
 module Aegis
