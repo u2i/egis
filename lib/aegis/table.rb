@@ -10,7 +10,8 @@ module Aegis
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
-                   aws_client_provider: Aegis::AwsClientProvider.new)
+                   aws_client_provider: Aegis::AwsClientProvider.new,
+                   s3_cleaner: Aegis::S3Cleaner.new)
       @database = database
       @name = name
       @schema = schema
@@ -19,6 +20,7 @@ module Aegis
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
       @s3_client = aws_client_provider.s3_client
+      @s3_cleaner = s3_cleaner
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -63,13 +65,18 @@ module Aegis
       parse_output_csv(content)
     end
 
+    def wipe_data
+      matched_location = Aegis::Client::S3_URL_PATTERN.match(location)
+      s3_cleaner.delete(matched_location['bucket'], matched_location['key'])
+    end
+
     def format
       options.fetch(:format)
     end
 
     private
 
-    attr_reader :partitions_generator, :table_ddl_generator, :s3_client, :options
+    attr_reader :partitions_generator, :table_ddl_generator, :s3_client, :s3_cleaner, :options
 
     def download_output_file(output_location)
       s3_client.get_object(bucket: output_location.bucket, key: output_location.key).body.read

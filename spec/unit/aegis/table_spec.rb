@@ -6,7 +6,8 @@ RSpec.describe Aegis::Table do
   let(:table) do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
                                                                             table_ddl_generator: table_ddl_generator,
-                                                                            aws_client_provider: aws_client_provider)
+                                                                            aws_client_provider: aws_client_provider,
+                                                                            s3_cleaner: s3_cleaner)
   end
 
   let(:database) { instance_double(Aegis::Database) }
@@ -17,6 +18,7 @@ RSpec.describe Aegis::Table do
   let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
   let(:aws_client_provider) { instance_double(Aegis::AwsClientProvider, s3_client: s3_client) }
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
+  let(:s3_cleaner) { instance_double(Aegis::S3Cleaner) }
 
   describe '#create' do
     subject { table.create }
@@ -193,6 +195,16 @@ RSpec.describe Aegis::Table do
                               ['hello world', Time.new(2020, 4, 8, 14, 21, 4), 'mx', 1],
                               ['hello again', Time.new(2020, 4, 8, 14, 21, 1), 'mx', 2]
                             ])
+    end
+  end
+
+  describe '#wipe_data' do
+    subject { table.wipe_data }
+
+    it 'removes all table s3 data' do
+      expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key')
+
+      subject
     end
   end
 end
