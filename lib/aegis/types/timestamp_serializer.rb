@@ -5,8 +5,12 @@ module Aegis
     class TimestampSerializer
       ATHENA_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
+      def literal(time)
+        "timestamp '#{dump(time)}'"
+      end
+
       def dump(time)
-        "timestamp '#{time.strftime(ATHENA_TIME_FORMAT)}'"
+        time.strftime(ATHENA_TIME_FORMAT)
       end
 
       def load(string)

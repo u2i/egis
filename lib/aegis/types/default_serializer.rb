@@ -3,6 +3,10 @@
 module Aegis
   module Types
     class DefaultSerializer
+      def literal(value)
+        "'#{value}'"
+      end
+
       def dump(value)
         value
       end

@@ -97,7 +97,7 @@ module Aegis
     end
 
     def row_values_statement(column_types, row)
-      "(#{row.zip(column_types).map { |value, type| Types.serializer(type).dump(value) }.join(', ')})"
+      "(#{row.zip(column_types).map { |value, type| Types.serializer(type).literal(value) }.join(', ')})"
     end
   end
 end
