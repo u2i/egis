@@ -4,12 +4,12 @@ module Aegis
   class TableDDLGenerator
     def create_table_sql(table, permissive: false)
       <<~SQL
-          CREATE EXTERNAL TABLE #{permissive_statement(permissive)}#{table.name} (
-            #{column_definition_sql(table.schema.columns)}
-          )
-          #{partition_statement(table.schema)}
+        CREATE EXTERNAL TABLE #{permissive_statement(permissive)}#{table.name} (
+          #{column_definition_sql(table.schema.columns)}
+        )
+        #{partition_statement(table.schema)}
         #{format_statement(table.format)}
-          LOCATION '#{table_location(table)}';
+        LOCATION '#{table_location(table)}';
       SQL
     end
 
