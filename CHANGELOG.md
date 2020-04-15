@@ -4,6 +4,8 @@
 
 - **[breaking change]** Extracted table-related methods from `Database` into new `Table` class (`create_table`,
   `add_partitions`, `discover_partitions`). Table objects are now being created using `Database.table` method.
+- **[breaking change]** `.execute_query` methods in `async` mode now return `Aegis::QueryStatus` objects instead of
+  query id.
 - Introduced new testing framework. All database queries executed within `Aegis.testing { ... }` will be executed
   inside a separated "virtual environment" in the testing bucket you can now configure.
 - Added a bunch of convenience methods:

@@ -111,8 +111,8 @@ context by calling analogous methods on the `Client` class.
 
 ```ruby
 client = Aegis::Client.new
-query_id = client.execute_query('SHOW DATABASES;')
-status = database.query_status(query_id)
+status = client.execute_query('SHOW DATABASES;')
+database.query_status(status.id).finished?
 ```
 
 ### Query execution options

@@ -3,7 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::QueryStatus do
-  let(:query_status) { described_class.new(status, message, output_location) }
+  let(:query_status) { described_class.new(id, status, message, output_location) }
+  let(:id) { '123' }
   let(:message) { nil }
   let(:output_location) { 's3://bucket/location' }
 

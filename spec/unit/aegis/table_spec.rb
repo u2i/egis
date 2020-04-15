@@ -181,7 +181,7 @@ RSpec.describe Aegis::Table do
 
     let(:expected_query) { 'SELECT * FROM table;' }
 
-    let(:query_status) { Aegis::QueryStatus.new(:finished, 'query message', output_location) }
+    let(:query_status) { Aegis::QueryStatus.new('123', :finished, 'query message', output_location) }
     let(:output_location) { Aegis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
     it 'uploads a file to S3 for each of the partitions' do

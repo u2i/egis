@@ -90,7 +90,7 @@ RSpec.describe Aegis::Database do
     subject { database.exists? }
 
     let(:location) { Aegis::QueryOutputLocation.new('url', 'bucket', 'key') }
-    let(:query_status) { Aegis::QueryStatus.new(Aegis::QueryStatus::FINISHED, 'ok', location) }
+    let(:query_status) { Aegis::QueryStatus.new('123', Aegis::QueryStatus::FINISHED, 'ok', location) }
     let(:query) { "SHOW DATABASES LIKE '#{database_name}';" }
 
     context 'when db present' do

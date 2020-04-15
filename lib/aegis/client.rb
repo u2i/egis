@@ -29,7 +29,7 @@ module Aegis
         query_execution_params(query, work_group, database, output_location)
       ).query_execution_id
 
-      return query_execution_id if async
+      return query_status(query_execution_id) if async
 
       query_status = wait_for_query_to_finish(query_execution_id)
 
@@ -40,10 +40,14 @@ module Aegis
 
     def query_status(query_execution_id)
       resp = aws_athena_client.get_query_execution({query_execution_id: query_execution_id})
+
+      query_execution = resp.query_execution
+
       Aegis::QueryStatus.new(
-        QUERY_STATUS_MAPPING.fetch(resp.query_execution.status.state),
-        resp.query_execution.status.state_change_reason,
-        parse_output_location(resp)
+        query_execution.query_execution_id,
+        QUERY_STATUS_MAPPING.fetch(query_execution.status.state),
+        query_execution.status.state_change_reason,
+        parse_output_location(query_execution)
       )
     end
 
@@ -72,8 +76,8 @@ module Aegis
       end
     end
 
-    def parse_output_location(resp)
-      url = resp.query_execution.result_configuration.output_location
+    def parse_output_location(query_execution)
+      url = query_execution.result_configuration.output_location
 
       bucket, path = s3_location_parser.parse_url(url)
 
