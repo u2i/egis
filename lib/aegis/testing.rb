@@ -11,8 +11,10 @@ module Aegis
 
     previous_mapper = Aegis.data_location_mapper
     @data_location_mapper = test_mapper
+    @testing = true
     yield
   ensure
+    @testing = false
     @data_location_mapper = previous_mapper
     Testing.remove_databases(test_id)
   end

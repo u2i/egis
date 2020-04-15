@@ -29,7 +29,7 @@ module Aegis
         query_execution_params(query, work_group, database, output_location)
       ).query_execution_id
 
-      return query_status(query_execution_id) if async
+      return query_status(query_execution_id) if async && !Aegis.testing?
 
       query_status = wait_for_query_to_finish(query_execution_id)
 

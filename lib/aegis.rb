@@ -30,6 +30,10 @@ module Aegis
       @configuration ||= Configuration.new
     end
 
+    def testing?
+      @testing || false
+    end
+
     def data_location_mapper
       @data_location_mapper ||= Aegis::DataLocationMapper.new
     end
