@@ -13,7 +13,7 @@ pipeline {
             agent { dockerfile { filename 'docker/ruby-2.7/Dockerfile' } }
 
             steps {
-                sh 'bundle exec rake rubocop'
+                sh 'rake rubocop'
             }
         }
         stage('Unit tests') {
@@ -21,17 +21,17 @@ pipeline {
                 stage('Ruby 2.5') {
                     agent { dockerfile { filename 'docker/ruby-2.5/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:unit' }
+                    steps { sh 'rake spec:unit' }
                 }
                 stage('Ruby 2.6') {
                     agent { dockerfile { filename 'docker/ruby-2.6/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:unit' }
+                    steps { sh 'rake spec:unit' }
                 }
                 stage('Ruby 2.7') {
                     agent { dockerfile { filename 'docker/ruby-2.7/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:unit' }
+                    steps { sh 'rake spec:unit' }
                 }
             }
         }
@@ -40,17 +40,17 @@ pipeline {
                 stage('Ruby 2.5') {
                     agent { dockerfile { filename 'docker/ruby-2.5/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:integration' }
+                    steps { sh 'rake spec:integration' }
                 }
                 stage('Ruby 2.6') {
                     agent { dockerfile { filename 'docker/ruby-2.6/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:integration' }
+                    steps { sh 'rake spec:integration' }
                 }
                 stage('Ruby 2.7') {
                     agent { dockerfile { filename 'docker/ruby-2.7/Dockerfile' } }
 
-                    steps { sh 'bundle exec rake spec:integration' }
+                    steps { sh 'rake spec:integration' }
                 }
             }
         }
