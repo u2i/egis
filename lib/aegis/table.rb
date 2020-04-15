@@ -71,10 +71,6 @@ module Aegis
 
     attr_reader :partitions_generator, :table_ddl_generator, :output_downloader, :data_wiper, :options
 
-    def download_output_file(output_location)
-      s3_client.get_object(bucket: output_location.bucket, key: output_location.key).body.read
-    end
-
     def parse_output_csv(content)
       content.drop(1).map do |row|
         row.zip(column_serializers).map do |string, serializer|
