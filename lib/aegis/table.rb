@@ -9,7 +9,8 @@ module Aegis
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
                    output_downloader: Aegis::OutputDownloader.new,
-                   s3_cleaner: Aegis::S3Cleaner.new)
+                   s3_cleaner: Aegis::S3Cleaner.new,
+                   cartesian_product_generator: Aegis::CartesianProductGenerator.new)
       @database = database
       @name = name
       @schema = schema
@@ -19,6 +20,7 @@ module Aegis
       @table_ddl_generator = table_ddl_generator
       @output_downloader = output_downloader
       @s3_cleaner = s3_cleaner
+      @cartesian_product_generator = cartesian_product_generator
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -59,9 +61,27 @@ module Aegis
       parse_output_csv(content)
     end
 
-    def wipe_data
+    def wipe_data(partitions: nil)
       matched_location = Aegis::Client::S3_URL_PATTERN.match(location)
-      s3_cleaner.delete(matched_location['bucket'], matched_location['key'])
+      bucket = matched_location['bucket']
+      location = matched_location['key']
+
+      return s3_cleaner.delete(bucket, location) unless partitions
+
+      table_partitions = schema.partitions.map(&:name)
+      given_partitions = partitions.keys
+
+      partitions_to_delete = table_partitions.zip(given_partitions).take_while { |p1, p2| p1 == p2 }.map(&:first)
+      partitions_with_values = partitions_to_delete.map { |p| [p, partitions.fetch(p)] }.to_h
+
+      if partitions_with_values.empty? || partitions_with_values.values.any?(&:empty?)
+        raise Aegis::PartitionError, "Incorrect partitions given: #{partitions}"
+      end
+
+      cartesian_product_generator.cartesian_product(partitions_with_values).each do |partition_value_set|
+        partition_prefix = partition_value_set.map { |name_value| name_value.join('=') }.join('/')
+        s3_cleaner.delete(bucket, "#{location}/#{partition_prefix}")
+      end
     end
 
     def format
@@ -70,7 +90,8 @@ module Aegis
 
     private
 
-    attr_reader :partitions_generator, :table_ddl_generator, :output_downloader, :s3_cleaner, :options
+    attr_reader :partitions_generator, :table_ddl_generator, :output_downloader, :s3_cleaner,
+                :cartesian_product_generator, :options
 
     def download_output_file(output_location)
       s3_client.get_object(bucket: output_location.bucket, key: output_location.key).body.read

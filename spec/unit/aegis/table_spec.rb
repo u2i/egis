@@ -205,5 +205,48 @@ RSpec.describe Aegis::Table do
 
       subject
     end
+
+    context 'when partitions given' do
+      subject { table.wipe_data(partitions: partitions) }
+
+      let(:table_schema) do
+        Aegis::TableSchema.define do
+          column :text, :string
+
+          partition :market, :string
+          partition :type, :int
+        end
+      end
+
+      let(:partitions) { {market: %w[us mx], type: [1, 2]} }
+
+      it 'removes S3 data for partition value combinations' do
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=1')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=2')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=1')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=2')
+
+        subject
+      end
+
+      context 'when only a subset of partitions given' do
+        let(:partitions) { {market: %w[us mx]}  }
+
+        it 'removes S3 data for partitions at a given nesting level' do
+          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us')
+          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx')
+
+          subject
+        end
+      end
+
+      context 'when first partitioning column not given' do
+        let(:partitions) { {type: [1, 2]} }
+
+        it 'raises an error' do
+          expect { subject }.to raise_error(Aegis::PartitionError)
+        end
+      end
+    end
   end
 end
