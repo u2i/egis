@@ -41,24 +41,37 @@ RSpec.describe Aegis::TableDataWiper do
 
         subject
       end
+    end
 
-      context 'when only a subset of partitions given' do
-        let(:partitions) { {market: %w[us mx]} }
+    context 'when partitions provided in a different order than the table schema ' do
+      let(:partitions) { {type: [1, 2], market: %w[us mx]} }
 
-        it 'removes S3 data for partitions at a given nesting level' do
-          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us')
-          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx')
+      it 'removes S3 data for partitions at a given nesting level' do
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=1')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=2')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=1')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=2')
 
-          subject
-        end
+        subject
       end
+    end
 
-      context 'when first partitioning column not given' do
-        let(:partitions) { {type: [1, 2]} }
+    context 'when only a subset of partitions given' do
+      let(:partitions) { {market: %w[us mx]} }
 
-        it 'raises an error' do
-          expect { subject }.to raise_error(Aegis::PartitionError)
-        end
+      it 'removes S3 data for partitions at a given nesting level' do
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us')
+        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx')
+
+        subject
+      end
+    end
+
+    context 'when first partitioning column not given' do
+      let(:partitions) { {type: [1, 2]} }
+
+      it 'raises an error' do
+        expect { subject }.to raise_error(Aegis::PartitionError)
       end
     end
   end
