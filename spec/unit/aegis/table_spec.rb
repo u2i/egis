@@ -151,7 +151,7 @@ RSpec.describe Aegis::Table do
       SQL
     end
 
-    it 'uploads a file to S3 foe each of the partitions' do
+    it 'uploads a file to S3 for each of the partitions' do
       expect(database).to receive(:execute_query).with(expected_query, async: false)
 
       subject
@@ -171,8 +171,6 @@ RSpec.describe Aegis::Table do
       end
     end
 
-    let(:time) { Time.utc(2020, 4, 8, 14, 21) }
-
     let(:csv_data) do
       [
         ['message', 'time', 'country', 'type'],
@@ -186,7 +184,7 @@ RSpec.describe Aegis::Table do
     let(:query_status) { Aegis::QueryStatus.new(:finished, 'query message', output_location) }
     let(:output_location) { Aegis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
-    it 'uploads a file to S3 foe each of the partitions' do
+    it 'uploads a file to S3 for each of the partitions' do
       expect(database).to receive(:execute_query).with(expected_query, async: false).and_return(query_status)
       expect(output_downloader).to receive(:download).with(output_location).and_return(csv_data)
 
