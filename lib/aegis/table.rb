@@ -50,7 +50,6 @@ module Aegis
 
     def upload_data(rows)
       query = data_insert_query(rows)
-
       database.execute_query(query, async: false)
     end
 
@@ -79,25 +78,29 @@ module Aegis
 
     def parse_output_csv(content)
       content.drop(1).map do |row|
-        row.zip(column_types).map do |string, type|
-          Types.serializer(type).load(string)
+        row.zip(column_serializers).map do |string, serializer|
+          serializer.load(string)
         end
       end
     end
 
-    def data_insert_query(rows)
-      <<~SQL
-        INSERT INTO #{name} VALUES
-        #{rows.map { |row| row_values_statement(column_types, row) }.join(",\n")};
-      SQL
+    def column_serializers
+      @column_serializers ||= column_types.map { |type| Aegis::Types.serializer(type) }
     end
 
     def column_types
       (schema.columns + schema.partitions).map(&:type)
     end
 
-    def row_values_statement(column_types, row)
-      "(#{row.zip(column_types).map { |value, type| Types.serializer(type).literal(value) }.join(', ')})"
+    def data_insert_query(rows)
+      <<~SQL
+        INSERT INTO #{name} VALUES
+        #{rows.map { |row| row_values_statement(row) }.join(",\n")};
+      SQL
+    end
+
+    def row_values_statement(row)
+      "(#{row.zip(column_serializers).map { |value, serializer| serializer.literal(value) }.join(', ')})"
     end
   end
 end
