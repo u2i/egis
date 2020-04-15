@@ -18,6 +18,7 @@ require 'aegis/query_output_location'
 require 'aegis/table_ddl_generator'
 require 'aegis/table_schema'
 require 'aegis/data_location_mapper'
+require 'aegis/s3_location_parser'
 
 module Aegis
   class << self

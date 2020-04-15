@@ -2,15 +2,15 @@
 
 module Aegis
   class TableDataWiper
-    def initialize(s3_cleaner: Aegis::S3Cleaner.new, cartesian_product_generator: Aegis::CartesianProductGenerator.new)
+    def initialize(s3_location_parser: Aegis::S3LocationParser.new, s3_cleaner: Aegis::S3Cleaner.new,
+                   cartesian_product_generator: Aegis::CartesianProductGenerator.new)
+      @s3_location_parser = s3_location_parser
       @s3_cleaner = s3_cleaner
       @cartesian_product_generator = cartesian_product_generator
     end
 
     def wipe_table_data(table, partitions)
-      matched_location = Aegis::Client::S3_URL_PATTERN.match(table.location)
-      bucket = matched_location['bucket']
-      location = matched_location['key']
+      bucket, location = s3_location_parser.parse_url(table.location)
 
       return s3_cleaner.delete(bucket, location) unless partitions
 
@@ -32,6 +32,6 @@ module Aegis
 
     private
 
-    attr_reader :s3_cleaner, :cartesian_product_generator
+    attr_reader :s3_location_parser, :s3_cleaner, :cartesian_product_generator
   end
 end

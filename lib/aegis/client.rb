@@ -10,14 +10,13 @@ module Aegis
       'CANCELLED' => Aegis::QueryStatus::CANCELLED
     }.freeze
 
-    S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}.freeze
-
     DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
 
     private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
 
-    def initialize(aws_client_provider: Aegis::AwsClientProvider.new)
+    def initialize(aws_client_provider: Aegis::AwsClientProvider.new, s3_location_parser: Aegis::S3LocationParser.new)
       @aws_athena_client = aws_client_provider.athena_client
+      @s3_location_parser = s3_location_parser
       @query_status_backoff = Aegis.configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
     end
 
@@ -50,7 +49,7 @@ module Aegis
 
     private
 
-    attr_reader :aws_athena_client, :query_status_backoff
+    attr_reader :aws_athena_client, :s3_location_parser, :query_status_backoff
 
     def query_execution_params(query, work_group, database, output_location)
       work_group_params = work_group || Aegis.configuration.work_group
@@ -76,9 +75,9 @@ module Aegis
     def parse_output_location(resp)
       url = resp.query_execution.result_configuration.output_location
 
-      matched_data = S3_URL_PATTERN.match(url)
+      bucket, path = s3_location_parser.parse_url(url)
 
-      QueryOutputLocation.new(url, matched_data[:bucket], matched_data[:key])
+      QueryOutputLocation.new(url, bucket, path)
     end
 
     def translate_path(s3_url)
