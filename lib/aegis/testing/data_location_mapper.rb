@@ -16,7 +16,7 @@ module Aegis
       end
 
       def translate_name(name)
-        "#{@test_id}_#{name}"
+        "#{test_id}_#{name}"
       end
 
       private
