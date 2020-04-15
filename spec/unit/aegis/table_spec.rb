@@ -7,7 +7,7 @@ RSpec.describe Aegis::Table do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
                                                                             table_ddl_generator: table_ddl_generator,
                                                                             output_downloader: output_downloader,
-                                                                            s3_cleaner: s3_cleaner)
+                                                                            table_data_wiper: table_data_wiper)
   end
 
   let(:database) { instance_double(Aegis::Database) }
@@ -17,7 +17,7 @@ RSpec.describe Aegis::Table do
   let(:partitions_generator) { instance_double(Aegis::PartitionsGenerator) }
   let(:table_ddl_generator) { instance_double(Aegis::TableDDLGenerator) }
   let(:output_downloader) { instance_double(Aegis::OutputDownloader) }
-  let(:s3_cleaner) { instance_double(Aegis::S3Cleaner) }
+  let(:table_data_wiper) { instance_double(Aegis::TableDataWiper) }
 
   describe '#create' do
     subject { table.create }
@@ -200,8 +200,8 @@ RSpec.describe Aegis::Table do
   describe '#wipe_data' do
     subject { table.wipe_data }
 
-    it 'removes all table s3 data' do
-      expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key')
+    it 'delegates responsibility to table data wiper' do
+      expect(table_data_wiper).to receive(:wipe_table_data).with(described_class, nil)
 
       subject
     end
@@ -209,43 +209,12 @@ RSpec.describe Aegis::Table do
     context 'when partitions given' do
       subject { table.wipe_data(partitions: partitions) }
 
-      let(:table_schema) do
-        Aegis::TableSchema.define do
-          column :text, :string
+      let(:partitions) { {market: %w[us mx]} }
 
-          partition :market, :string
-          partition :type, :int
-        end
-      end
-
-      let(:partitions) { {market: %w[us mx], type: [1, 2]} }
-
-      it 'removes S3 data for partition value combinations' do
-        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=1')
-        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us/type=2')
-        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=1')
-        expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx/type=2')
+      it 'delegates responsibility table data wiper passing partitions' do
+        expect(table_data_wiper).to receive(:wipe_table_data).with(described_class, partitions)
 
         subject
-      end
-
-      context 'when only a subset of partitions given' do
-        let(:partitions) { {market: %w[us mx]}  }
-
-        it 'removes S3 data for partitions at a given nesting level' do
-          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=us')
-          expect(s3_cleaner).to receive(:delete).with('bucket', 'table_key/market=mx')
-
-          subject
-        end
-      end
-
-      context 'when first partitioning column not given' do
-        let(:partitions) { {type: [1, 2]} }
-
-        it 'raises an error' do
-          expect { subject }.to raise_error(Aegis::PartitionError)
-        end
       end
     end
   end
