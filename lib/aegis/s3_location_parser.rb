@@ -10,4 +10,6 @@ module Aegis
       [matched_data['bucket'], matched_data['key']]
     end
   end
+
+  private_constant :S3LocationParser
 end

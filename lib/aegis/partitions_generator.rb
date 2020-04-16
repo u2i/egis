@@ -2,7 +2,7 @@
 
 module Aegis
   class PartitionsGenerator
-    def initialize(cartesian_product_generator: Aegis::CartesianProductGenerator.new)
+    def initialize(cartesian_product_generator: CartesianProductGenerator.new)
       @cartesian_product_generator = cartesian_product_generator
     end
 
@@ -51,4 +51,6 @@ module Aegis
       end
     end
   end
+
+  private_constant :PartitionsGenerator
 end

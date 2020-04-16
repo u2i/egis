@@ -50,4 +50,6 @@ module Aegis
       Aegis.mode.s3_path(table.location)
     end
   end
+
+  private_constant :TableDDLGenerator
 end

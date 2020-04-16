@@ -2,7 +2,7 @@
 
 module Aegis
   class S3Cleaner
-    def initialize(aws_client_provider: Aegis::AwsClientProvider.new)
+    def initialize(aws_client_provider: AwsClientProvider.new)
       @s3_client = aws_client_provider.s3_client
     end
 
@@ -16,4 +16,6 @@ module Aegis
 
     attr_reader :s3_client
   end
+
+  private_constant :S3Cleaner
 end

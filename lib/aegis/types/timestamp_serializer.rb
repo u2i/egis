@@ -17,5 +17,7 @@ module Aegis
         Time.strptime(string, ATHENA_TIME_FORMAT)
       end
     end
+
+    private_constant :TimestampSerializer
   end
 end

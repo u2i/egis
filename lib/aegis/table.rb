@@ -6,10 +6,10 @@ module Aegis
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(database, name, schema, location, options: {},
-                   partitions_generator: Aegis::PartitionsGenerator.new,
-                   table_ddl_generator: Aegis::TableDDLGenerator.new,
-                   output_downloader: Aegis::OutputDownloader.new,
-                   table_data_wiper: Aegis::TableDataWiper.new)
+                   partitions_generator: PartitionsGenerator.new,
+                   table_ddl_generator: TableDDLGenerator.new,
+                   output_downloader: OutputDownloader.new,
+                   table_data_wiper: TableDataWiper.new)
       @database = database
       @name = name
       @schema = schema
@@ -80,7 +80,7 @@ module Aegis
     end
 
     def column_serializers
-      @column_serializers ||= column_types.map { |type| Aegis::Types.serializer(type) }
+      @column_serializers ||= column_types.map { |type| Types.serializer(type) }
     end
 
     def column_types

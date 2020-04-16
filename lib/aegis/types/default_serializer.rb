@@ -45,8 +45,10 @@ module Aegis
       private
 
       def illegal_value_error(value)
-        raise Aegis::TypeError, "Illegal value '#{value}' for type boolean"
+        raise TypeError, "Illegal value '#{value}' for type boolean"
       end
     end
+
+    private_constant :BooleanSerializer
   end
 end

@@ -12,6 +12,7 @@ require 'aegis/client'
 require 'aegis/cartesian_product_generator'
 require 'aegis/partitions_generator'
 require 'aegis/table_data_wiper'
+require 'aegis/column'
 require 'aegis/table'
 require 'aegis/database'
 require 'aegis/query_output_location'
@@ -31,7 +32,7 @@ module Aegis
     end
 
     def mode
-      @mode ||= Aegis::StandardMode.new
+      @mode ||= StandardMode.new
     end
   end
 end

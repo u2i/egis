@@ -2,9 +2,9 @@
 
 module Aegis
   class TableDataWiper
-    def initialize(s3_location_parser: Aegis::S3LocationParser.new,
-                   s3_cleaner: Aegis::S3Cleaner.new,
-                   cartesian_product_generator: Aegis::CartesianProductGenerator.new)
+    def initialize(s3_location_parser: S3LocationParser.new,
+                   s3_cleaner: S3Cleaner.new,
+                   cartesian_product_generator: CartesianProductGenerator.new)
       @s3_location_parser = s3_location_parser
       @s3_cleaner = s3_cleaner
       @cartesian_product_generator = cartesian_product_generator
@@ -37,7 +37,7 @@ module Aegis
     def validate_partition_values(removed_partition_values, partitions)
       return unless removed_partition_values.empty? || removed_partition_values.values.any?(&:empty?)
 
-      raise Aegis::PartitionError, "Incorrect partitions given: #{partitions}"
+      raise PartitionError, "Incorrect partitions given: #{partitions}"
     end
 
     def remove_partition_files(bucket, location, partitions_with_values)
@@ -47,4 +47,6 @@ module Aegis
       end
     end
   end
+
+  private_constant :TableDataWiper
 end

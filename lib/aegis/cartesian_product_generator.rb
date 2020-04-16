@@ -13,4 +13,6 @@ module Aegis
       head.product(*tail).map { |vals| keys.zip(vals) }
     end
   end
+
+  private_constant :CartesianProductGenerator
 end

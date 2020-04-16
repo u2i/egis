@@ -15,5 +15,7 @@ module Aegis
         string.to_i
       end
     end
+
+    private_constant :IntegerSerializer
   end
 end

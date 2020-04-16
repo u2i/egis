@@ -15,5 +15,7 @@ module Aegis
         string
       end
     end
+
+    private_constant :DefaultSerializer
   end
 end

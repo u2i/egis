@@ -4,9 +4,9 @@ module Aegis
   module Testing
     class TestingMode
       def initialize(test_id, s3_bucket,
-                     client: Aegis::Client.new,
-                     output_downloader: Aegis::OutputDownloader.new,
-                     s3_location_parser: Aegis::S3LocationParser.new)
+                     client: Client.new,
+                     output_downloader: OutputDownloader.new,
+                     s3_location_parser: S3LocationParser.new)
         @test_id = test_id
         @s3_bucket = s3_bucket
         @dirty = false

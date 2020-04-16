@@ -25,4 +25,6 @@ module Aegis
       config
     end
   end
+
+  private_constant :AwsClientProvider
 end

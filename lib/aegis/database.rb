@@ -2,7 +2,7 @@
 
 module Aegis
   class Database
-    def initialize(database_name, client: Aegis::Client.new, output_downloader: Aegis::OutputDownloader.new)
+    def initialize(database_name, client: Client.new, output_downloader: OutputDownloader.new)
       @client = client
       @database_name = database_name
       @output_downloader = output_downloader

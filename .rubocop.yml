@@ -7,3 +7,7 @@ Rails:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/integration/**/*'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'

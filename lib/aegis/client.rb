@@ -3,18 +3,18 @@
 module Aegis
   class Client
     QUERY_STATUS_MAPPING = {
-      'QUEUED' => Aegis::QueryStatus::QUEUED,
-      'RUNNING' => Aegis::QueryStatus::RUNNING,
-      'SUCCEEDED' => Aegis::QueryStatus::FINISHED,
-      'FAILED' => Aegis::QueryStatus::FAILED,
-      'CANCELLED' => Aegis::QueryStatus::CANCELLED
+      'QUEUED' => QueryStatus::QUEUED,
+      'RUNNING' => QueryStatus::RUNNING,
+      'SUCCEEDED' => QueryStatus::FINISHED,
+      'FAILED' => QueryStatus::FAILED,
+      'CANCELLED' => QueryStatus::CANCELLED
     }.freeze
 
     DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
 
     private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
 
-    def initialize(aws_client_provider: Aegis::AwsClientProvider.new, s3_location_parser: Aegis::S3LocationParser.new)
+    def initialize(aws_client_provider: AwsClientProvider.new, s3_location_parser: S3LocationParser.new)
       @aws_athena_client = aws_client_provider.athena_client
       @s3_location_parser = s3_location_parser
       @query_status_backoff = Aegis.configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
@@ -33,7 +33,7 @@ module Aegis
 
       query_status = wait_for_query_to_finish(query_execution_id)
 
-      raise Aegis::QueryExecutionError, query_status.message unless query_status.finished?
+      raise QueryExecutionError, query_status.message unless query_status.finished?
 
       query_status
     end
@@ -43,7 +43,7 @@ module Aegis
 
       query_execution = resp.query_execution
 
-      Aegis::QueryStatus.new(
+      QueryStatus.new(
         query_execution.query_execution_id,
         QUERY_STATUS_MAPPING.fetch(query_execution.status.state),
         query_execution.status.state_change_reason,

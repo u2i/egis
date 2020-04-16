@@ -2,116 +2,118 @@
 
 require 'spec_helper'
 
-RSpec.describe Aegis::Database do
-  let(:database) { described_class.new(database_name, client: client, output_downloader: output_downloader) }
-  let(:client) { instance_double(Aegis::Client) }
-  let(:output_downloader) { instance_double(Aegis::OutputDownloader) }
+module Aegis
+  RSpec.describe Database do
+    let(:database) { described_class.new(database_name, client: client, output_downloader: output_downloader) }
+    let(:client) { instance_double(Client) }
+    let(:output_downloader) { instance_double(OutputDownloader) }
 
-  let(:database_name) { 'name' }
-  let(:table_name) { 'table' }
-  let(:table_schema) do
-    Aegis::TableSchema.define do
-      column :id, :int
-    end
-  end
-  let(:table_location) { 's3://aegis/table' }
-
-  describe '#create' do
-    subject { database.create }
-
-    it 'creates Athena database ignoring when it already exists' do
-      expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false)
-      subject
-    end
-  end
-
-  describe '#create!' do
-    subject { database.create! }
-
-    it 'creates Athena database failing when it already exists' do
-      expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
-      subject
-    end
-  end
-
-  describe '#drop' do
-    subject { database.drop }
-
-    it 'removes Athena database' do
-      expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name CASCADE;', async: false)
-      subject
-    end
-  end
-
-  describe '#drop!' do
-    subject { database.drop! }
-
-    it 'removes Athena database failing when it does not exist' do
-      expect(client).to receive(:execute_query).with('DROP DATABASE name CASCADE;', async: false)
-      subject
-    end
-  end
-
-  describe '#table' do
-    subject { database.table(table_name, table_schema, table_location) }
-
+    let(:database_name) { 'name' }
     let(:table_name) { 'table' }
-    let(:table_schema) { instance_double(Aegis::TableSchema) }
-    let(:table_location) { 's3://bucket/path' }
-
-    it 'creates Table object' do
-      expect(subject).to be_a(Aegis::Table)
+    let(:table_schema) do
+      TableSchema.define do
+        column :id, :int
+      end
     end
-  end
+    let(:table_location) { 's3://aegis/table' }
 
-  describe '#execute_query' do
-    subject { database.execute_query(query, async: false) }
+    describe '#create' do
+      subject { database.create }
 
-    let(:query) { 'select * from table;' }
-
-    it 'delegates method to the client with given database' do
-      expect(client).to receive(:execute_query).with(query, database: database_name, async: false)
-      subject
-    end
-  end
-
-  describe '#query_status' do
-    subject { database.query_status(query_execution_id) }
-
-    let(:query_execution_id) { '123' }
-
-    it 'delegates method to the client' do
-      expect(client).to receive(:query_status).with(query_execution_id)
-      subject
-    end
-  end
-
-  describe '#exists?' do
-    subject { database.exists? }
-
-    let(:location) { Aegis::QueryOutputLocation.new('url', 'bucket', 'key') }
-    let(:query_status) { Aegis::QueryStatus.new('123', Aegis::QueryStatus::FINISHED, 'ok', location) }
-    let(:query) { "SHOW DATABASES LIKE '#{database_name}';" }
-
-    context 'when db present' do
-      let(:query_result) { [[database_name]] }
-
-      it 'returns true' do
-        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
-        expect(output_downloader).to receive(:download).with(location).and_return(query_result)
-
-        expect(subject).to eq(true)
+      it 'creates Athena database ignoring when it already exists' do
+        expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false)
+        subject
       end
     end
 
-    context 'when db not present' do
-      let(:query_result) { [] }
+    describe '#create!' do
+      subject { database.create! }
 
-      it 'returns false' do
-        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
-        expect(output_downloader).to receive(:download).with(location).and_return(query_result)
+      it 'creates Athena database failing when it already exists' do
+        expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
+        subject
+      end
+    end
 
-        expect(subject).to eq(false)
+    describe '#drop' do
+      subject { database.drop }
+
+      it 'removes Athena database' do
+        expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name CASCADE;', async: false)
+        subject
+      end
+    end
+
+    describe '#drop!' do
+      subject { database.drop! }
+
+      it 'removes Athena database failing when it does not exist' do
+        expect(client).to receive(:execute_query).with('DROP DATABASE name CASCADE;', async: false)
+        subject
+      end
+    end
+
+    describe '#table' do
+      subject { database.table(table_name, table_schema, table_location) }
+
+      let(:table_name) { 'table' }
+      let(:table_schema) { instance_double(TableSchema) }
+      let(:table_location) { 's3://bucket/path' }
+
+      it 'creates Table object' do
+        expect(subject).to be_a(Table)
+      end
+    end
+
+    describe '#execute_query' do
+      subject { database.execute_query(query, async: false) }
+
+      let(:query) { 'select * from table;' }
+
+      it 'delegates method to the client with given database' do
+        expect(client).to receive(:execute_query).with(query, database: database_name, async: false)
+        subject
+      end
+    end
+
+    describe '#query_status' do
+      subject { database.query_status(query_execution_id) }
+
+      let(:query_execution_id) { '123' }
+
+      it 'delegates method to the client' do
+        expect(client).to receive(:query_status).with(query_execution_id)
+        subject
+      end
+    end
+
+    describe '#exists?' do
+      subject { database.exists? }
+
+      let(:location) { QueryOutputLocation.new('url', 'bucket', 'key') }
+      let(:query_status) { QueryStatus.new('123', QueryStatus::FINISHED, 'ok', location) }
+      let(:query) { "SHOW DATABASES LIKE '#{database_name}';" }
+
+      context 'when db present' do
+        let(:query_result) { [[database_name]] }
+
+        it 'returns true' do
+          expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+          expect(output_downloader).to receive(:download).with(location).and_return(query_result)
+
+          expect(subject).to eq(true)
+        end
+      end
+
+      context 'when db not present' do
+        let(:query_result) { [] }
+
+        it 'returns false' do
+          expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+          expect(output_downloader).to receive(:download).with(location).and_return(query_result)
+
+          expect(subject).to eq(false)
+        end
       end
     end
   end

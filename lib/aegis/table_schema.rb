@@ -23,7 +23,5 @@ module Aegis
     def partition(name, type)
       @partitions << Column.new(name, type)
     end
-
-    Column = Struct.new(:name, :type)
   end
 end

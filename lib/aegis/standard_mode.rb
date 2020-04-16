@@ -14,4 +14,6 @@ module Aegis
       async_flag
     end
   end
+
+  private_constant :StandardMode
 end
