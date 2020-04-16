@@ -15,11 +15,11 @@ module Aegis
 
       return s3_cleaner.delete(bucket, location) unless partitions
 
-      removed_partition_values = partition_values_to_remove(table, partitions)
+      partition_values_to_remove = partition_values_to_remove(table, partitions)
 
-      validate_partition_values(removed_partition_values, partitions)
+      validate_partition_values(partition_values_to_remove, partitions)
 
-      remove_partition_files(bucket, location, removed_partition_values)
+      remove_partition_files(bucket, location, partition_values_to_remove)
     end
 
     private
