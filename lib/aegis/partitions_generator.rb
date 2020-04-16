@@ -2,6 +2,10 @@
 
 module Aegis
   class PartitionsGenerator
+    def initialize(cartesian_product_generator: Aegis::CartesianProductGenerator.new)
+      @cartesian_product_generator = cartesian_product_generator
+    end
+
     def to_sql(table_name, values_by_partition, permissive: false)
       validate_partition_values(values_by_partition)
 
@@ -13,8 +17,10 @@ module Aegis
 
     private
 
+    attr_reader :cartesian_product_generator
+
     def validate_partition_values(values_by_partition)
-      raise MissingPartitionValuesError if partition_values_missing?(values_by_partition)
+      raise PartitionError, 'Partition value(s) missing' if partition_values_missing?(values_by_partition)
     end
 
     def partition_values_missing?(values_by_partition)
@@ -26,20 +32,9 @@ module Aegis
     end
 
     def partitions_definition(values_by_partition)
-      cartesian_product(values_by_partition).
+      cartesian_product_generator.cartesian_product(values_by_partition).
         map { |partition_values_combination| partition_values_clause(partition_values_combination) }.
         join("\n")
-    end
-
-    def cartesian_product(values_by_partition)
-      partition_names = values_by_partition.keys
-      partition_values = values_by_partition.values
-
-      head, *tail = partition_values
-
-      return partition_names.zip(head) unless tail
-
-      head.product(*tail).map { |values| partition_names.zip(values) }
     end
 
     def partition_values_clause(partition_values_combination)

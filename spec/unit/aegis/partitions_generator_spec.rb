@@ -56,7 +56,7 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:partitions) { {} }
 
     it 'raises an error' do
-      expect { subject }.to raise_error(Aegis::MissingPartitionValuesError)
+      expect { subject }.to raise_error(Aegis::PartitionError)
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:partitions) { {country: []} }
 
     it 'raises an error' do
-      expect { subject }.to raise_error(Aegis::MissingPartitionValuesError)
+      expect { subject }.to raise_error(Aegis::PartitionError)
     end
   end
 
@@ -72,7 +72,7 @@ RSpec.describe Aegis::PartitionsGenerator do
     let(:partitions) { nil }
 
     it 'raises an error' do
-      expect { subject }.to raise_error(Aegis::MissingPartitionValuesError)
+      expect { subject }.to raise_error(Aegis::PartitionError)
     end
   end
 

@@ -3,7 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::Client do
-  let(:client) { described_class.new(aws_athena_client: aws_athena_client) }
+  let(:client) { described_class.new(aws_client_provider: aws_client_provider) }
+  let(:aws_client_provider) { instance_double(Aegis::AwsClientProvider, athena_client: aws_athena_client) }
   let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
   let(:work_group) { 'test_work_group' }
 
@@ -90,9 +91,29 @@ RSpec.describe Aegis::Client do
     let(:start_query_execution_response) do
       aws_athena_client.stub_data(:start_query_execution, query_execution_id: query_execution_id)
     end
+    let(:state) { 'SUCCEEDED' }
+
+    let(:get_query_execution_response) do
+      lambda { |state|
+        aws_athena_client.stub_data(:get_query_execution, {
+                                      query_execution: {
+                                        query_execution_id: '123454321',
+                                        status: {
+                                          state: state
+                                        },
+                                        result_configuration: {
+                                          output_location: 's3://output_bucket/query_output_location'
+                                        }
+                                      }
+                                    })
+      }
+    end
 
     before do
       aws_athena_client.stub_responses(:start_query_execution, start_query_execution_response)
+      allow(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
+        and_return(get_query_execution_response[state]).once
+      aws_athena_client.stub_responses(:get_query_execution, get_query_execution_response[state])
     end
 
     context 'when work_group passed as parameter' do
@@ -137,30 +158,16 @@ RSpec.describe Aegis::Client do
         subject
       end
 
-      it 'return query_execution_id' do
-        expect(subject).to eq(query_execution_id)
+      it 'return query status object with proper id' do
+        query_status = subject
+
+        expect(query_status).to be_a(Aegis::QueryStatus)
+        expect(query_status.id).to eq('123454321')
       end
     end
 
     context 'when async false' do
       let(:async) { false }
-
-      let(:get_query_execution_response) do
-        lambda { |state|
-          aws_athena_client.stub_data(:get_query_execution, {
-                                        query_execution: {
-                                          status: {
-                                            state: state
-                                          },
-                                          result_configuration: {
-                                            output_location: 's3://output_bucket/query_output_location'
-                                          }
-                                        }
-                                      })
-        }
-      end
-
-      before { aws_athena_client.stub_responses(:get_query_execution, get_query_execution_response[state]) }
 
       context 'when get_query_execution returns SUCCEEDED at first time' do
         let(:state) { 'SUCCEEDED' }

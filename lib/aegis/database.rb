@@ -2,50 +2,30 @@
 
 module Aegis
   class Database
-    def initialize(database_name, client: Aegis::Client.new, partitions_generator: Aegis::PartitionsGenerator.new)
+    def initialize(database_name, client: Aegis::Client.new, output_downloader: Aegis::OutputDownloader.new)
       @client = client
       @database_name = database_name
-      @partitions_generator = partitions_generator
+      @output_downloader = output_downloader
+    end
+
+    def table(table_name, table_schema, table_location, options = {})
+      Table.new(self, table_name, table_schema, table_location, options)
     end
 
     def create
-      client.execute_query("CREATE DATABASE IF NOT EXISTS #{database_name};", async: false)
+      client.execute_query("CREATE DATABASE IF NOT EXISTS #{translate_name(database_name)};", async: false)
     end
 
     def create!
-      client.execute_query("CREATE DATABASE #{database_name};", async: false)
+      client.execute_query("CREATE DATABASE #{translate_name(database_name)};", async: false)
     end
 
     def drop
-      client.execute_query("DROP DATABASE IF EXISTS #{database_name} CASCADE;", async: false)
+      client.execute_query("DROP DATABASE IF EXISTS #{translate_name(database_name)} CASCADE;", async: false)
     end
 
     def drop!
-      client.execute_query("DROP DATABASE #{database_name} CASCADE;", async: false)
-    end
-
-    def create_table(table_name, table_schema, location, options = {format: :tsv})
-      create_table_sql = table_schema.to_sql(table_name, location, options.merge(permissive: true))
-      client.execute_query(create_table_sql, database: database_name, async: false)
-    end
-
-    def create_table!(table_name, table_schema, location, options = {format: :tsv})
-      create_table_sql = table_schema.to_sql(table_name, location, options.merge(permissive: false))
-      client.execute_query(create_table_sql, database: database_name, async: false)
-    end
-
-    def add_partitions(table_name, partitions)
-      load_partitions_query = partitions_generator.to_sql(table_name, partitions, permissive: true)
-      client.execute_query(load_partitions_query, database: database_name, async: false)
-    end
-
-    def add_partitions!(table_name, partitions)
-      load_partitions_query = partitions_generator.to_sql(table_name, partitions, permissive: false)
-      client.execute_query(load_partitions_query, database: database_name, async: false)
-    end
-
-    def discover_partitions(table_name)
-      client.execute_query("MSCK REPAIR TABLE #{table_name};", async: false)
+      client.execute_query("DROP DATABASE #{translate_name(database_name)} CASCADE;", async: false)
     end
 
     def execute_query(query_string, options = {async: true})
@@ -56,8 +36,18 @@ module Aegis
       client.query_status(query_execution_id)
     end
 
+    def exists?
+      query_status = client.execute_query("SHOW DATABASES LIKE '#{database_name}';", async: false)
+      parsed_result = output_downloader.download(query_status.output_location)
+      parsed_result.flatten.include?(database_name)
+    end
+
     private
 
-    attr_reader :client, :database_name, :partitions_generator
+    attr_reader :client, :database_name, :output_downloader
+
+    def translate_name(name)
+      Aegis.mode.database_name(name)
+    end
   end
 end

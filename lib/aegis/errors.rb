@@ -5,5 +5,6 @@ module Aegis
 
   class UnsupportedTableFormat < Error; end
   class QueryExecutionError < Error; end
-  class MissingPartitionValuesError < Error; end
+  class PartitionError < Error; end
+  class TypeError < Error; end
 end

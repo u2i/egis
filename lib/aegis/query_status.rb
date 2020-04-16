@@ -10,11 +10,12 @@ module Aegis
 
     STATUSES = [QUEUED, RUNNING, FINISHED, FAILED, CANCELLED].freeze
 
-    attr_reader :status, :message, :output_location
+    attr_reader :id, :status, :message, :output_location
 
-    def initialize(status, message, output_location)
+    def initialize(id, status, message, output_location)
       raise ArgumentError, "Unsupported status #{status}" unless STATUSES.include?(status)
 
+      @id = id
       @status = status
       @message = message
       @output_location = output_location
@@ -34,6 +35,10 @@ module Aegis
 
     def running?
       status == RUNNING
+    end
+
+    def in_progress?
+      [RUNNING, QUEUED].include?(status)
     end
   end
 end
