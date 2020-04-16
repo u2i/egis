@@ -47,7 +47,7 @@ module Aegis
     attr_reader :client, :database_name, :output_downloader
 
     def translate_name(name)
-      Aegis.data_location_mapper.translate_name(name)
+      Aegis.mode.database_name(name)
     end
   end
 end

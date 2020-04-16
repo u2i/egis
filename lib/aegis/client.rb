@@ -29,7 +29,7 @@ module Aegis
         query_execution_params(query, work_group, database, output_location)
       ).query_execution_id
 
-      return query_status(query_execution_id) if async && !Aegis.testing?
+      return query_status(query_execution_id) if Aegis.mode.async(async)
 
       query_status = wait_for_query_to_finish(query_execution_id)
 
@@ -60,7 +60,7 @@ module Aegis
 
       params = {query_string: query}
       params[:work_group] = work_group_params if work_group_params
-      params[:query_execution_context] = {database: translate_name(database)} if database
+      params[:query_execution_context] = {database: database_name(database)} if database
       params[:result_configuration] = {output_location: translate_path(output_location)} if output_location
       params
     end
@@ -85,11 +85,11 @@ module Aegis
     end
 
     def translate_path(s3_url)
-      Aegis.data_location_mapper.translate_path(s3_url)
+      Aegis.mode.s3_path(s3_url)
     end
 
-    def translate_name(name)
-      Aegis.data_location_mapper.translate_name(name)
+    def database_name(name)
+      Aegis.mode.database_name(name)
     end
   end
 end

@@ -2,20 +2,18 @@
 
 require 'securerandom'
 
-require 'aegis/testing/data_location_mapper'
+require 'aegis/testing/testing_mode'
 
 module Aegis
   def self.testing
     test_id = SecureRandom.hex
-    test_mapper = Aegis::Testing::DataLocationMapper.new(test_id, Aegis.configuration.testing_s3_bucket)
+    test_mode = Aegis::Testing::TestingMode.new(test_id, Aegis.configuration.testing_s3_bucket)
 
-    previous_mapper = Aegis.data_location_mapper
-    @data_location_mapper = test_mapper
-    @testing = true
+    previous_mode = Aegis.mode
+    @mode = test_mode
     yield
   ensure
-    @testing = false
-    @data_location_mapper = previous_mapper
+    @mode = previous_mode
     Testing.remove_databases(test_id)
   end
 

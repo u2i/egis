@@ -17,7 +17,7 @@ require 'aegis/database'
 require 'aegis/query_output_location'
 require 'aegis/table_ddl_generator'
 require 'aegis/table_schema'
-require 'aegis/data_location_mapper'
+require 'aegis/standard_mode'
 require 'aegis/s3_location_parser'
 
 module Aegis
@@ -30,12 +30,8 @@ module Aegis
       @configuration ||= Configuration.new
     end
 
-    def testing?
-      @testing || false
-    end
-
-    def data_location_mapper
-      @data_location_mapper ||= Aegis::DataLocationMapper.new
+    def mode
+      @mode ||= Aegis::StandardMode.new
     end
   end
 end

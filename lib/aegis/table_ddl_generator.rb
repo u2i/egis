@@ -47,7 +47,7 @@ module Aegis
     end
 
     def table_location(table)
-      Aegis.data_location_mapper.translate_path(table.location)
+      Aegis.mode.s3_path(table.location)
     end
   end
 end
