@@ -154,20 +154,23 @@ executes `Aegis` queries in a virtual testing environment. Here's a RSpec usage 
 ```ruby
 require 'aegis/testing' # require testing module to enable additional testing capabilities
 
+# set your testing S3 bucket
 Aegis.configure do |config|
-  config.testing_s3_bucket = 'testing-bucket' # set your testing S3 bucket
+  config.testing_s3_bucket = 'testing-bucket'
 end
 
-RSpec.describe MyAthenaQuery do
-  subject { described_class.run }
-
-  # wrap you tests with a "testing" block
-  # every table and database created within this block is mapped to "virtual" table space in your testing S3 bucket
-  around(:each) do |example|
+# wrap you tests with a "testing" block
+RSpec.configure do |c|
+  # every table and database created within this block is mapped to a "virtual" table space in your testing S3 bucket
+  c.around(:each) do |example|
     Aegis.testing do
       example.run
     end
   end
+end
+
+RSpec.describe MyAthenaQuery do
+  subject { described_class.run }
 
   let(:table) { ... } # define your databases and tables as you would define them in the code
 
