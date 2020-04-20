@@ -75,7 +75,7 @@ pipeline {
                     }
                     steps {
                         sh '''
-                            gem push bundle.gem --key gemstash --host http://gemstash.talkwit.tv/private > push.log || \
+                            gem push bundle.gem --host http://gemstash.talkwit.tv/private > push.log || \
                             grep '"code":422' push.log
                         '''
                     }
