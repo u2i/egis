@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.1
+
+- Fixed testing mode table location translation
+
 ## 0.3.0
 
 - **[breaking change]** Extracted table-related methods from `Database` into new `Table` class (`create_table`,

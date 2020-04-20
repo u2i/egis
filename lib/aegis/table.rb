@@ -22,7 +22,7 @@ module Aegis
     end
     # rubocop:enable Metrics/ParameterLists
 
-    attr_reader :database, :name, :schema, :location
+    attr_reader :database, :name, :schema
 
     def create
       create_table_sql = table_ddl_generator.create_table_sql(self, permissive: true)
@@ -65,6 +65,10 @@ module Aegis
 
     def format
       options.fetch(:format)
+    end
+
+    def location
+      Aegis.mode.s3_path(@location)
     end
 
     private

@@ -216,4 +216,17 @@ RSpec.describe Aegis::Table do
       end
     end
   end
+
+  describe '#location' do
+    subject { table.location }
+
+    let(:mode) { instance_double(Aegis::Testing::TestingMode) }
+
+    it 'returns path translated by execution mode' do
+      expect(Aegis).to receive(:mode).and_return(mode)
+      expect(mode).to receive(:s3_path).with(table_location).and_return('s3://translated-path')
+
+      expect(subject).to eq('s3://translated-path')
+    end
+  end
 end

@@ -9,7 +9,7 @@ module Aegis
         )
         #{partition_statement(table.schema)}
         #{format_statement(table.format)}
-        LOCATION '#{table_location(table)}';
+        LOCATION '#{table.location}';
       SQL
     end
 
@@ -44,10 +44,6 @@ module Aegis
       else
         raise UnsupportedTableFormat, format.to_s
       end
-    end
-
-    def table_location(table)
-      Aegis.mode.s3_path(table.location)
     end
   end
 end
