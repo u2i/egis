@@ -3,6 +3,7 @@
 ## 0.3.2
 
 - Fixed table options
+- Replaced usage of deprecated last argument as keyword parameters with splat operator
 
 ## 0.3.1
 

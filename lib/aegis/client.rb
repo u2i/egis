@@ -39,7 +39,7 @@ module Aegis
     end
 
     def query_status(query_execution_id)
-      resp = aws_athena_client.get_query_execution({query_execution_id: query_execution_id})
+      resp = aws_athena_client.get_query_execution(query_execution_id: query_execution_id)
 
       query_execution = resp.query_execution
 
