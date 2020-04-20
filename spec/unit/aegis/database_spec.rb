@@ -62,6 +62,14 @@ RSpec.describe Aegis::Database do
     it 'creates Table object' do
       expect(subject).to be_a(Aegis::Table)
     end
+
+    context 'with table options' do
+      subject { database.table(table_name, table_schema, table_location, format: :orc) }
+
+      it 'creates Table object' do
+        expect(subject).to be_a(Aegis::Table)
+      end
+    end
   end
 
   describe '#execute_query' do

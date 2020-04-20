@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.2
+
+- Fixed table options
+
 ## 0.3.1
 
 - Fixed testing mode table location translation

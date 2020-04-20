@@ -8,8 +8,8 @@ module Aegis
       @output_downloader = output_downloader
     end
 
-    def table(table_name, table_schema, table_location, options = {})
-      Table.new(self, table_name, table_schema, table_location, options)
+    def table(table_name, table_schema, table_location, **options)
+      Table.new(self, table_name, table_schema, table_location, options: options)
     end
 
     def create
