@@ -10,3 +10,4 @@ gem 'bundler'
 gem 'ns-rubocop', '= 0.9.1', source: 'http://gemstash.talkwit.tv/private'
 gem 'rake', '~> 10.0'
 gem 'rspec', '~> 3.0'
+gem 'simplecov', require: false

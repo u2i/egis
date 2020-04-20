@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start
+end
+
 require 'bundler/setup'
 require 'aegis'
 require 'aegis/testing'
