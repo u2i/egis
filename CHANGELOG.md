@@ -2,7 +2,7 @@
 
 ## 0.3.3
 
-- Fixed s3 wiper data issue when no file for the given location
+- Fixed data wiping when S3 location empty
 
 ## 0.3.2
 
