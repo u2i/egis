@@ -8,8 +8,8 @@ module Aegis
       @output_downloader = output_downloader
     end
 
-    def table(table_name, table_schema, table_location, options = {})
-      Table.new(self, table_name, table_schema, table_location, options)
+    def table(table_name, table_schema, table_location, **options)
+      Table.new(self, table_name, table_schema, table_location, options: options)
     end
 
     def create
@@ -28,8 +28,8 @@ module Aegis
       client.execute_query("DROP DATABASE #{translate_name(database_name)} CASCADE;", async: false)
     end
 
-    def execute_query(query_string, options = {async: true})
-      client.execute_query(query_string, {database: database_name}.merge(options))
+    def execute_query(query_string, **options)
+      client.execute_query(query_string, **{database: database_name, **options})
     end
 
     def query_status(query_execution_id)
