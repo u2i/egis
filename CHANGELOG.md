@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.3
+
+- Fixed data wiping when S3 location empty
+
 ## 0.3.2
 
 - Fixed table options

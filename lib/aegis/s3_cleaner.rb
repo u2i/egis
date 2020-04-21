@@ -8,6 +8,8 @@ module Aegis
 
     def delete(bucket, prefix)
       prefix_contents = s3_client.list_objects_v2(bucket: bucket, prefix: prefix).contents
+      return if prefix_contents.empty?
+
       objects_to_remove = prefix_contents.map { |content| {key: content.key} }
       s3_client.delete_objects(bucket: bucket, delete: {objects: objects_to_remove})
     end
