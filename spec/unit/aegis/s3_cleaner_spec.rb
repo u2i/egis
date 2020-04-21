@@ -26,17 +26,36 @@ RSpec.describe Aegis::S3Cleaner do
   describe '#delete' do
     subject { cleaner.delete(bucket_name, s3_path_prefix) }
 
-    it 'removes given directories' do
-      deleted_objects = []
-      s3_client.stub_responses(:delete_objects, lambda do |context|
-        expect(context.params[:bucket]).to eq(bucket_name)
-        context.params[:delete][:objects].each do |objects|
-          deleted_objects << objects[:key]
-        end
-      end)
+    context 'when list objects is empty' do
+      let(:list_objects) { [] }
 
-      subject
-      expect(deleted_objects).to match_array(dirs_to_remove)
+      it 'does not delete files' do
+        deleted_objects = []
+        s3_client.stub_responses(:delete_objects, lambda do |context|
+          expect(context.params[:bucket]).to eq(bucket_name)
+          context.params[:delete][:objects].each do |objects|
+            deleted_objects << objects[:key]
+          end
+        end)
+
+        subject
+        expect(deleted_objects).to be_empty
+      end
+    end
+
+    context 'when list objects is not empty' do
+      it 'removes given directories' do
+        deleted_objects = []
+        s3_client.stub_responses(:delete_objects, lambda do |context|
+          expect(context.params[:bucket]).to eq(bucket_name)
+          context.params[:delete][:objects].each do |objects|
+            deleted_objects << objects[:key]
+          end
+        end)
+
+        subject
+        expect(deleted_objects).to match_array(dirs_to_remove)
+      end
     end
   end
 end
