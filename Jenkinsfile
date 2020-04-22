@@ -64,16 +64,12 @@ pipeline {
             when { branch 'master' }
 
             stages {
-                stage('Bundle') {
-                    steps {
-                        sh 'gem build aegis.gemspec --output=bundle.gem'
-                    }
-                }
                 stage('Publish') {
                     environment {
                         GEM_HOST_API_KEY = credentials('f1466a06-4751-4a7c-83c0-3b591946e0e2')
                     }
                     steps {
+                        sh 'gem build aegis.gemspec --output=bundle.gem'
                         sh '''
                             gem push bundle.gem --host http://gemstash.talkwit.tv/private > push.log || \
                             grep '"code":422' push.log
