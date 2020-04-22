@@ -42,7 +42,7 @@ module Aegis
       when :orc
         'STORED AS ORC'
       else
-        raise UnsupportedTableFormat, format.to_s
+        raise Errors::UnsupportedTableFormat, format.to_s
       end
     end
   end

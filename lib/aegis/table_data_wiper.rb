@@ -37,7 +37,7 @@ module Aegis
     def validate_partition_values(removed_partition_values, partitions)
       return unless removed_partition_values.empty? || removed_partition_values.values.any?(&:empty?)
 
-      raise Aegis::PartitionError, "Incorrect partitions given: #{partitions}"
+      raise Aegis::Errors::PartitionError, "Incorrect partitions given: #{partitions}"
     end
 
     def remove_partition_files(bucket, location, partitions_with_values)
