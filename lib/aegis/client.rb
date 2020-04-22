@@ -1,6 +1,29 @@
 # frozen_string_literal: true
 
 module Aegis
+  ##
+  # The most fundamental {Aegis} class. Provides an interface for executing Athena queries.
+  #
+  # @example Configure gem
+  #   Aegis.configure do |config|
+  #     config.aws_region = 'AWS region'
+  #     config.aws_access_key_id = 'AWS key ID'
+  #     config.aws_secret_access_key = 'AWS secret key'
+  #     config.work_group = 'aegis-integration-testing'
+  #   end
+  #
+  # @example Create client and execute query
+  #   client = Aegis::Client.new
+  #   status = client.execute_query('SELECT * FROM my_table;')
+  #
+  #   while status.in_progress?
+  #     # do something useful
+  #     # ...
+  #     status = client.query_status(status.id)
+  #   end
+  #
+  #   status.output_location.url # s3://my-bucket/result/path
+
   class Client
     QUERY_STATUS_MAPPING = {
       'QUEUED' => Aegis::QueryStatus::QUEUED,
@@ -20,9 +43,27 @@ module Aegis
       @query_status_backoff = Aegis.configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
     end
 
+    ##
+    # Creates {Aegis::Database} object with a given name. Executing it doesn't create Athena database yet.
+    #
+    # @param [String] database_name
+    # @return [Aegis::Database]
+
     def database(database_name)
       Database.new(database_name, client: self)
     end
+
+    ##
+    # Executes Athena query. By default, queries are being executed asynchronously.
+    #
+    # @param [String] query SQL query to execute
+    # @param [Boolean] async Decide whether you want to run query asynchronously or block execution until it finishes
+    # @param [String] work_group Change Athena work group the query will be executed in.
+    # @param [String] database Run query in the context of a specific database (implicit table references are expected
+    #   to be in given database).
+    # @param [String] output_location S3 url of the desired output location. By default, Athena uses location defined in
+    #   by workgroup.
+    # @return [Aegis::QueryStatus]
 
     def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true)
       query_execution_id = aws_athena_client.start_query_execution(
@@ -38,8 +79,14 @@ module Aegis
       query_status
     end
 
-    def query_status(query_execution_id)
-      resp = aws_athena_client.get_query_execution(query_execution_id: query_execution_id)
+    ##
+    # Check the status of asynchronous query execution.
+    #
+    # @param [String] query_id Query id from {Aegis::QueryStatus} returned by {#execute_query} method
+    # @return [Aegis::QueryStatus]
+
+    def query_status(query_id)
+      resp = aws_athena_client.get_query_execution(query_execution_id: query_id)
 
       query_execution = resp.query_execution
 
