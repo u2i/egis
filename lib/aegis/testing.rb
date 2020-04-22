@@ -5,6 +5,10 @@ require 'securerandom'
 require 'aegis/testing/testing_mode'
 
 module Aegis
+  # @!visibility private
+  module Testing
+  end
+
   def self.testing
     test_id = SecureRandom.hex
     test_mode = Aegis::Testing::TestingMode.new(test_id, Aegis.configuration.testing_s3_bucket)

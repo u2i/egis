@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class PartitionsGenerator
     def initialize(cartesian_product_generator: Aegis::CartesianProductGenerator.new)
       @cartesian_product_generator = cartesian_product_generator

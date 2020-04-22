@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class S3Cleaner
     def initialize(aws_client_provider: Aegis::AwsClientProvider.new)
       @s3_client = aws_client_provider.s3_client

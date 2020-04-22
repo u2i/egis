@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class TableDataWiper
     def initialize(s3_location_parser: Aegis::S3LocationParser.new,
                    s3_cleaner: Aegis::S3Cleaner.new,
