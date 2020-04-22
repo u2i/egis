@@ -78,7 +78,7 @@ module Aegis
     def parse_output_csv(content)
       content.drop(1).map do |row|
         row.zip(column_serializers).map do |string, serializer|
-          serializer.load(string)
+          serializer.load(string) unless string.nil?
         end
       end
     end
