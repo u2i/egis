@@ -4,13 +4,9 @@ module Aegis
   ##
   # The most fundamental {Aegis} class. Provides an interface for executing Athena queries.
   #
-  # @example Configure gem
-  #   Aegis.configure do |config|
-  #     config.aws_region = 'AWS region'
-  #     config.aws_access_key_id = 'AWS key ID'
-  #     config.aws_secret_access_key = 'AWS secret key'
-  #     config.work_group = 'aegis-integration-testing'
-  #   end
+  # See configuration instructions {Aegis.configure}.
+  #
+  # @see Aegis.configure
   #
   # @example Create client and execute query
   #   client = Aegis::Client.new
