@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.0
+
+- Moved errors to `Aegis::Errors` module
+
 ## 0.3.3
 
 - Fixed data wiping when S3 location empty
