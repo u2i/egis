@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.5
+
+- Fixed `nil` value serialization
+
 ## 0.3.4
 
 - Fixed table's `download_data` to correctly return `nil` values
