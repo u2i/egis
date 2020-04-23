@@ -4,9 +4,17 @@
 
 - Moved errors to `Aegis::Errors` module
 
+## 0.3.5
+
+- Fixed `nil` value serialization
+
+## 0.3.4
+
+- Fixed table's `download_data` to correctly return `nil` values
+
 ## 0.3.3
 
-- Fixed data wiping when S3 location empty
+- Fixed data wiping when S3 location is empty
 
 ## 0.3.2
 

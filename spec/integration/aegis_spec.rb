@@ -21,7 +21,7 @@ RSpec.describe 'Integration with AWS Athena' do
     database = client.database("aegis_integration_test_#{test_id}")
     database.drop
     database.create!
-    database.exists? || raise('Database does not exist!!')
+    database.exists? || raise('Database does not exist')
 
     table = database.table('test_table', schema, "s3://#{testing_bucket}/test_input_data/#{test_id}")
     table.create!
@@ -46,7 +46,7 @@ RSpec.describe 'Integration with AWS Athena' do
       [1, 'hello world', 'mx', 1],
       [2, 'hello again', 'mx', 2],
       [3, 'hello once more', 'us', 1],
-      [4, 'hello for the fourth time', 'us', 2]
+      [nil, nil, 'us', 2]
     ]
   end
   let(:expected_output) do
@@ -54,7 +54,7 @@ RSpec.describe 'Integration with AWS Athena' do
       [1, 'hello world', 'mx', 1],
       [2, 'hello again', 'mx', 2],
       [3, 'hello once more', 'us', 1],
-      [4, 'hello for the fourth time', 'us', 2],
+      [nil, nil, 'us', 2],
       [5, 'and hello again', 'it', 3]
     ]
   end

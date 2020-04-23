@@ -163,6 +163,7 @@ RSpec.describe Aegis::Table do
 
     let(:table_schema) do
       Aegis::TableSchema.define do
+        column :id, :int
         column :message, :string
         column :time, :timestamp
 
@@ -173,9 +174,10 @@ RSpec.describe Aegis::Table do
 
     let(:csv_data) do
       [
-        ['message', 'time', 'country', 'type'],
-        ['hello world', '2020-04-08 14:21:04', 'mx', 1],
-        ['hello again', '2020-04-08 14:21:01', 'mx', 2]
+        ['id', 'message', 'time', 'country', 'type'],
+        ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
+        ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2'],
+        [nil, nil, nil, 'mx', '2']
       ]
     end
 
@@ -189,8 +191,9 @@ RSpec.describe Aegis::Table do
       expect(output_downloader).to receive(:download).with(output_location).and_return(csv_data)
 
       expect(subject).to eq([
-                              ['hello world', Time.new(2020, 4, 8, 14, 21, 4), 'mx', 1],
-                              ['hello again', Time.new(2020, 4, 8, 14, 21, 1), 'mx', 2]
+                              [1, 'hello world', Time.new(2020, 4, 8, 14, 21, 4), 'mx', 1],
+                              [2, 'hello again', Time.new(2020, 4, 8, 14, 21, 1), 'mx', 2],
+                              [nil, nil, nil, 'mx', 2]
                             ])
     end
   end
