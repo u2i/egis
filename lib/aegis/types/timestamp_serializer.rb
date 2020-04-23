@@ -2,6 +2,7 @@
 
 module Aegis
   module Types
+    # @!visibility private
     class TimestampSerializer
       ATHENA_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
