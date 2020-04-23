@@ -5,18 +5,25 @@ require 'aegis/types/default_serializer'
 require 'aegis/types/integer_serializer'
 require 'aegis/types/string_serializer'
 require 'aegis/types/timestamp_serializer'
+require 'aegis/types/null_serializer'
 
 module Aegis
   module Types
     def self.serializer(type)
-      case type
-      when :timestamp then TimestampSerializer.new
-      when :string then StringSerializer.new
-      when :int, :bigint then IntegerSerializer.new
-      when :boolean then BooleanSerializer.new
-      else
-        DefaultSerializer.new
-      end
+      type_serializer = case type
+                        when :timestamp
+                          TimestampSerializer.new
+                        when :string
+                          StringSerializer.new
+                        when :int, :bigint
+                          IntegerSerializer.new
+                        when :boolean
+                          BooleanSerializer.new
+                        else
+                          DefaultSerializer.new
+                        end
+
+      NullSerializer.new(type_serializer)
     end
   end
 end
