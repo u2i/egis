@@ -4,6 +4,10 @@
 
 - Moved errors to `Aegis::Errors` module
 
+## 0.3.6
+
+- Moved `NullSerializer` to `Types` module
+
 ## 0.3.5
 
 - Fixed `nil` value serialization
