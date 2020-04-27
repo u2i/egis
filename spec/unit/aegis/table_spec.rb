@@ -186,7 +186,7 @@ RSpec.describe Aegis::Table do
     let(:query_status) { Aegis::QueryStatus.new('123', :finished, 'query message', output_location) }
     let(:output_location) { Aegis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
-    it 'uploads a file to S3 for each of the partitions' do
+    it 'downloads and parses data correctly' do
       expect(database).to receive(:execute_query).with(expected_query, async: false).and_return(query_status)
       expect(output_downloader).to receive(:download).with(output_location).and_return(csv_data)
 
