@@ -11,3 +11,6 @@ RSpec/DescribeClass:
 RSpec/BeforeAfterAll:
   Exclude:
     - 'spec/integration/**/*'
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false

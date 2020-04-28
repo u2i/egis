@@ -4,7 +4,6 @@ module Aegis
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
 
-    # rubocop:disable Metrics/ParameterLists
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
@@ -22,7 +21,6 @@ module Aegis
       @output_parser = output_parser
       @table_data_wiper = table_data_wiper
     end
-    # rubocop:enable Metrics/ParameterLists
 
     attr_reader :database, :name, :schema
 
