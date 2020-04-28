@@ -60,7 +60,7 @@ RSpec.describe 'Integration with AWS Athena', integration: true do
   context 'downloading data through table interface' do
     subject { table.download_data }
 
-    it { is_expected match_array(expected_output) }
+    it { is_expected.to match_array(expected_output) }
   end
 
   context 'getting query result' do
@@ -70,6 +70,6 @@ RSpec.describe 'Integration with AWS Athena', integration: true do
     let(:query_status) { database.execute_query(query, async: false) }
     let(:result_schema) { [:int, :string, :string, :int] }
 
-    it { is_expected match_array(expected_output) }
+    it { is_expected.to match_array(expected_output) }
   end
 end
