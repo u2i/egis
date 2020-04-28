@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'csv'
-
 module Aegis
   class OutputParser
     def parse(content, types)
