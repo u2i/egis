@@ -12,6 +12,7 @@ module Aegis
 
     attr_reader :id, :status, :message, :output_location
 
+    # rubocop:disable Metrics/ParameterLists
     def initialize(id, status, message, output_location,
                    output_downloader: Aegis::OutputDownloader.new,
                    output_parser: Aegis::OutputParser.new)
@@ -24,6 +25,7 @@ module Aegis
       @output_downloader = output_downloader
       @output_parser = output_parser
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def finished?
       status == FINISHED
@@ -45,7 +47,7 @@ module Aegis
       [RUNNING, QUEUED].include?(status)
     end
 
-    def result(schema = [])
+    def fetch_result(schema: [])
       output = output_downloader.download(output_location)
       output_parser.parse(output, schema)
     end

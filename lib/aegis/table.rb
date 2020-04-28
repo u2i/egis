@@ -75,7 +75,8 @@ module Aegis
 
     private
 
-    attr_reader :options, :partitions_generator, :table_ddl_generator, :output_downloader, :output_parser, :table_data_wiper
+    attr_reader :options, :partitions_generator, :table_ddl_generator, :output_downloader, :output_parser,
+                :table_data_wiper
 
     def column_serializers
       @column_serializers ||= column_types.map { |type| Aegis::Types.serializer(type) }

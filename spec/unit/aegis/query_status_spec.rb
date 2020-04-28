@@ -115,8 +115,8 @@ RSpec.describe Aegis::QueryStatus do
     end
   end
 
-  describe '#result' do
-    subject { query_status.result(schema) }
+  describe '#fetch_result' do
+    subject { query_status.fetch_result(schema: schema) }
 
     let(:schema) { [:int, :string, :timestamp, :string, :int] }
 
@@ -129,24 +129,24 @@ RSpec.describe Aegis::QueryStatus do
     end
 
     before do
-      expect(output_downloader).to receive(:download).with(output_location).and_return(output)
+      allow(output_downloader).to receive(:download).with(output_location).and_return(output)
     end
 
     it do
       is_expected.to eq([
-        [1, 'hello world', Time.parse('2020-04-08 14:21:04'), 'mx', 1],
-        [2, 'hello again', Time.parse('2020-04-08 14:21:01'), 'mx', 2]
-      ])
+                          [1, 'hello world', Time.parse('2020-04-08 14:21:04'), 'mx', 1],
+                          [2, 'hello again', Time.parse('2020-04-08 14:21:01'), 'mx', 2]
+                        ])
     end
 
     context 'when schema is not provided' do
-      subject { query_status.result }
+      subject { query_status.fetch_result }
 
       it 'uses the default parser' do
         expect(subject).to eq([
-          ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
-          ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2']
-        ])
+                                ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
+                                ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2']
+                              ])
       end
     end
   end

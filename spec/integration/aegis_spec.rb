@@ -57,16 +57,16 @@ RSpec.describe 'Integration with AWS Athena', integration: true do
     database.exists? && raise("Database wasn't dropped successfully")
   end
 
-  context 'downloading data through table interface' do
+  context 'when downloading data through table interface' do
     subject { table.download_data }
 
     it { is_expected.to match_array(expected_output) }
   end
 
-  context 'getting query result' do
-    subject { query_status.result(result_schema) }
+  context 'when getting query result' do
+    subject { query_status.fetch_result(schema: result_schema) }
 
-    let(:query) { "SELECT * FROM test_table" }
+    let(:query) { 'SELECT * FROM test_table' }
     let(:query_status) { database.execute_query(query, async: false) }
     let(:result_schema) { [:int, :string, :string, :int] }
 
