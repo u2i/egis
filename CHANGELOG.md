@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-- Added `result` method to `Aegis::QueryStatus`
+- Added `fetch_result` method to `Aegis::QueryStatus`
 
 ## 0.3.6
 
