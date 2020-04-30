@@ -141,7 +141,7 @@ RSpec.describe Aegis::TableDDLGenerator do
         let(:format) { :unknown_format }
 
         it 'raises an error' do
-          expect { subject }.to raise_error(Aegis::UnsupportedTableFormat)
+          expect { subject }.to raise_error(Aegis::Errors::UnsupportedTableFormat)
         end
       end
     end

@@ -20,7 +20,7 @@ module Aegis
     attr_reader :cartesian_product_generator
 
     def validate_partition_values(values_by_partition)
-      raise PartitionError, 'Partition value(s) missing' if partition_values_missing?(values_by_partition)
+      raise Errors::PartitionError, 'Partition value(s) missing' if partition_values_missing?(values_by_partition)
     end
 
     def partition_values_missing?(values_by_partition)

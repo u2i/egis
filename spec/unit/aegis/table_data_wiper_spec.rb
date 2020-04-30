@@ -71,7 +71,7 @@ RSpec.describe Aegis::TableDataWiper do
       let(:partitions) { {type: [1, 2]} }
 
       it 'raises an error' do
-        expect { subject }.to raise_error(Aegis::PartitionError)
+        expect { subject }.to raise_error(Aegis::Errors::PartitionError)
       end
     end
   end
