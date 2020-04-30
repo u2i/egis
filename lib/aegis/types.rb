@@ -20,7 +20,7 @@ module Aegis
                         when :boolean
                           BooleanSerializer.new
                         else
-                          DefaultSerializer.new
+                          raise Aegis::TypeError, "Unsupported type: #{type}"
                         end
 
       NullSerializer.new(type_serializer)
