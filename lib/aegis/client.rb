@@ -33,7 +33,7 @@ module Aegis
 
       query_status = wait_for_query_to_finish(query_execution_id)
 
-      raise Aegis::QueryExecutionError, query_status.message unless query_status.finished?
+      raise Aegis::Errors::QueryExecutionError, query_status.message unless query_status.finished?
 
       query_status
     end

@@ -4,6 +4,10 @@
 
 - Added `fetch_result` method to `Aegis::QueryStatus`
 
+## 0.4.0
+
+- Moved errors to `Aegis::Errors` module
+
 ## 0.3.6
 
 - Moved `NullSerializer` to `Types` module
