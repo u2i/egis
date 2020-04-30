@@ -119,8 +119,8 @@ database.query_status(status.id).finished?
 
 If the query has finished running, or you used the `async: false` option, you can easily fetch the result:
 ```ruby
-status = client.execute_query('SHOW DATABASES;', async: false)
-databases = status.fetch_result(schema: [:string]) # schema is optional
+status = client.execute_query('SELECT id, name, email FROM USERS;', async: false)
+users = status.fetch_result(schema: [:int, :string, :string]) # schema is optional
 ```
 
 ### Query execution options
@@ -146,9 +146,6 @@ Aegis.configure do |config|
   config.query_status_backoff = ->(attempt) { ... }
 end
 ```
-
-
-
 
 ### Ignoring existing entities
 
