@@ -7,3 +7,10 @@ Rails:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/integration/**/*'
+
+RSpec/BeforeAfterAll:
+  Exclude:
+    - 'spec/integration/**/*'
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false

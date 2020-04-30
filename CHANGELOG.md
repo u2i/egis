@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0
+
+- Added `fetch_result` method to `Aegis::QueryStatus`
+
 ## 0.4.0
 
 - Moved errors to `Aegis::Errors` module
