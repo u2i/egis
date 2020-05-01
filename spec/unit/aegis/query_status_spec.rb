@@ -3,10 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe Aegis::QueryStatus do
-  let(:query_status) { described_class.new(id, status, message, output_location) }
+  let(:query_status) do
+    described_class.new(id, status, message, output_location, output_downloader: output_downloader)
+  end
+
   let(:id) { '123' }
   let(:message) { nil }
   let(:output_location) { 's3://bucket/location' }
+  let(:output_downloader) { instance_double(Aegis::OutputDownloader) }
+  let(:status) { :finished }
 
   describe '#initialize' do
     subject { query_status }
@@ -107,6 +112,42 @@ RSpec.describe Aegis::QueryStatus do
       let(:status) { :finished }
 
       it { is_expected.to be(false) }
+    end
+  end
+
+  describe '#fetch_result' do
+    subject { query_status.fetch_result(schema: schema) }
+
+    let(:schema) { [:int, :string, :timestamp, :string, :int] }
+
+    let(:output) do
+      [
+        ['id', 'message', 'time', 'country', 'type'],
+        ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
+        ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2']
+      ]
+    end
+
+    before do
+      allow(output_downloader).to receive(:download).with(output_location).and_return(output)
+    end
+
+    it do
+      is_expected.to eq([
+                          [1, 'hello world', Time.parse('2020-04-08 14:21:04'), 'mx', 1],
+                          [2, 'hello again', Time.parse('2020-04-08 14:21:01'), 'mx', 2]
+                        ])
+    end
+
+    context 'when schema is not provided' do
+      subject { query_status.fetch_result }
+
+      it 'uses the default parser' do
+        expect(subject).to eq([
+                                ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
+                                ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2']
+                              ])
+      end
     end
   end
 end

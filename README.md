@@ -99,10 +99,10 @@ Having proper databases and tables setup, you can execute a query
 
 ```ruby
 # by default Aegis executes queries asynchronously and returns query ID
-query_id = database.execute_query('SELECT * FROM my_table ORDER BY id;')
+status = database.execute_query('SELECT * FROM my_table ORDER BY id;')
 
 # you need to check query status using query_status method which returns Aegis::QueryStatus object
-status = database.query_status(query_id)
+status = database.query_status(status.id)
 return status.output_location if status.finished?
 ```
 
@@ -113,6 +113,14 @@ context by calling analogous methods on the `Client` class.
 client = Aegis::Client.new
 status = client.execute_query('SHOW DATABASES;')
 database.query_status(status.id).finished?
+```
+
+### Getting query result
+
+If the query has finished running, or you used the `async: false` option, you can easily fetch the result:
+```ruby
+status = client.execute_query('SELECT id, name, email FROM USERS;', async: false)
+users = status.fetch_result(schema: [:int, :string, :string]) # schema is optional
 ```
 
 ### Query execution options

@@ -4,11 +4,11 @@ module Aegis
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
 
-    # rubocop:disable Metrics/ParameterLists
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Aegis::PartitionsGenerator.new,
                    table_ddl_generator: Aegis::TableDDLGenerator.new,
                    output_downloader: Aegis::OutputDownloader.new,
+                   output_parser: Aegis::OutputParser.new,
                    table_data_wiper: Aegis::TableDataWiper.new)
       @database = database
       @name = name
@@ -18,9 +18,9 @@ module Aegis
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
       @output_downloader = output_downloader
-      @data_wiper = table_data_wiper
+      @output_parser = output_parser
+      @table_data_wiper = table_data_wiper
     end
-    # rubocop:enable Metrics/ParameterLists
 
     attr_reader :database, :name, :schema
 
@@ -56,11 +56,11 @@ module Aegis
     def download_data
       result = database.execute_query("SELECT * FROM #{name};", async: false)
       content = output_downloader.download(result.output_location)
-      parse_output_csv(content)
+      output_parser.parse(content, column_types)
     end
 
     def wipe_data(partitions: nil)
-      data_wiper.wipe_table_data(self, partitions)
+      table_data_wiper.wipe_table_data(self, partitions)
     end
 
     def format
@@ -73,15 +73,8 @@ module Aegis
 
     private
 
-    attr_reader :partitions_generator, :table_ddl_generator, :output_downloader, :data_wiper, :options
-
-    def parse_output_csv(content)
-      content.drop(1).map do |row|
-        row.zip(column_serializers).map do |string, serializer|
-          serializer.load(string)
-        end
-      end
-    end
+    attr_reader :options, :partitions_generator, :table_ddl_generator, :output_downloader, :output_parser,
+                :table_data_wiper
 
     def column_serializers
       @column_serializers ||= column_types.map { |type| Aegis::Types.serializer(type) }
