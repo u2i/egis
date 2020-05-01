@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module Aegis
+  ##
+  # @!attribute [r] id
+  #   @return [String] Athena query execution ID
+  # @!attribute [r] status
+  #   @return [:queued, :running, :finished, :failed, :cancelled]
+  # @!attribute [r] message
+  #   @return [String]
+  # @!attribute [r] output_location
+  #   @return [Aegis::OutputLocation]
+
   class QueryStatus
     QUEUED = :queued
     RUNNING = :running
@@ -9,16 +19,6 @@ module Aegis
     CANCELLED = :cancelled
 
     STATUSES = [QUEUED, RUNNING, FINISHED, FAILED, CANCELLED].freeze
-
-    ##
-    # @!attribute [r] id
-    #   @return [String] Athena query execution ID
-    # @!attribute [r] status
-    #   @return [:queued, :running, :finished, :failed, :cancelled]
-    # @!attribute [r] message
-    #   @return [String]
-    # @!attribute [r] output_location
-    #   @return [Aegis::OutputLocation]
 
     attr_reader :id, :status, :message, :output_location
 

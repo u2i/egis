@@ -12,6 +12,11 @@ module Aegis
   #     partition :country, :string
   #     partition :type, :int
   #   end
+  #
+  # @!attribute [r] columns
+  #   @return [Aegis::TableSchema::Column]
+  # @!attribute [r] partitions
+  #   @return [Aegis::TableSchema::Column]
 
   class TableSchema
     ##
@@ -26,12 +31,6 @@ module Aegis
       @partitions = []
       instance_eval(&block)
     end
-
-    ##
-    # @!attribute [r] columns
-    #   @return [Aegis::TableSchema::Column]
-    # @!attribute [r] partitions
-    #   @return [Aegis::TableSchema::Column]
 
     attr_reader :columns, :partitions
 

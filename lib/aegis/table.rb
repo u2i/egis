@@ -5,6 +5,13 @@ module Aegis
   # Interface for Athena table manipulation.
   #
   # It is recommended to create table objects using {Aegis::Database#table} method.
+  #
+  # @!attribute [r] database
+  #   @return [Aegis::Database]
+  # @!attribute [r] name
+  #   @return [String] Athena database name
+  # @!attribute [r] schema
+  #   @return [Aegis::TableSchema] table's schema object
 
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
@@ -26,14 +33,6 @@ module Aegis
       @output_parser = output_parser
       @table_data_wiper = table_data_wiper
     end
-
-    ##
-    # @!attribute [r] database
-    #   @return [Aegis::Database]
-    # @!attribute [r] name
-    #   @return [String] Athena database name
-    # @!attribute [r] schema
-    #   @return [Aegis::TableSchema] table's schema object
 
     attr_reader :database, :name, :schema
 
