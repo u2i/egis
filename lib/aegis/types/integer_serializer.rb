@@ -2,7 +2,6 @@
 
 module Aegis
   module Types
-    # @!visibility private
     class IntegerSerializer
       def literal(integer)
         integer.to_s

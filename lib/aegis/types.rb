@@ -8,6 +8,7 @@ require 'aegis/types/timestamp_serializer'
 require 'aegis/types/null_serializer'
 
 module Aegis
+  # @!visibility private
   module Types
     def self.serializer(type)
       type_serializer = case type
