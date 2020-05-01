@@ -7,6 +7,9 @@ module Aegis
   # Extends the interface of {Aegis::Client} but all the queries scheduled using {Aegis::Database} are executed
   # within the database's context. SQL table references without explicit database will implicitly refer to
   # the database they are executed from.
+  #
+  # It is recommended to create database objects using {Aegis::Client#database} method.
+
   class Database
     def initialize(database_name, client: Aegis::Client.new, output_downloader: Aegis::OutputDownloader.new)
       @client = client
