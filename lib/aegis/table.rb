@@ -34,6 +34,7 @@ module Aegis
     #   @return [String] Athena database name
     # @!attribute [r] schema
     #   @return [Aegis::TableSchema] table's schema object
+
     attr_reader :database, :name, :schema
 
     ##
