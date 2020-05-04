@@ -8,7 +8,7 @@ module Aegis
   #
   # @see Aegis.configure
   #
-  # @example Create client and execute query
+  # @example Create client and execute asynchronous query
   #   client = Aegis::Client.new
   #   status = client.execute_query('SELECT * FROM my_table;')
   #
@@ -19,6 +19,10 @@ module Aegis
   #   end
   #
   #   status.output_location.url # s3://my-bucket/result/path
+  #
+  # @example Execute synchronous query and fetch results
+  #   status = client.execute_query('SELECT MAX(time), MIN(id) FROM my_table;', async: false)
+  #   status.fetch_result(schema: [:timestamp, :int]) # [[2020-05-04 11:19:03 +0200, 7]]
 
   class Client
     QUERY_STATUS_MAPPING = {
