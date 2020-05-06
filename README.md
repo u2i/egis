@@ -29,6 +29,7 @@ And then execute:
 ### Configuration
 
 Setup gem using the configuration block:
+
 ```ruby
 Aegis.configure do |config|
   config.aws_region = 'AWS region'
@@ -37,18 +38,21 @@ Aegis.configure do |config|
   config.work_group = 'aegis-integration-testing'
 end
 ```
+
 if you don't provide these values, `Aegis` will use standard AWS client's config, looking for credentials in standard
 locations. For more info refer to: https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html
 
 
 `Aegis` client is a class that provides you with the interface for schema manipulation and running queries
+
 ```ruby
 client = Aegis::Client.new
-````
+```
 
 ### Creating databases
 
 You can create and remove databases by using client's `database` factory method.
+
 ```ruby
 database = client.database('my_db')
 database.create!
@@ -58,6 +62,7 @@ database.drop!
 ### Creating tables
 
 Once you obtained a `Database` object, you can define a table schema using `Aegis` DSL
+
 ```ruby
 schema = Aegis::TableSchema.define do
   column :id, :int
@@ -118,6 +123,7 @@ database.query_status(status.id).finished?
 ### Getting query result
 
 If the query has finished running, or you used the `async: false` option, you can easily fetch the result:
+
 ```ruby
 status = client.execute_query('SELECT id, name, email FROM USERS;', async: false)
 users = status.fetch_result(schema: [:int, :string, :string]) # schema is optional
@@ -132,8 +138,9 @@ Both `Client`'s and `Database`'s `execute_query` methods allow more parameters t
 
 ### Synchronous query execution
 
-If your query is fast, or you simply prefer the program execution to wait for query results `Aegis` allows you to do that
-as well
+If your query is fast, or you simply prefer the program execution to wait for query results `Aegis` allows you to do
+that as well
+
 ```ruby
 # you can pass `async` param to block the execution until the query finishes
 # with this option, Aegis automatically polls Athena API wating for query to finish

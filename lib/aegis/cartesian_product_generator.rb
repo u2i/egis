@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class CartesianProductGenerator
     def cartesian_product(values_by_key)
       keys = values_by_key.keys

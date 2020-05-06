@@ -21,16 +21,30 @@ require 'aegis/table_schema'
 require 'aegis/standard_mode'
 require 'aegis/s3_location_parser'
 
+##
+# @example
+#   Aegis.configure do |config|
+#     config.aws_region = 'AWS region'
+#     config.aws_access_key_id = 'AWS key ID'
+#     config.aws_secret_access_key = 'AWS secret key'
+#     config.work_group = 'aegis-integration-testing'
+#   end
+#
+# @yield [Aegis::Configuration]
+# @return [void]
+#
 module Aegis
   class << self
     def configure
       yield(configuration)
     end
 
+    # @!visibility private
     def configuration
       @configuration ||= Configuration.new
     end
 
+    # @!visibility private
     def mode
       @mode ||= Aegis::StandardMode.new
     end

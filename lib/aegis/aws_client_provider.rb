@@ -4,6 +4,7 @@ require 'aws-sdk-s3'
 require 'aws-sdk-athena'
 
 module Aegis
+  # @!visibility private
   class AwsClientProvider
     def s3_client
       Aws::S3::Client.new(client_config)

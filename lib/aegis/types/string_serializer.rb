@@ -2,6 +2,7 @@
 
 module Aegis
   module Types
+    # @!visibility private
     class StringSerializer
       def literal(string)
         "'#{string.gsub("'", "''")}'"

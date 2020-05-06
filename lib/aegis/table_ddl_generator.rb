@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class TableDDLGenerator
     def create_table_sql(table, permissive: false)
       <<~SQL

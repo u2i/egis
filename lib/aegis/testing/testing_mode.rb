@@ -2,6 +2,7 @@
 
 module Aegis
   module Testing
+    # @!visibility private
     class TestingMode
       def initialize(test_id, s3_bucket,
                      client: Aegis::Client.new,

@@ -3,6 +3,7 @@
 require 'csv'
 
 module Aegis
+  # @!visibility private
   class OutputDownloader
     def initialize(aws_client_provider: Aegis::AwsClientProvider.new)
       @s3_client = aws_client_provider.s3_client

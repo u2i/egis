@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module Aegis
+  ##
+  # @!attribute [r] id
+  #   @return [String] Athena query execution ID
+  # @!attribute [r] status
+  #   @return [:queued, :running, :finished, :failed, :cancelled]
+  # @!attribute [r] message
+  #   @return [String]
+  # @!attribute [r] output_location
+  #   @return [Aegis::OutputLocation]
+  #
   class QueryStatus
     QUEUED = :queued
     RUNNING = :running
@@ -44,6 +54,15 @@ module Aegis
     def in_progress?
       [RUNNING, QUEUED].include?(status)
     end
+
+    ##
+    # Download query result.
+    #
+    # By default, Aegis will just parse output CSV and return array of string arrays. Additionally, you
+    # can pass expected query result column types to parse them into Ruby objects accordingly.
+    #
+    # @param [Array] schema Array with expected query column types
+    # @return [Array] Array of row values
 
     def fetch_result(schema: [])
       output = output_downloader.download(output_location)

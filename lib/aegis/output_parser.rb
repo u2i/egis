@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Aegis
+  # @!visibility private
   class OutputParser
     def parse(output, types)
       header, *content = output

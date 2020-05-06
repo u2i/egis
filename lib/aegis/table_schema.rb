@@ -1,7 +1,27 @@
 # frozen_string_literal: true
 
 module Aegis
+  ##
+  # Provides DSL for defining table schemas.
+  #
+  # @example Table schema definition
+  #   schema = Aegis::TableSchema.define do
+  #     column :id, :int
+  #     column :message, :string
+  #
+  #     partition :country, :string
+  #     partition :type, :int
+  #   end
+  #
+  # @!attribute [r] columns
+  #   @return [Aegis::TableSchema::Column]
+  # @!attribute [r] partitions
+  #   @return [Aegis::TableSchema::Column]
+  #
   class TableSchema
+    ##
+    # @return [Aegis::TableSchema]
+
     def self.define(&block)
       new(&block)
     end

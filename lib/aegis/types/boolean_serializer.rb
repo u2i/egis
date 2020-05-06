@@ -2,6 +2,7 @@
 
 module Aegis
   module Types
+    # @!visibility private
     class BooleanSerializer
       TRUE_LITERAL = 'TRUE'
       FALSE_LITERAL = 'FALSE'
