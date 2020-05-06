@@ -118,11 +118,11 @@ RSpec.describe Aegis::QueryStatus do
   describe '#fetch_result' do
     subject { query_status.fetch_result(schema: schema) }
 
-    let(:schema) { [:int, :string, :timestamp, :string, :int] }
+    let(:schema) { %i[int string timestamp string int] }
 
     let(:output) do
       [
-        ['id', 'message', 'time', 'country', 'type'],
+        %w[id message time country type],
         ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
         ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2']
       ]

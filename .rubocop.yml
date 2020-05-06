@@ -1,13 +1,22 @@
-Rails:
-  Enabled: false
-
-RSpec/DescribeClass:
-  Exclude:
-    - 'spec/integration/**/*'
-
-RSpec/BeforeAfterAll:
-  Exclude:
-    - 'spec/integration/**/*'
-
 Metrics/ParameterLists:
   CountKeywordArgs: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Metrics/MethodLength:
+  Max: 15
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+  EnforcedStyleForEmptyBraces: no_space

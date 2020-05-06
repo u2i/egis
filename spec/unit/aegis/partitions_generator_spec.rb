@@ -10,7 +10,7 @@ RSpec.describe Aegis::PartitionsGenerator do
   context 'when one partitions only' do
     let(:partitions) do
       {
-        country: ['us', 'it']
+        country: %w[us it]
       }
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Aegis::PartitionsGenerator do
 
     let(:partitions) do
       {
-        country: ['us', 'it']
+        country: %w[us it]
       }
     end
 

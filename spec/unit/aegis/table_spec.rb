@@ -174,7 +174,7 @@ RSpec.describe Aegis::Table do
 
     let(:csv_data) do
       [
-        ['id', 'message', 'time', 'country', 'type'],
+        %w[id message time country type],
         ['1', 'hello world', '2020-04-08 14:21:04', 'mx', '1'],
         ['2', 'hello again', '2020-04-08 14:21:01', 'mx', '2'],
         [nil, nil, nil, 'mx', '2']

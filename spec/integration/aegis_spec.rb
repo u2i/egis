@@ -68,7 +68,7 @@ RSpec.describe 'Integration with AWS Athena', integration: true do
 
     let(:query) { 'SELECT * FROM test_table' }
     let(:query_status) { database.execute_query(query, async: false) }
-    let(:result_schema) { [:int, :string, :string, :int] }
+    let(:result_schema) { %i[int string string int] }
 
     it { is_expected.to match_array(expected_output) }
   end
