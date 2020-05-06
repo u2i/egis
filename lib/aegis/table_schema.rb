@@ -17,7 +17,7 @@ module Aegis
   #   @return [Aegis::TableSchema::Column]
   # @!attribute [r] partitions
   #   @return [Aegis::TableSchema::Column]
-
+  #
   class TableSchema
     ##
     # @return [Aegis::TableSchema]

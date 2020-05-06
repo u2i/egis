@@ -4,7 +4,7 @@ require 'securerandom'
 
 require 'aegis/testing/testing_mode'
 
-module Aegis
+module Aegis # rubocop:disable Style/Documentation
   # @!visibility private
   module Testing
   end

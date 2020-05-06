@@ -12,7 +12,7 @@ module Aegis
   #   @return [String] Athena database name
   # @!attribute [r] schema
   #   @return [Aegis::TableSchema] table's schema object
-
+  #
   class Table
     DEFAULT_OPTIONS = {format: :tsv}.freeze
 

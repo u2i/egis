@@ -2,6 +2,7 @@
 
 module Aegis
   module Types
+    # @!visibility private
     class DefaultSerializer
       def literal(value)
         "'#{value}'"

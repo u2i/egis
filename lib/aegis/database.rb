@@ -9,7 +9,7 @@ module Aegis
   # the database they are executed from.
   #
   # It is recommended to create database objects using {Aegis::Client#database} method.
-
+  #
   class Database
     def initialize(database_name, client: Aegis::Client.new, output_downloader: Aegis::OutputDownloader.new)
       @client = client

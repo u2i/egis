@@ -10,7 +10,7 @@ module Aegis
   #   @return [String]
   # @!attribute [r] output_location
   #   @return [Aegis::OutputLocation]
-
+  #
   class QueryStatus
     QUEUED = :queued
     RUNNING = :running

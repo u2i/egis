@@ -8,9 +8,6 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*
 
-Style/Documentation:
-  Enabled: false
-
 Layout/DotPosition:
   EnforcedStyle: trailing
 
