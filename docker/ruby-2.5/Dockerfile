@@ -4,8 +4,8 @@ RUN apk add --no-cache dumb-init git make gcc libc-dev
 
 WORKDIR /code
 
-COPY Gemfile aegis.gemspec ./
-COPY lib/aegis/version.rb ./lib/aegis/version.rb
+COPY Gemfile egis.gemspec ./
+COPY lib/egis/version.rb ./lib/egis/version.rb
 
 RUN bundle install
 

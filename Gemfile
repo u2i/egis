@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in aegis.gemspec
+# Specify your gem's dependencies in egis.gemspec
 gemspec
 
 gem 'bundler'
