@@ -23,6 +23,7 @@ module Aegis
       config[:region] = configuration.aws_region if configuration.aws_region
       config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id
       config[:secret_access_key] = configuration.aws_secret_access_key if configuration.aws_secret_access_key
+      config[:profile] = configuration.aws_profile if configuration.aws_profile
       config
     end
   end

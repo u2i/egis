@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.0
+
+- Ability to specify AWS credentials profile
+
 ## 1.0.1
 
 - Fixed `aws-sdk-s3` not being a runtime dependency
