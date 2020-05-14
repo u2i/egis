@@ -1,6 +1,6 @@
 [![Build Status](http://jenkins-ci.talkwit.tv/buildStatus/icon?job=u2i/aegis/master)](http://jenkins-ci.talkwit.tv/job/u2i/aegis/master)
 
-# Aegis
+# Egis
 
 A handy wrapper for AWS Athena Ruby SDK.
 
@@ -15,7 +15,7 @@ Add this line to your application's Gemfile:
 
 ```ruby
 source 'http://gemstash.talkwit.tv/private' do
-  gem 'aegis'
+  gem 'egis'
 end
 ```
 
@@ -31,22 +31,22 @@ And then execute:
 Setup gem using the configuration block:
 
 ```ruby
-Aegis.configure do |config|
+Egis.configure do |config|
   config.aws_region = 'AWS region'
   config.aws_access_key_id = 'AWS key ID'
   config.aws_secret_access_key = 'AWS secret key'
-  config.work_group = 'aegis-integration-testing'
+  config.work_group = 'egis-integration-testing'
 end
 ```
 
-if you don't provide these values, `Aegis` will use standard AWS client's config, looking for credentials in standard
+if you don't provide these values, `Egis` will use standard AWS client's config, looking for credentials in standard
 locations. For more info refer to: https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html
 
 
-`Aegis` client is a class that provides you with the interface for schema manipulation and running queries
+`Egis` client is a class that provides you with the interface for schema manipulation and running queries
 
 ```ruby
-client = Aegis::Client.new
+client = Egis::Client.new
 ```
 
 ### Creating databases
@@ -61,10 +61,10 @@ database.drop!
 
 ### Creating tables
 
-Once you obtained a `Database` object, you can define a table schema using `Aegis` DSL
+Once you obtained a `Database` object, you can define a table schema using `Egis` DSL
 
 ```ruby
-schema = Aegis::TableSchema.define do
+schema = Egis::TableSchema.define do
   column :id, :int
   column :message, :string
 
@@ -76,7 +76,7 @@ end
 and use `table` method to create a `Table` object.
 
 ```ruby
-# by default Aegis assumes that the data is in TSV format
+# by default Egis assumes that the data is in TSV format
 table = database.table('my_table', schema, 's3://my-s3-bucket/table-data-location')
 
 # you can pass `format` option to change it (available options: tsv, csv, orc)
@@ -103,10 +103,10 @@ table.add_partitions!(country: %w[us mx], type: [1, 2])
 Having proper databases and tables setup, you can execute a query
 
 ```ruby
-# by default Aegis executes queries asynchronously and returns query ID
+# by default Egis executes queries asynchronously and returns query ID
 status = database.execute_query('SELECT * FROM my_table ORDER BY id;')
 
-# you need to check query status using query_status method which returns Aegis::QueryStatus object
+# you need to check query status using query_status method which returns Egis::QueryStatus object
 status = database.query_status(status.id)
 return status.output_location if status.finished?
 ```
@@ -115,7 +115,7 @@ Query ran this way will be executed within the database's context. You can also 
 context by calling analogous methods on the `Client` class.
 
 ```ruby
-client = Aegis::Client.new
+client = Egis::Client.new
 status = client.execute_query('SHOW DATABASES;')
 database.query_status(status.id).finished?
 ```
@@ -138,16 +138,16 @@ Both `Client`'s and `Database`'s `execute_query` methods allow more parameters t
 
 ### Synchronous query execution
 
-If your query is fast, or you simply prefer the program execution to wait for query results `Aegis` allows you to do
+If your query is fast, or you simply prefer the program execution to wait for query results `Egis` allows you to do
 that as well
 
 ```ruby
 # you can pass `async` param to block the execution until the query finishes
-# with this option, Aegis automatically polls Athena API wating for query to finish
+# with this option, Egis automatically polls Athena API wating for query to finish
 result = database.execute_query('SELECT * FROM my_table ORDER BY id;', async: false)
 
 # it uses exponential backoff which you can configure as well
-Aegis.configure do |config|
+Egis.configure do |config|
   # attempt is an API call number, starting from 1
   # defaults to: ->(attempt) { 1.5**attempt - 1 }
   config.query_status_backoff = ->(attempt) { ... }
@@ -163,14 +163,14 @@ whereas `Database.create` will simply ignore it and do nothing.
 
 ## Testing
 
-`Aegis` provides tooling to write automated integration tests. You can wrap you tests in special testing closure that
-executes `Aegis` queries in a virtual testing environment. Here's a RSpec usage example:
+`Egis` provides tooling to write automated integration tests. You can wrap you tests in special testing closure that
+executes `Egis` queries in a virtual testing environment. Here's a RSpec usage example:
 
 ```ruby
-require 'aegis/testing' # require testing module to enable additional testing capabilities
+require 'egis/testing' # require testing module to enable additional testing capabilities
 
 # set your testing S3 bucket
-Aegis.configure do |config|
+Egis.configure do |config|
   config.testing_s3_bucket = 'testing-bucket'
 end
 
@@ -178,7 +178,7 @@ end
 RSpec.configure do |c|
   # every table and database created within this block is mapped to a "virtual" table space in your testing S3 bucket
   c.around(:each) do |example|
-    Aegis.testing do
+    Egis.testing do
       example.run
     end
   end
@@ -200,7 +200,7 @@ RSpec.describe MyAthenaQuery do
 end
 ```
 
-**Notice**: `Aegis` handles separation between virtual testing namespaces. It also cleans Athena databases at the and of
+**Notice**: `Egis` handles separation between virtual testing namespaces. It also cleans Athena databases at the and of
 testing block. But you are responsible for removing S3 files generated by tests. We highly recommend using S3 lifecycle
 policies to do that automatically.
 
@@ -223,5 +223,5 @@ You can also run `bin/console` for an interactive prompt that will allow you to 
 
 Gem is automatically built and published after merge to the `master` branch.
 
-To release a new version, bump the version tag in `lib/aegis/version.rb`,
+To release a new version, bump the version tag in `lib/egis/version.rb`,
 summarize your changes in the [CHANGELOG](CHANGELOG.md) and merge everything to `master`.
