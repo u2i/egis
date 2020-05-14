@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.1
+
+- Fixed `aws-sdk-s3` not being a runtime dependency
+
 ## 1.0.0
 
 - Added `fetch_result` method to `Aegis::QueryStatus`
