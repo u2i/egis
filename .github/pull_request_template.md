@@ -1,4 +1,4 @@
 ## Checklist
 
-- [ ] Bumped version tag in `lib/aegis/version.rb`
+- [ ] Bumped version tag in `lib/egis/version.rb`
 - [ ] Added changes summary to [CHANGELOG](CHANGELOG.md)

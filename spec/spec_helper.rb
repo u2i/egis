@@ -6,8 +6,8 @@ if ENV['COVERAGE']
 end
 
 require 'bundler/setup'
-require 'aegis'
-require 'aegis/testing'
+require 'egis'
+require 'egis/testing'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
