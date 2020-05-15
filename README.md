@@ -42,6 +42,13 @@ end
 if you don't provide these values, `Aegis` will use standard AWS client's config, looking for credentials in standard
 locations. For more info refer to: https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html
 
+You can set `aws_profile` attribute to use specific profile from `~/.aws/credentials`.
+
+```ruby
+Aegis.configure do |config|
+  config.aws_profile = 'my-credentials-profile'
+end
+```
 
 `Aegis` client is a class that provides you with the interface for schema manipulation and running queries
 

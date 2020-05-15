@@ -22,12 +22,22 @@ require 'aegis/standard_mode'
 require 'aegis/s3_location_parser'
 
 ##
-# @example
+# Aegis is configured using Aegis.configure block.
+#
+# @example Configuration using AWS access key ID and secret
 #   Aegis.configure do |config|
 #     config.aws_region = 'AWS region'
 #     config.aws_access_key_id = 'AWS key ID'
 #     config.aws_secret_access_key = 'AWS secret key'
 #     config.work_group = 'aegis-integration-testing'
+#   end
+#
+# If you don't specify credentials they will be looked up in the default locations. For more information see
+# {https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html}
+#
+# @example Use specific credentials profile from `~/.aws/credentials`
+#   Aegis.configure do |config|
+#     config.aws_profile = 'my-profile'
 #   end
 #
 # @yield [Aegis::Configuration]
