@@ -66,14 +66,11 @@ pipeline {
             stages {
                 stage('Publish') {
                     environment {
-                        GEM_HOST_API_KEY = credentials('f1466a06-4751-4a7c-83c0-3b591946e0e2')
+                        GEM_HOST_API_KEY = credentials('f34ec285-c262-4ea4-a831-a7a5d77fc41a')
                     }
                     steps {
                         sh 'gem build egis.gemspec --output=bundle.gem'
-                        sh '''
-                            gem push bundle.gem --host http://gemstash.talkwit.tv/private > push.log || \
-                            grep '"code":422' push.log
-                        '''
+                        sh 'gem push bundle.gem > push.log || grep \'"code":422\' push.log'
                     }
                 }
             }

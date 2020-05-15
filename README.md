@@ -14,9 +14,7 @@ A handy wrapper for AWS Athena Ruby SDK.
 Add this line to your application's Gemfile:
 
 ```ruby
-source 'http://gemstash.talkwit.tv/private' do
-  gem 'egis'
-end
+gem 'egis'
 ```
 
 And then execute:
