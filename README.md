@@ -25,6 +25,8 @@ And then execute:
 
 ## Usage
 
+Api documentation: [https://rubydoc.info/github/u2i/egis](https://rubydoc.info/github/u2i/egis)
+
 ### Configuration
 
 Setup gem using the configuration block:
