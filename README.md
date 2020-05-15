@@ -1,4 +1,5 @@
-[![Build Status](http://jenkins-ci.talkwit.tv/buildStatus/icon?job=u2i/aegis/master)](http://jenkins-ci.talkwit.tv/job/u2i/aegis/master)
+[![Gem Version](https://badge.fury.io/rb/egis.svg)](https://badge.fury.io/rb/egis)
+[![Build Status](http://jenkins-ci.talkwit.tv/buildStatus/icon?job=u2i/egis/master)](http://jenkins-ci.talkwit.tv/job/u2i/egis/master)
 
 # Egis
 
