@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'bundler'
-gem 'rake', '~> 10.0'
+gem 'rake', '>= 12.3.3'
 gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 0.82.0'
 gem 'simplecov', require: false
