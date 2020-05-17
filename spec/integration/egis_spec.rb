@@ -2,15 +2,15 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Integration with AWS Athena', integration: true do
+RSpec.describe 'Integration with AWS Athena' do
   Egis.configure do |config|
-    config.work_group = 'aegis-integration-testing'
+    config.work_group = 'egis-integration-testing'
   end
 
   client = Egis::Client.new
   test_id = "#{Time.now.to_i}_#{Random.rand(100)}"
   database = client.database("egis_integration_test_#{test_id}")
-  testing_bucket = 'aegis-integration-testing'
+  testing_bucket = 'egis-integration-testing'
 
   schema = Egis::TableSchema.define do
     column :id, :int
