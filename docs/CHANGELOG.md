@@ -1,47 +1,51 @@
 # CHANGELOG
 
-## 1.1.0
+## 1.0
+
+### 1.1.0
 
 - Ability to specify AWS credentials profile
 
-## 1.0.1
+### 1.0.1
 
 - Fixed `aws-sdk-s3` not being a runtime dependency
 
-## 1.0.0
+### 1.0.0
 
 - Added `fetch_result` method to `Aegis::QueryStatus`
 
-## 0.4.0
+## Unstable
+
+### 0.4.0
 
 - Moved errors to `Aegis::Errors` module
 
-## 0.3.6
+### 0.3.6
 
 - Moved `NullSerializer` to `Types` module
 
-## 0.3.5
+### 0.3.5
 
 - Fixed `nil` value serialization
 
-## 0.3.4
+### 0.3.4
 
 - Fixed table's `download_data` to correctly return `nil` values
 
-## 0.3.3
+### 0.3.3
 
 - Fixed data wiping when S3 location is empty
 
-## 0.3.2
+### 0.3.2
 
 - Fixed table options
 - Replaced usage of deprecated last argument as keyword parameters with splat operator
 
-## 0.3.1
+### 0.3.1
 
 - Fixed testing mode table location translation
 
-## 0.3.0
+### 0.3.0
 
 - **[breaking change]** Extracted table-related methods from `Database` into new `Table` class (`create_table`,
   `add_partitions`, `discover_partitions`). Table objects are now being created using `Database.table` method.
@@ -63,7 +67,7 @@
   - `dump` serializes Ruby value object into a string that can be used in S3 data file
   - `load` loads serialized string value back to Ruby object
 
-## 0.2.0
+### 0.2.0
 
 - **[breaking change]** Removed `permissive` parameter replacing it with bang method versions. Changed methods:
   `Database.create`, `Database.drop`, `Database.create_table`, `Database.load_partitions`
@@ -71,9 +75,10 @@
   `Database.add_partitions`, `Database.discover_partitions`
 - **[breaking change]** `Database.execute_query` is async by default now
 
-## 0.1.0
+### 0.1.0
 
 Initial gem implementation including core features like:
+
 - table schema DSL
 - database / table creation
 - partition loading
