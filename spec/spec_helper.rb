@@ -21,6 +21,10 @@ RSpec.configure do |config|
   end
 end
 
+Egis.configure do |config|
+  config.logger = Logger.new(STDOUT, level: :fatal)
+end
+
 def strip_whitespaces(string)
   string.each_line.map(&:strip).reject(&:empty?).join("\n")
 end

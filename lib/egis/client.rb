@@ -65,14 +65,16 @@ module Egis
     #   by workgroup.
     # @return [Egis::QueryStatus]
 
-    def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true)
-      query_execution_id = aws_athena_client.start_query_execution(
+    def execute_query(query, work_group: nil, database: nil, output_location: nil, async: true, system_execution: false)
+      query_id = aws_athena_client.start_query_execution(
         query_execution_params(query, work_group, database, output_location)
       ).query_execution_id
 
-      return query_status(query_execution_id) if Egis.mode.async(async)
+      log_query_execution(query, query_id, system_execution)
 
-      query_status = wait_for_query_to_finish(query_execution_id)
+      return query_status(query_id) if Egis.mode.async(async)
+
+      query_status = wait_for_query_to_finish(query_id)
 
       raise Egis::Errors::QueryExecutionError, query_status.message unless query_status.finished?
 
@@ -89,10 +91,13 @@ module Egis
       resp = aws_athena_client.get_query_execution(query_execution_id: query_id)
 
       query_execution = resp.query_execution
+      query_status = query_execution.status.state
+
+      Egis.logger.debug { "Checking query status (#{query_id}): #{query_status}" }
 
       Egis::QueryStatus.new(
         query_execution.query_execution_id,
-        QUERY_STATUS_MAPPING.fetch(query_execution.status.state),
+        QUERY_STATUS_MAPPING.fetch(query_status),
         query_execution.status.state_change_reason,
         parse_output_location(query_execution)
       )
@@ -112,11 +117,20 @@ module Egis
       params
     end
 
-    def wait_for_query_to_finish(query_execution_id)
+    def log_query_execution(query, query_id, system_execution)
+      if system_execution
+        Egis.logger.debug { "Executing system query (#{query_id}): #{query.gsub(/\s+/, ' ')}" }
+      else
+        Egis.logger.info { "Executing query (#{query_id}): #{query.gsub(/\s+/, ' ')}" }
+      end
+    end
+
+    def wait_for_query_to_finish(query_id)
       attempt = 1
       loop do
         sleep(query_status_backoff.call(attempt))
-        status = query_status(query_execution_id)
+        status = query_status(query_id)
+
         return status unless status.queued? || status.running?
 
         attempt += 1

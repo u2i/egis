@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0
+
+- Add gem logger
+
 ## 1.1.0
 
 - Ability to specify AWS credentials profile

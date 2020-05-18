@@ -27,7 +27,7 @@ RSpec.describe Egis::Table do
     it 'delegates method to the client with given database and in permissive mode' do
       expect(table_ddl_generator).to receive(:create_table_sql).with(table, permissive: true).
         and_return(create_table_sql)
-      expect(database).to receive(:execute_query).with(create_table_sql, async: false)
+      expect(database).to receive(:execute_query).with(create_table_sql, async: false, system_execution: true)
 
       subject
     end
@@ -41,7 +41,7 @@ RSpec.describe Egis::Table do
     it 'delegates method to the client with given database and non-permissive mode' do
       expect(table_ddl_generator).to receive(:create_table_sql).with(table, permissive: false).
         and_return(create_table_sql)
-      expect(database).to receive(:execute_query).with(create_table_sql, async: false)
+      expect(database).to receive(:execute_query).with(create_table_sql, async: false, system_execution: true)
 
       subject
     end
@@ -69,7 +69,7 @@ RSpec.describe Egis::Table do
     end
 
     it 'delegates method to the client with given database and permissive mode on' do
-      expect(database).to receive(:execute_query).with(load_partitions_sql, async: false)
+      expect(database).to receive(:execute_query).with(load_partitions_sql, async: false, system_execution: true)
 
       subject
     end
@@ -97,7 +97,7 @@ RSpec.describe Egis::Table do
     end
 
     it 'delegates method to the client with given database and permissive mode off' do
-      expect(database).to receive(:execute_query).with(load_partitions_sql, async: false)
+      expect(database).to receive(:execute_query).with(load_partitions_sql, async: false, system_execution: true)
 
       subject
     end
@@ -109,7 +109,7 @@ RSpec.describe Egis::Table do
     let(:load_all_partitions_sql) { 'MSCK REPAIR TABLE table;' }
 
     it 'delegates method to the client with given database' do
-      expect(database).to receive(:execute_query).with(load_all_partitions_sql, async: false)
+      expect(database).to receive(:execute_query).with(load_all_partitions_sql, async: false, system_execution: true)
 
       subject
     end
@@ -152,7 +152,7 @@ RSpec.describe Egis::Table do
     end
 
     it 'uploads a file to S3 for each of the partitions' do
-      expect(database).to receive(:execute_query).with(expected_query, async: false)
+      expect(database).to receive(:execute_query).with(expected_query, async: false, system_execution: true)
 
       subject
     end
@@ -187,7 +187,8 @@ RSpec.describe Egis::Table do
     let(:output_location) { Egis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
     it 'downloads and parses data correctly' do
-      expect(database).to receive(:execute_query).with(expected_query, async: false).and_return(query_status)
+      expect(database).to receive(:execute_query).with(expected_query, async: false, system_execution: true).
+        and_return(query_status)
       expect(output_downloader).to receive(:download).with(output_location).and_return(csv_data)
 
       expect(subject).to eq([
