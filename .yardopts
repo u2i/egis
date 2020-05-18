@@ -1,5 +1,5 @@
 --markup=markdown
 -
-README.md
-GETTING_STARTED.md
-CHANGELOG.md
+docs/README.md
+docs/GETTING_STARTED.md
+docs/CHANGELOG.md
