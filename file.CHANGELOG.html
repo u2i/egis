@@ -60,59 +60,63 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-CHANGELOG">CHANGELOG</h1>
 
-<h2 id="label-1.1.0">1.1.0</h2>
+<h2 id="label-1.0">1.0</h2>
+
+<h3 id="label-1.1.0">1.1.0</h3>
 <ul><li>
 <p>Ability to specify AWS credentials profile</p>
 </li></ul>
 
-<h2 id="label-1.0.1">1.0.1</h2>
+<h3 id="label-1.0.1">1.0.1</h3>
 <ul><li>
 <p>Fixed <code>aws-sdk-s3</code> not being a runtime dependency</p>
 </li></ul>
 
-<h2 id="label-1.0.0">1.0.0</h2>
+<h3 id="label-1.0.0">1.0.0</h3>
 <ul><li>
 <p>Added <code>fetch_result</code> method to <code>Aegis::QueryStatus</code></p>
 </li></ul>
 
-<h2 id="label-0.4.0">0.4.0</h2>
+<h2 id="label-Unstable">Unstable</h2>
+
+<h3 id="label-0.4.0">0.4.0</h3>
 <ul><li>
 <p>Moved errors to <code>Aegis::Errors</code> module</p>
 </li></ul>
 
-<h2 id="label-0.3.6">0.3.6</h2>
+<h3 id="label-0.3.6">0.3.6</h3>
 <ul><li>
 <p>Moved <code>NullSerializer</code> to <code>Types</code> module</p>
 </li></ul>
 
-<h2 id="label-0.3.5">0.3.5</h2>
+<h3 id="label-0.3.5">0.3.5</h3>
 <ul><li>
 <p>Fixed <code>nil</code> value serialization</p>
 </li></ul>
 
-<h2 id="label-0.3.4">0.3.4</h2>
+<h3 id="label-0.3.4">0.3.4</h3>
 <ul><li>
 <p>Fixed table&#39;s <code>download_data</code> to correctly return <code>nil</code> values</p>
 </li></ul>
 
-<h2 id="label-0.3.3">0.3.3</h2>
+<h3 id="label-0.3.3">0.3.3</h3>
 <ul><li>
 <p>Fixed data wiping when S3 location is empty</p>
 </li></ul>
 
-<h2 id="label-0.3.2">0.3.2</h2>
+<h3 id="label-0.3.2">0.3.2</h3>
 <ul><li>
 <p>Fixed table options</p>
 </li><li>
 <p>Replaced usage of deprecated last argument as keyword parameters with splat operator</p>
 </li></ul>
 
-<h2 id="label-0.3.1">0.3.1</h2>
+<h3 id="label-0.3.1">0.3.1</h3>
 <ul><li>
 <p>Fixed testing mode table location translation</p>
 </li></ul>
 
-<h2 id="label-0.3.0">0.3.0</h2>
+<h3 id="label-0.3.0">0.3.0</h3>
 <ul><li>
 <p><strong>[breaking change]</strong> Extracted table-related methods from <code>Database</code> into new <code>Table</code> class (<code>create_table</code>,  <code>add_partitions</code>, <code>discover_partitions</code>). Table objects are now being created using <code>Database.table</code> method.</p>
 </li><li>
@@ -141,7 +145,7 @@
 <p><code>load</code> loads serialized string value back to Ruby object</p>
 </li></ul>
 
-<h2 id="label-0.2.0">0.2.0</h2>
+<h3 id="label-0.2.0">0.2.0</h3>
 <ul><li>
 <p><strong>[breaking change]</strong> Removed <code>permissive</code> parameter replacing it with bang method versions. Changed methods:  <code>Database.create</code>, <code>Database.drop</code>, <code>Database.create_table</code>, <code>Database.load_partitions</code></p>
 </li><li>
@@ -150,13 +154,24 @@
 <p><strong>[breaking change]</strong> <code>Database.execute_query</code> is async by default now</p>
 </li></ul>
 
-<h2 id="label-0.1.0">0.1.0</h2>
+<h3 id="label-0.1.0">0.1.0</h3>
 
-<p>Initial gem implementation including core features like: - table schema DSL - database / table creation - partition loading - synchronous and asynchronous query execution - query status monitoring</p>
+<p>Initial gem implementation including core features like:</p>
+<ul><li>
+<p>table schema DSL</p>
+</li><li>
+<p>database / table creation</p>
+</li><li>
+<p>partition loading</p>
+</li><li>
+<p>synchronous and asynchronous query execution</p>
+</li><li>
+<p>query status monitoring</p>
+</li></ul>
 </div></div>
 
       <div id="footer">
-  Generated on Mon May 18 20:46:52 2020 by
+  Generated on Mon May 18 21:01:53 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.1).
 </div>
