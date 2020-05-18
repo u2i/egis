@@ -25,9 +25,9 @@ And then execute:
 
 ## Usage
 
-[Getting started guide](GETTING_STARTED.md)
+[Getting started guide](https://u2i.github.io/egis/file.GETTING_STARTED.html)
 
-[API documentation](https://rubydoc.info/github/u2i/egis)
+[API documentation](https://u2i.github.io/egis/Egis/Client.html)
 
 ## Development
 
@@ -48,4 +48,4 @@ You can also run `bin/console` for an interactive prompt that will allow you to 
 Gem is automatically built and published after merge to the `master` branch.
 
 To release a new version, bump the version tag in `lib/egis/version.rb`,
-summarize your changes in the [CHANGELOG](CHANGELOG.md) and merge everything to `master`.
+summarize your changes in the [CHANGELOG](/docs/CHANGELOG.md) and merge everything to `master`.
