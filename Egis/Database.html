@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Egis::Database
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Egis::Database";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span>
+     &raquo; 
+    <span class="title">Database</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Egis::Database
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Egis::Database</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/egis/database.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Interface for database manipulation and querying.</p>
+
+<p>Extends the interface of <span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span> but all the queries scheduled using <span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span> are executed within the database&#39;s context. SQL table references without explicit database will implicitly refer to the database they are executed from.</p>
+
+<p>It is recommended to create database objects using <span class='object_link'><a href="Client.html#database-instance_method" title="Egis::Client#database (method)">Client#database</a></span> method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates database in Athena.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create!-instance_method" title="#create! (instance method)">#<strong>create!</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop-instance_method" title="#drop (instance method)">#<strong>drop</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Removes database in Athena.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#drop!-instance_method" title="#drop! (instance method)">#<strong>drop!</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_query-instance_method" title="#execute_query (instance method)">#<strong>execute_query</strong>(query, **options)  &#x21d2; Egis::QueryStatus </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Executes Athena query.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exists%3F-instance_method" title="#exists? (instance method)">#<strong>exists?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Checks whether database with such name exists in Athena.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(database_name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)  &#x21d2; Database </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Database.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_status-instance_method" title="#query_status (instance method)">#<strong>query_status</strong>(query_id)  &#x21d2; Egis::QueryStatus </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Check the status of asynchronous query execution.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#table-instance_method" title="#table (instance method)">#<strong>table</strong>(table_name, table_schema, table_location, **options)  &#x21d2; Egis::Table </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(database_name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Database.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+  <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
+  <span class='ivar'>@database_name</span> <span class='op'>=</span> <span class='id identifier rubyid_database_name'>database_name</span>
+  <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Creates database in Athena.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CREATE DATABASE IF NOT EXISTS </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_translate_name'>translate_name</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create!-instance_method">
+  
+    #<strong>create!</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CREATE DATABASE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_translate_name'>translate_name</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="drop-instance_method">
+  
+    #<strong>drop</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Removes database in Athena.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_drop'>drop</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DROP DATABASE IF EXISTS </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_translate_name'>translate_name</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> CASCADE;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="drop!-instance_method">
+  
+    #<strong>drop!</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_drop!'>drop!</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DROP DATABASE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_translate_name'>translate_name</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> CASCADE;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="execute_query-instance_method">
+  
+    #<strong>execute_query</strong>(query, **options)  &#x21d2; <tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Executes Athena query. By default, queries are being executed asynchronously.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>query</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>SQL query to execute</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>async</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Decide whether you want to run query asynchronously or block execution until it finishes</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>work_group</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Change Athena work group the query will be executed in.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>database</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Run query in the context of a specific database (implicit table references are expected to be in given database).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>output_location</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>S3 url of the desired output location. By default, Athena uses location defined in by workgroup.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='lbrace'>{</span><span class='label'>database:</span> <span class='id identifier rubyid_database_name'>database_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exists?-instance_method">
+  
+    #<strong>exists?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Checks whether database with such name exists in Athena.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='id identifier rubyid_query_status'>query_status</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SHOW DATABASES LIKE &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_database_name'>database_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parsed_result'>parsed_result</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_query_status'>query_status</span><span class='period'>.</span><span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parsed_result'>parsed_result</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_database_name'>database_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="query_status-instance_method">
+  
+    #<strong>query_status</strong>(query_id)  &#x21d2; <tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check the status of asynchronous query execution.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>query_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Query id from <span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">QueryStatus</a></span> returned by <span class='object_link'><a href="#execute_query-instance_method" title="Egis::Database#execute_query (method)">#execute_query</a></span> method</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='lparen'>(</span><span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_query_status'>query_status</span><span class='lparen'>(</span><span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="table-instance_method">
+  
+    #<strong>table</strong>(table_name, table_schema, table_location, **options)  &#x21d2; <tt><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Egis::Table</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object. Executing it doesn&#39;t create Athena table yet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>table_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>table_schema</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="TableSchema.html" title="Egis::TableSchema (class)">Egis::TableSchema</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>table_location</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>S3 URL with table location (e.g. <code>s3://s3_bucket/table/location/</code>)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>format</span>
+      
+      
+        <span class='type'>(<tt>:tsv</tt>, <tt>:csv</tt>, <tt>:orc</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Table format (defaults to :tsv)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Egis::Table</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Table.html#initialize-instance_method" title="Egis::Table#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Mon May 18 20:05:48 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.7.1).
+</div>
+
+    </div>
+  </body>
+</html>

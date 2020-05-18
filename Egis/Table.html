@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Egis::Table
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Egis::Table";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (T)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span>
+     &raquo; 
+    <span class="title">Table</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Egis::Table
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Egis::Table</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/egis/table.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Interface for Athena table manipulation.</p>
+
+<p>It is recommended to create table objects using <span class='object_link'><a href="Database.html#table-instance_method" title="Egis::Database#table (method)">Database#table</a></span> method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DEFAULT_OPTIONS-constant" class="">DEFAULT_OPTIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#database-instance_method" title="#database (instance method)">#<strong>database</strong>  &#x21d2; Egis::Database </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Athena database name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#schema-instance_method" title="#schema (instance method)">#<strong>schema</strong>  &#x21d2; Egis::TableSchema </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Table&#39;s schema object.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_partitions-instance_method" title="#add_partitions (instance method)">#<strong>add_partitions</strong>(partitions)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates partitions with all possible combinations of given partition values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_partitions!-instance_method" title="#add_partitions! (instance method)">#<strong>add_partitions!</strong>(partitions)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates partitions with all possible combinations of given partition values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates table in Athena.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create!-instance_method" title="#create! (instance method)">#<strong>create!</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#discover_partitions-instance_method" title="#discover_partitions (instance method)">#<strong>discover_partitions</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_data-instance_method" title="#download_data (instance method)">#<strong>download_data</strong>  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Downloads table contents into memory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#format-instance_method" title="#format (instance method)">#<strong>format</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Table data format.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(database, name, schema, location, options: {}, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new, output_parser: Egis::OutputParser.new, table_data_wiper: Egis::TableDataWiper.new)  &#x21d2; Table </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Table.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#location-instance_method" title="#location (instance method)">#<strong>location</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Table location URL.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_data-instance_method" title="#upload_data (instance method)">#<strong>upload_data</strong>(rows)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Insert data into the table.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wipe_data-instance_method" title="#wipe_data (instance method)">#<strong>wipe_data</strong>(partitions: nil)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Removes table&#39;s content on S3.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(database, name, schema, location, options: {}, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new, output_parser: Egis::OutputParser.new, table_data_wiper: Egis::TableDataWiper.new)  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Table.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+               <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+               <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+               <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+               <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+               <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+  <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
+  <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_location'>location</span>
+  <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@partitions_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span>
+  <span class='ivar'>@table_ddl_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span>
+  <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+  <span class='ivar'>@output_parser</span> <span class='op'>=</span> <span class='id identifier rubyid_output_parser'>output_parser</span>
+  <span class='ivar'>@table_data_wiper</span> <span class='op'>=</span> <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="database-instance_method">
+  
+    #<strong>database</strong>  &#x21d2; <tt><span class='object_link'><a href="Database.html" title="Egis::Database (class)">Egis::Database</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Database.html" title="Egis::Database (class)">Egis::Database</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></span>
+  <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+    <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+    <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
+    <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='ivar'>@partitions_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span>
+    <span class='ivar'>@table_ddl_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span>
+    <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+    <span class='ivar'>@output_parser</span> <span class='op'>=</span> <span class='id identifier rubyid_output_parser'>output_parser</span>
+    <span class='ivar'>@table_data_wiper</span> <span class='op'>=</span> <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:database</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:schema</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates table in Athena.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># The same as {#create} but raising error when table with a given name already exists.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates partitions with all possible combinations of given partition values.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   table.add_partitions(year: [2000, 2001], type: [&#39;user&#39;])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># (see add_partitions)
+</span>  <span class='comment'># It raises error when a partition already exists.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions!'>add_partitions!</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location.
+</span>  <span class='comment'># This operation might take long time with big number of partitions. If that&#39;s the case, instead of this method use
+</span>  <span class='comment'># {#add_partitions} to define partitions manually.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_discover_partitions'>discover_partitions</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MSCK REPAIR TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Downloads table contents into memory. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Array] Array of arrays with row values.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_output_parser'>output_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Removes table&#39;s content on S3. Optionally, you can limit files removed to specific partitions.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions Partitions values to remove. Follows the same argument format as {#add_partitions}.
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return Table data format
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return [String] table location URL
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:options</span><span class='comma'>,</span> <span class='symbol'>:partitions_generator</span><span class='comma'>,</span> <span class='symbol'>:table_ddl_generator</span><span class='comma'>,</span> <span class='symbol'>:output_downloader</span><span class='comma'>,</span> <span class='symbol'>:output_parser</span><span class='comma'>,</span>
+              <span class='symbol'>:table_data_wiper</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
+    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='heredoc_beg'>&lt;&lt;~SQL</span>
+<span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='heredoc_end'>    SQL
+</span>  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Athena database name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Athena database name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></span>
+  <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+    <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+    <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
+    <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='ivar'>@partitions_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span>
+    <span class='ivar'>@table_ddl_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span>
+    <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+    <span class='ivar'>@output_parser</span> <span class='op'>=</span> <span class='id identifier rubyid_output_parser'>output_parser</span>
+    <span class='ivar'>@table_data_wiper</span> <span class='op'>=</span> <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:database</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:schema</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates table in Athena.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># The same as {#create} but raising error when table with a given name already exists.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates partitions with all possible combinations of given partition values.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   table.add_partitions(year: [2000, 2001], type: [&#39;user&#39;])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># (see add_partitions)
+</span>  <span class='comment'># It raises error when a partition already exists.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions!'>add_partitions!</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location.
+</span>  <span class='comment'># This operation might take long time with big number of partitions. If that&#39;s the case, instead of this method use
+</span>  <span class='comment'># {#add_partitions} to define partitions manually.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_discover_partitions'>discover_partitions</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MSCK REPAIR TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Downloads table contents into memory. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Array] Array of arrays with row values.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_output_parser'>output_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Removes table&#39;s content on S3. Optionally, you can limit files removed to specific partitions.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions Partitions values to remove. Follows the same argument format as {#add_partitions}.
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return Table data format
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return [String] table location URL
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:options</span><span class='comma'>,</span> <span class='symbol'>:partitions_generator</span><span class='comma'>,</span> <span class='symbol'>:table_ddl_generator</span><span class='comma'>,</span> <span class='symbol'>:output_downloader</span><span class='comma'>,</span> <span class='symbol'>:output_parser</span><span class='comma'>,</span>
+              <span class='symbol'>:table_data_wiper</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
+    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='heredoc_beg'>&lt;&lt;~SQL</span>
+<span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='heredoc_end'>    SQL
+</span>  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="schema-instance_method">
+  
+    #<strong>schema</strong>  &#x21d2; <tt><span class='object_link'><a href="TableSchema.html" title="Egis::TableSchema (class)">Egis::TableSchema</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns table&#39;s schema object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="TableSchema.html" title="Egis::TableSchema (class)">Egis::TableSchema</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>table&#39;s schema object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></span>
+  <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+    <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+    <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
+    <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='ivar'>@partitions_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span>
+    <span class='ivar'>@table_ddl_generator</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span>
+    <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+    <span class='ivar'>@output_parser</span> <span class='op'>=</span> <span class='id identifier rubyid_output_parser'>output_parser</span>
+    <span class='ivar'>@table_data_wiper</span> <span class='op'>=</span> <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:database</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:schema</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates table in Athena.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># The same as {#create} but raising error when table with a given name already exists.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
+    <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Creates partitions with all possible combinations of given partition values.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   table.add_partitions(year: [2000, 2001], type: [&#39;user&#39;])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># (see add_partitions)
+</span>  <span class='comment'># It raises error when a partition already exists.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions!'>add_partitions!</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location.
+</span>  <span class='comment'># This operation might take long time with big number of partitions. If that&#39;s the case, instead of this method use
+</span>  <span class='comment'># {#add_partitions} to define partitions manually.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_discover_partitions'>discover_partitions</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MSCK REPAIR TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Downloads table contents into memory. Mostly useful for testing purposes.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Array] Array of arrays with row values.
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_output_parser'>output_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Removes table&#39;s content on S3. Optionally, you can limit files removed to specific partitions.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] partitions Partitions values to remove. Follows the same argument format as {#add_partitions}.
+</span>  <span class='comment'># @return [void]
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return Table data format
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># @return [String] table location URL
+</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
+    <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:options</span><span class='comma'>,</span> <span class='symbol'>:partitions_generator</span><span class='comma'>,</span> <span class='symbol'>:table_ddl_generator</span><span class='comma'>,</span> <span class='symbol'>:output_downloader</span><span class='comma'>,</span> <span class='symbol'>:output_parser</span><span class='comma'>,</span>
+              <span class='symbol'>:table_data_wiper</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
+    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='heredoc_beg'>&lt;&lt;~SQL</span>
+<span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='heredoc_end'>    SQL
+</span>  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_partitions-instance_method">
+  
+    #<strong>add_partitions</strong>(partitions)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Creates partitions with all possible combinations of given partition values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='label'>year:</span> <span class='lbracket'>[</span><span class='int'>2000</span><span class='comma'>,</span> <span class='int'>2001</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>partitions</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_partitions!-instance_method">
+  
+    #<strong>add_partitions!</strong>(partitions)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Creates partitions with all possible combinations of given partition values.</p>
+
+<p>It raises error when a partition already exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='label'>year:</span> <span class='lbracket'>[</span><span class='int'>2000</span><span class='comma'>,</span> <span class='int'>2001</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>partitions</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_partitions!'>add_partitions!</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Creates table in Athena.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
+  <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create!-instance_method">
+  
+    #<strong>create!</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
+  <span class='id identifier rubyid_create_table_sql'>create_table_sql</span> <span class='op'>=</span> <span class='id identifier rubyid_table_ddl_generator'>table_ddl_generator</span><span class='period'>.</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_create_table_sql'>create_table_sql</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="discover_partitions-instance_method">
+  
+    #<strong>discover_partitions</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location. This operation might take long time with big number of partitions. If that&#39;s the case, instead of this method use <span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span> to define partitions manually.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_discover_partitions'>discover_partitions</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MSCK REPAIR TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_data-instance_method">
+  
+    #<strong>download_data</strong>  &#x21d2; <tt>Array</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Downloads table contents into memory. Mostly useful for testing purposes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of arrays with row values.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111
+112
+113</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 109</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_output_parser'>output_parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="format-instance_method">
+  
+    #<strong>format</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Table data format.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>Table data format</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="location-instance_method">
+  
+    #<strong>location</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns table location URL.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>table location URL</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
+  <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_data-instance_method">
+  
+    #<strong>upload_data</strong>(rows)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Insert data into the table. Mostly useful for testing purposes.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rows</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of arrays with row values</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wipe_data-instance_method">
+  
+    #<strong>wipe_data</strong>(partitions: nil)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Removes table&#39;s content on S3. Optionally, you can limit files removed to specific partitions.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>partitions</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Partitions values to remove. Follows the same argument format as <span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 121</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Mon May 18 20:05:48 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.7.1).
+</div>
+
+    </div>
+  </body>
+</html>
