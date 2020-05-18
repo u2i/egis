@@ -1,4 +1,4 @@
-FROM ruby:2.5-alpine
+FROM ruby:2.7-alpine
 
 RUN apk add --no-cache dumb-init git make gcc libc-dev
 
@@ -12,3 +12,5 @@ RUN bundle install
 COPY . .
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+CMD ["rake"]

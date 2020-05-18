@@ -10,11 +10,11 @@ end
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:unit) do |task|
-    task.rspec_opts = '--tag ~integration'
+    task.pattern = 'spec/unit/**/*.rb'
   end
 
   RSpec::Core::RakeTask.new(:integration) do |task|
-    task.rspec_opts = '--tag integration'
+    task.pattern = 'spec/integration/**/*.rb'
   end
 end
 

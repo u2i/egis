@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/egis.svg)](https://badge.fury.io/rb/egis)
-[![Build Status](http://jenkins-ci.talkwit.tv/buildStatus/icon?job=u2i/egis/master)](http://jenkins-ci.talkwit.tv/job/u2i/egis/master)
+[Build Status](https://github.com/u2i/egis/workflows/Build/badge.svg?branch=master)
 
 # Egis
 
