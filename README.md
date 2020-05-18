@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/egis.svg)](https://badge.fury.io/rb/egis)
-[Build Status](https://github.com/u2i/egis/workflows/Build/badge.svg?branch=master)
+![Build Status](https://github.com/u2i/egis/workflows/Build/badge.svg?branch=master)
 
 # Egis
 
