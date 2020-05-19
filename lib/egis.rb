@@ -40,6 +40,11 @@ require 'egis/s3_location_parser'
 #     config.aws_profile = 'my-profile'
 #   end
 #
+# @example Configure logger
+#   Egis.configure do |config|
+#     config.logger = Logger.new('athena.log', level: :debug)
+#   end
+#
 # @yield [Egis::Configuration]
 # @return [void]
 #
@@ -57,6 +62,11 @@ module Egis
     # @!visibility private
     def mode
       @mode ||= Egis::StandardMode.new
+    end
+
+    # @!visibility private
+    def logger
+      @configuration.logger
     end
   end
 end

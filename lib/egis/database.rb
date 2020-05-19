@@ -10,12 +10,17 @@ module Egis
   #
   # It is recommended to create database objects using {Egis::Client#database} method.
   #
+  # @!attribute [r] name
+  #   @return [String] Athena database name
+  #
   class Database
-    def initialize(database_name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)
+    def initialize(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)
       @client = client
-      @database_name = database_name
+      @name = name
       @output_downloader = output_downloader
     end
+
+    attr_reader :name
 
     ##
     # Creates {Egis::Table} object. Executing it doesn't create Athena table yet.
@@ -36,7 +41,10 @@ module Egis
     # @return [void]
 
     def create
-      client.execute_query("CREATE DATABASE IF NOT EXISTS #{translate_name(database_name)};", async: false)
+      log_database_creation
+
+      client.execute_query("CREATE DATABASE IF NOT EXISTS #{translate_name(name)};", async: false,
+                                                                                     system_execution: true)
     end
 
     ##
@@ -45,7 +53,9 @@ module Egis
     # @return [void]
 
     def create!
-      client.execute_query("CREATE DATABASE #{translate_name(database_name)};", async: false)
+      log_database_creation
+
+      client.execute_query("CREATE DATABASE #{translate_name(name)};", async: false, system_execution: true)
     end
 
     ##
@@ -54,7 +64,10 @@ module Egis
     # @return [void]
 
     def drop
-      client.execute_query("DROP DATABASE IF EXISTS #{translate_name(database_name)} CASCADE;", async: false)
+      log_database_removal
+
+      client.execute_query("DROP DATABASE IF EXISTS #{translate_name(name)} CASCADE;", async: false,
+                                                                                       system_execution: true)
     end
 
     ##
@@ -63,14 +76,16 @@ module Egis
     # @return [void]
 
     def drop!
-      client.execute_query("DROP DATABASE #{translate_name(database_name)} CASCADE;", async: false)
+      log_database_removal
+
+      client.execute_query("DROP DATABASE #{translate_name(name)} CASCADE;", async: false, system_execution: true)
     end
 
     ##
     # (see Egis::Client#execute_query)
 
     def execute_query(query, **options)
-      client.execute_query(query, **{database: database_name, **options})
+      client.execute_query(query, **{database: name, **options})
     end
 
     ##
@@ -86,14 +101,22 @@ module Egis
     # @return [Boolean]
 
     def exists?
-      query_status = client.execute_query("SHOW DATABASES LIKE '#{database_name}';", async: false)
+      query_status = client.execute_query("SHOW DATABASES LIKE '#{name}';", async: false, system_execution: true)
       parsed_result = output_downloader.download(query_status.output_location)
-      parsed_result.flatten.include?(database_name)
+      parsed_result.flatten.include?(name)
     end
 
     private
 
-    attr_reader :client, :database_name, :output_downloader
+    attr_reader :client, :output_downloader
+
+    def log_database_creation
+      Egis.logger.info { "Creating database #{name}" }
+    end
+
+    def log_database_removal
+      Egis.logger.info { "Removing database #{name}" }
+    end
 
     def translate_name(name)
       Egis.mode.database_name(name)

@@ -20,7 +20,8 @@ RSpec.describe Egis::Database do
     subject { database.create }
 
     it 'creates Athena database ignoring when it already exists' do
-      expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false)
+      expect(client).to receive(:execute_query).with('CREATE DATABASE IF NOT EXISTS name;', async: false,
+                                                                                            system_execution: true)
       subject
     end
   end
@@ -29,7 +30,7 @@ RSpec.describe Egis::Database do
     subject { database.create! }
 
     it 'creates Athena database failing when it already exists' do
-      expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false)
+      expect(client).to receive(:execute_query).with('CREATE DATABASE name;', async: false, system_execution: true)
       subject
     end
   end
@@ -38,7 +39,8 @@ RSpec.describe Egis::Database do
     subject { database.drop }
 
     it 'removes Athena database' do
-      expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name CASCADE;', async: false)
+      expect(client).to receive(:execute_query).with('DROP DATABASE IF EXISTS name CASCADE;', async: false,
+                                                                                              system_execution: true)
       subject
     end
   end
@@ -47,7 +49,8 @@ RSpec.describe Egis::Database do
     subject { database.drop! }
 
     it 'removes Athena database failing when it does not exist' do
-      expect(client).to receive(:execute_query).with('DROP DATABASE name CASCADE;', async: false)
+      expect(client).to receive(:execute_query).with('DROP DATABASE name CASCADE;', async: false,
+                                                                                    system_execution: true)
       subject
     end
   end
@@ -105,7 +108,8 @@ RSpec.describe Egis::Database do
       let(:query_result) { [[database_name]] }
 
       it 'returns true' do
-        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+        expect(client).to receive(:execute_query).with(query, async: false, system_execution: true).
+          and_return(query_status)
         expect(output_downloader).to receive(:download).with(location).and_return(query_result)
 
         expect(subject).to eq(true)
@@ -116,7 +120,8 @@ RSpec.describe Egis::Database do
       let(:query_result) { [] }
 
       it 'returns false' do
-        expect(client).to receive(:execute_query).with(query, async: false).and_return(query_status)
+        expect(client).to receive(:execute_query).with(query, async: false, system_execution: true).
+          and_return(query_status)
         expect(output_downloader).to receive(:download).with(location).and_return(query_result)
 
         expect(subject).to eq(false)

@@ -1,6 +1,11 @@
 # CHANGELOG
 
+
 ## 1.0
+
+### 1.2.0
+
+- Add logger
 
 ### 1.1.0
 
@@ -13,6 +18,7 @@
 ### 1.0.0
 
 - Added `fetch_result` method to `Aegis::QueryStatus`
+
 
 ## Unstable
 
