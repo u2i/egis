@@ -190,7 +190,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#execute_query-instance_method" title="#execute_query (instance method)">#<strong>execute_query</strong>(query, work_group: nil, database: nil, output_location: nil, async: true)  &#x21d2; Egis::QueryStatus </a>
+      <a href="#execute_query-instance_method" title="#execute_query (instance method)">#<strong>execute_query</strong>(query, work_group: nil, database: nil, output_location: nil, async: true, system_execution: false)  &#x21d2; Egis::QueryStatus </a>
     
 
     
@@ -391,7 +391,7 @@
       <div class="method_details ">
   <h3 class="signature " id="execute_query-instance_method">
   
-    #<strong>execute_query</strong>(query, work_group: nil, database: nil, output_location: nil, async: true)  &#x21d2; <tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt> 
+    #<strong>execute_query</strong>(query, work_group: nil, database: nil, output_location: nil, async: true, system_execution: false)  &#x21d2; <tt><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">Egis::QueryStatus</a></span></tt> 
   
 
   
@@ -544,19 +544,23 @@
 77
 78
 79
-80</pre>
+80
+81
+82</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/client.rb', line 68</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>work_group:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>database:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>output_location:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query_execution_id'>query_execution_id</span> <span class='op'>=</span> <span class='id identifier rubyid_aws_athena_client'>aws_athena_client</span><span class='period'>.</span><span class='id identifier rubyid_start_query_execution'>start_query_execution</span><span class='lparen'>(</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>work_group:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>database:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>output_location:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>system_execution:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query_id'>query_id</span> <span class='op'>=</span> <span class='id identifier rubyid_aws_athena_client'>aws_athena_client</span><span class='period'>.</span><span class='id identifier rubyid_start_query_execution'>start_query_execution</span><span class='lparen'>(</span>
     <span class='id identifier rubyid_query_execution_params'>query_execution_params</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_work_group'>work_group</span><span class='comma'>,</span> <span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_output_location'>output_location</span><span class='rparen'>)</span>
   <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_query_execution_id'>query_execution_id</span>
 
-  <span class='kw'>return</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='lparen'>(</span><span class='id identifier rubyid_query_execution_id'>query_execution_id</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_async'>async</span><span class='lparen'>(</span><span class='id identifier rubyid_async'>async</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_log_query_execution'>log_query_execution</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_query_id'>query_id</span><span class='comma'>,</span> <span class='id identifier rubyid_system_execution'>system_execution</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_query_status'>query_status</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_query_to_finish'>wait_for_query_to_finish</span><span class='lparen'>(</span><span class='id identifier rubyid_query_execution_id'>query_execution_id</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='lparen'>(</span><span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_async'>async</span><span class='lparen'>(</span><span class='id identifier rubyid_async'>async</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_query_status'>query_status</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_query_to_finish'>wait_for_query_to_finish</span><span class='lparen'>(</span><span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Errors.html" title="Egis::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Errors/QueryExecutionError.html" title="Egis::Errors::QueryExecutionError (class)">QueryExecutionError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span> <span class='kw'>unless</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='period'>.</span><span class='id identifier rubyid_finished?'>finished?</span>
 
@@ -626,8 +630,6 @@
       <pre class="lines">
 
 
-88
-89
 90
 91
 92
@@ -637,19 +639,27 @@
 96
 97
 98
-99</pre>
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/client.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/client.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_query_status'>query_status</span><span class='lparen'>(</span><span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='id identifier rubyid_aws_athena_client'>aws_athena_client</span><span class='period'>.</span><span class='id identifier rubyid_get_query_execution'>get_query_execution</span><span class='lparen'>(</span><span class='label'>query_execution_id:</span> <span class='id identifier rubyid_query_id'>query_id</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_query_execution'>query_execution</span> <span class='op'>=</span> <span class='id identifier rubyid_resp'>resp</span><span class='period'>.</span><span class='id identifier rubyid_query_execution'>query_execution</span>
+  <span class='id identifier rubyid_query_status'>query_status</span> <span class='op'>=</span> <span class='id identifier rubyid_query_execution'>query_execution</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span>
+
+  <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Checking query status (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query_id'>query_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>): </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query_status'>query_status</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
 
   <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">QueryStatus</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="QueryStatus.html#initialize-instance_method" title="Egis::QueryStatus#initialize (method)">new</a></span></span><span class='lparen'>(</span>
     <span class='id identifier rubyid_query_execution'>query_execution</span><span class='period'>.</span><span class='id identifier rubyid_query_execution_id'>query_execution_id</span><span class='comma'>,</span>
-    <span class='const'>QUERY_STATUS_MAPPING</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_query_execution'>query_execution</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='const'>QUERY_STATUS_MAPPING</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_query_status'>query_status</span><span class='rparen'>)</span><span class='comma'>,</span>
     <span class='id identifier rubyid_query_execution'>query_execution</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_state_change_reason'>state_change_reason</span><span class='comma'>,</span>
     <span class='id identifier rubyid_parse_output_location'>parse_output_location</span><span class='lparen'>(</span><span class='id identifier rubyid_query_execution'>query_execution</span><span class='rparen'>)</span>
   <span class='rparen'>)</span>
@@ -664,7 +674,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 21:01:53 2020 by
+  Generated on Tue May 19 17:05:32 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.1).
 </div>
