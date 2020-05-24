@@ -1,14 +1,15 @@
 [![Gem Version](https://badge.fury.io/rb/egis.svg)](https://badge.fury.io/rb/egis)
 ![Build Status](https://github.com/u2i/egis/workflows/Build/badge.svg?branch=master)
 
-# Egis
+# Egis *(aegis)*
 
 A handy wrapper for AWS Athena Ruby SDK.
 
 >*...and among them went bright-eyed Athene, holding the precious aegis which is ageless and immortal:
 > a hundred tassels of pure gold hang fluttering from it, tight-woven each of them,
-> and each the worth of a hundred oxen. (Homer, The Iliad)*
+> and each the worth of a hundred oxen.*
 
+*Homer, The Iliad*
 
 ## Installation
 
