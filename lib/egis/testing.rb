@@ -43,6 +43,6 @@ module Egis # rubocop:disable Style/Documentation
     yield
   ensure
     @mode = previous_mode
-    test_mode.cleanup
+    test_mode.cleanup if test_mode
   end
 end
