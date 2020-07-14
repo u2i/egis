@@ -113,6 +113,7 @@ users = status.fetch_result(schema: [:int, :string, :string]) # schema is option
 ## Query execution options
 
 Both `Client`'s and `Database`'s `execute_query` methods allow more parameters to configure their behavior:
+
 - `work_group` - override default work group
 - `database` - run query in the context of specific database
 - `output_location` - S3 location URL pointing to the directory Athena should produce output to
@@ -131,7 +132,7 @@ result = database.execute_query('SELECT * FROM my_table ORDER BY id;', async: fa
 Egis.configure do |config|
   # attempt is an API call number, starting from 1
   # defaults to: ->(attempt) { 1.5**attempt - 1 }
-  config.query_status_backoff = ->(attempt) { ... }
+  config.query_status_backoff = ->(attempt) { 5 }
 end
 ```
 
@@ -168,7 +169,9 @@ end
 RSpec.describe MyAthenaQuery do
   subject { described_class.run }
 
-  let(:table) { ... } # define your databases and tables as you would define them in the code
+  let(:table) do
+    # define your databases and tables as you would define them in the code
+  end
 
   before do
     table.upload_data([['Column 1', Time.utc(2020), 3]]) # you can use Table.upload_data to upload test data to S3
