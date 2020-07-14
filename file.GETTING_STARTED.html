@@ -160,22 +160,29 @@
 
 <h2 id="label-Query+execution+options">Query execution options</h2>
 
-<p>Both <code>Client</code>&#39;s and <code>Database</code>&#39;s <code>execute_query</code> methods allow more parameters to configure their behavior: - <code>work_group</code> - override default work group - <code>database</code> - run query in the context of specific database - <code>output_location</code> - S3 location URL pointing to the directory Athena should produce output to</p>
+<p>Both <code>Client</code>&#39;s and <code>Database</code>&#39;s <code>execute_query</code> methods allow more parameters to configure their behavior:</p>
+<ul><li>
+<p><code>work_group</code> - override default work group</p>
+</li><li>
+<p><code>database</code> - run query in the context of specific database</p>
+</li><li>
+<p><code>output_location</code> - S3 location URL pointing to the directory Athena should produce output to</p>
+</li></ul>
 
 <h2 id="label-Synchronous+query+execution">Synchronous query execution</h2>
 
 <p>If your query is fast, or you simply prefer the program execution to wait for query results <code>Egis</code> allows you to do that as well</p>
 
-<pre class="code ruby"><code class="ruby"># you can pass `async` param to block the execution until the query finishes
-# with this option, Egis automatically polls Athena API wating for query to finish
-result = database.execute_query(&#39;SELECT * FROM my_table ORDER BY id;&#39;, async: false)
+<pre class="code ruby"><code class="ruby"><span class='comment'># you can pass `async` param to block the execution until the query finishes
+</span><span class='comment'># with this option, Egis automatically polls Athena API wating for query to finish
+</span><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SELECT * FROM my_table ORDER BY id;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='rparen'>)</span>
 
-# it uses exponential backoff which you can configure as well
-Egis.configure do |config|
-  # attempt is an API call number, starting from 1
-  # defaults to: -&gt;(attempt) { 1.5**attempt - 1 }
-  config.query_status_backoff = -&gt;(attempt) { ... }
-end
+<span class='comment'># it uses exponential backoff which you can configure as well
+</span><span class='const'><span class='object_link'><a href="Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="Egis.html#configure-class_method" title="Egis.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='comment'># attempt is an API call number, starting from 1
+</span>  <span class='comment'># defaults to: -&gt;(attempt) { 1.5**attempt - 1 }
+</span>  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_query_status_backoff'>query_status_backoff</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_attempt'>attempt</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='int'>5</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
 </code></pre>
 
 <h2 id="label-Ignoring+existing+entities">Ignoring existing entities</h2>
@@ -186,44 +193,46 @@ end
 
 <p><code>Egis</code> provides tooling to write automated integration tests. You can wrap you tests in special testing closure that executes <code>Egis</code> queries in a virtual testing environment. Here&#39;s a RSpec usage example:</p>
 
-<pre class="code ruby"><code class="ruby">require &#39;egis/testing&#39; # require testing module to enable additional testing capabilities
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>egis/testing</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># require testing module to enable additional testing capabilities
+</span>
+<span class='comment'># set your testing S3 bucket
+</span><span class='const'><span class='object_link'><a href="Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="Egis.html#configure-class_method" title="Egis.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_testing_s3_bucket'>testing_s3_bucket</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>testing-bucket</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
 
-# set your testing S3 bucket
-Egis.configure do |config|
-  config.testing_s3_bucket = &#39;testing-bucket&#39;
-end
+<span class='comment'># wrap you tests with a &quot;testing&quot; block
+</span><span class='const'>RSpec</span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+  <span class='comment'># every table and database created within this block is mapped to a &quot;virtual&quot; table space in your testing S3 bucket
+</span>  <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_around'>around</span><span class='lparen'>(</span><span class='symbol'>:each</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_example'>example</span><span class='op'>|</span>
+    <span class='const'><span class='object_link'><a href="Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_testing'><span class='object_link'><a href="Egis.html#testing-class_method" title="Egis.testing (method)">testing</a></span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_example'>example</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
 
-# wrap you tests with a &quot;testing&quot; block
-RSpec.configure do |c|
-  # every table and database created within this block is mapped to a &quot;virtual&quot; table space in your testing S3 bucket
-  c.around(:each) do |example|
-    Egis.testing do
-      example.run
-    end
-  end
-end
+<span class='const'>RSpec</span><span class='period'>.</span><span class='id identifier rubyid_describe'>describe</span> <span class='const'>MyAthenaQuery</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_subject'>subject</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_described_class'>described_class</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span> <span class='rbrace'>}</span>
 
-RSpec.describe MyAthenaQuery do
-  subject { described_class.run }
+  <span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='symbol'>:table</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='comment'># define your databases and tables as you would define them in the code
+</span>  <span class='kw'>end</span>
 
-  let(:table) { ... } # define your databases and tables as you would define them in the code
+  <span class='id identifier rubyid_before'>before</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Column 1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_utc'>utc</span><span class='lparen'>(</span><span class='int'>2020</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='comment'># you can use Table.upload_data to upload test data to S3
+</span>  <span class='kw'>end</span>
 
-  before do
-    table.upload_data([[&#39;Column 1&#39;, Time.utc(2020), 3]]) # you can use Table.upload_data to upload test data to S3
-  end
-
-  it do
-      # Table.download_data lets you load table contents to memory after executing tested code
-      expect(table.download_data).to eq([[&#39;Column 1&#39;, Time.utc(2020), 3]])
-  end
-end
+  <span class='id identifier rubyid_it'>it</span> <span class='kw'>do</span>
+      <span class='comment'># Table.download_data lets you load table contents to memory after executing tested code
+</span>      <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_download_data'>download_data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Column 1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_utc'>utc</span><span class='lparen'>(</span><span class='int'>2020</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
 </code></pre>
 
 <p><strong>Notice</strong>: <code>Egis</code> handles separation between virtual testing namespaces. It also cleans Athena databases at the and of testing block. But you are responsible for removing S3 files generated by tests. We highly recommend using S3 lifecycle policies to do that automatically.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri May 29 10:11:22 2020 by
+  Generated on Tue Jul 14 20:31:51 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.1).
 </div>
