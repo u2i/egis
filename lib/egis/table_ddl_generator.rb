@@ -9,7 +9,7 @@ module Egis
           #{column_definition_sql(table.schema.columns)}
         )
         #{partition_statement(table.schema)}
-        #{format_statement(table.format)}
+        #{row_format_statement(table.format)}
         LOCATION '#{table.location}';
       SQL
     end
@@ -34,7 +34,30 @@ module Egis
       columns.map { |column| "`#{column.name}` #{column.type}" }.join(",\n")
     end
 
-    def format_statement(format)
+    def serde?(format)
+      format.is_a?(Hash) && format.key?(:serde)
+    end
+
+    def row_format_statement(format)
+      return serde_row_format_statement(format) if serde?(format)
+
+      delimited_row_format_statement(format)
+    end
+
+    def serde_row_format_statement(format)
+      row_format = "ROW FORMAT SERDE '#{format[:serde]}'"
+      return row_format unless format.key?(:serde_properties)
+
+      serde_properties = format[:serde_properties].map { |property, value| "'#{property}' = '#{value}'" }
+      <<-SQL
+        #{row_format}
+        WITH SERDEPROPERTIES (
+          #{serde_properties.join(",\n")}
+        )
+      SQL
+    end
+
+    def delimited_row_format_statement(format)
       case format
       when :csv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"

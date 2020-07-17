@@ -3,6 +3,10 @@
 
 ## 1.0
 
+### 1.3.0
+
+- Add ability to create Athena tables with SerDe
+
 ### 1.2.1
 
 - Fix testing mode error when AWS credentials missing
