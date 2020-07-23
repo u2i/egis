@@ -4,7 +4,6 @@ require 'spec_helper'
 
 RSpec.describe Egis do
   describe '.testing' do
-
     context 'when AWS credentials set' do
       before do
         allow(Egis.configuration).to receive(:aws_access_key_id).and_return('access_key')

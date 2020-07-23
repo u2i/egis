@@ -137,6 +137,59 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
+      context 'when given table serde' do
+        let(:format) { {serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'} }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when given table serde with serde properties' do
+        let(:format) do
+          {
+            serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe',
+            serde_properties: {'serialization.format' => ',', 'field.delim' => ','}
+          }
+        end
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+            WITH SERDEPROPERTIES (
+              'serialization.format' = ',',
+              'field.delim' = ','
+            )
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
       context 'when given an unsupported format' do
         let(:format) { :unknown_format }
 
