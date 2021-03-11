@@ -3,7 +3,7 @@
 
 ## 1.0
 
-### 1.3.1
+### 1.4.0
 
 - Add ability to insert data by hash values rather than arrays
 
