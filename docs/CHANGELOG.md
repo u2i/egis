@@ -3,6 +3,10 @@
 
 ## 1.0
 
+### 1.3.1
+
+- Add ability to insert data by hash values rather than arrays
+
 ### 1.3.0
 
 - Add ability to create Athena tables with SerDe
