@@ -149,10 +149,6 @@ module Egis
       Egis.logger.info { "Creating table #{database.name}.#{name} located in #{location}" }
     end
 
-    def column_serializers
-      @column_serializers ||= column_types.map { |type| Egis::Types.serializer(type) }
-    end
-
     def column_types
       all_columns.map(&:type)
     end
@@ -162,22 +158,20 @@ module Egis
     end
 
     def data_insert_query(rows)
-      insert_values = rows.map do |row|
-        if row.is_a?(Hash)
-          all_columns.map { |column| Egis::Types.serializer(column.type).literal(row[column.name]) }
-        elsif row.is_a?(Array)
-          row.zip(column_serializers).map { |value, serializer| serializer.literal(value) }
-        else
-          raise ''
-        end
-      end
-
-      rows_statement = insert_values.map { |row| row_values_statement(row) }.join(",\n")
+      insert_values = rows.map { |row| row_literal_values(row) }
+      row_clause = insert_values.map { |row| row_values_statement(row) }.join(",\n")
 
       <<~SQL
         INSERT INTO #{name} VALUES
-        #{rows_statement}
-SQL
+        #{row_clause}
+      SQL
+    end
+
+    def row_literal_values(row)
+      all_columns.map.with_index do |column, index|
+        value = row.is_a?(Hash) ? row[column.name] : row[index]
+        Egis::Types.serializer(column.type).literal(value)
+      end
     end
 
     def row_values_statement(row)

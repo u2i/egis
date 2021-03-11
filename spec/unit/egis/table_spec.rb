@@ -143,12 +143,12 @@ RSpec.describe Egis::Table do
 
       let(:expected_query) do
         <<~SQL
-        INSERT INTO table VALUES
-        ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
-        ('hello again', timestamp '2020-04-08 14:21:00', 'mx', 2),
-        ('hello ''once more''', timestamp '2020-04-08 14:21:00', 'us', 1),
-        ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2),
-        ('and once again', timestamp '2020-04-08 14:21:00', 'us', 2)
+          INSERT INTO table VALUES
+          ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
+          ('hello again', timestamp '2020-04-08 14:21:00', 'mx', 2),
+          ('hello ''once more''', timestamp '2020-04-08 14:21:00', 'us', 1),
+          ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2),
+          ('and once again', timestamp '2020-04-08 14:21:00', 'us', 2)
         SQL
       end
 
@@ -171,11 +171,11 @@ RSpec.describe Egis::Table do
 
       let(:expected_query) do
         <<~SQL
-        INSERT INTO table VALUES
-        ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
-        ('hello again', NULL, 'mx', 2),
-        (NULL, timestamp '2020-04-08 14:21:00', 'us', 1),
-        ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2)
+          INSERT INTO table VALUES
+          ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
+          ('hello again', NULL, 'mx', 2),
+          (NULL, timestamp '2020-04-08 14:21:00', 'us', 1),
+          ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2)
         SQL
       end
 
