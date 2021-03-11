@@ -130,31 +130,60 @@ RSpec.describe Egis::Table do
 
     let(:time) { Time.utc(2020, 4, 8, 14, 21) }
 
-    let(:rows) do
-      [
-        ['hello world', time, 'mx', 1],
-        ['hello again', time, 'mx', 2],
-        ["hello 'once more'", time, 'us', 1],
-        ['hello for the fourth time', time, 'us', 2],
-        ['and once again', time, 'us', 2]
-      ]
-    end
+    context 'when rows is an array' do
+      let(:rows) do
+        [
+          ['hello world', time, 'mx', 1],
+          ['hello again', time, 'mx', 2],
+          ["hello 'once more'", time, 'us', 1],
+          ['hello for the fourth time', time, 'us', 2],
+          ['and once again', time, 'us', 2]
+        ]
+      end
 
-    let(:expected_query) do
-      <<~SQL
+      let(:expected_query) do
+        <<~SQL
         INSERT INTO table VALUES
         ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
         ('hello again', timestamp '2020-04-08 14:21:00', 'mx', 2),
         ('hello ''once more''', timestamp '2020-04-08 14:21:00', 'us', 1),
         ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2),
-        ('and once again', timestamp '2020-04-08 14:21:00', 'us', 2);
-      SQL
+        ('and once again', timestamp '2020-04-08 14:21:00', 'us', 2)
+        SQL
+      end
+
+      it 'uploads a file to S3 for each of the partitions' do
+        expect(database).to receive(:execute_query).with(expected_query, async: false, system_execution: true)
+
+        subject
+      end
     end
 
-    it 'uploads a file to S3 for each of the partitions' do
-      expect(database).to receive(:execute_query).with(expected_query, async: false, system_execution: true)
+    context 'when rows is a hash' do
+      let(:rows) do
+        [
+          {message: 'hello world', time: time, country: 'mx', type: 1},
+          {message: 'hello again', country: 'mx', type: 2},
+          {time: time, country: 'us', type: 1},
+          ['hello for the fourth time', time, 'us', 2]
+        ]
+      end
 
-      subject
+      let(:expected_query) do
+        <<~SQL
+        INSERT INTO table VALUES
+        ('hello world', timestamp '2020-04-08 14:21:00', 'mx', 1),
+        ('hello again', NULL, 'mx', 2),
+        (NULL, timestamp '2020-04-08 14:21:00', 'us', 1),
+        ('hello for the fourth time', timestamp '2020-04-08 14:21:00', 'us', 2)
+        SQL
+      end
+
+      it 'uploads a file to S3 for each of the partitions' do
+        expect(database).to receive(:execute_query).with(expected_query, async: false, system_execution: true)
+
+        subject
+      end
     end
   end
 

@@ -154,18 +154,34 @@ module Egis
     end
 
     def column_types
-      (schema.columns + schema.partitions).map(&:type)
+      all_columns.map(&:type)
+    end
+
+    def all_columns
+      schema.columns + schema.partitions
     end
 
     def data_insert_query(rows)
+      insert_values = rows.map do |row|
+        if row.is_a?(Hash)
+          all_columns.map { |column| Egis::Types.serializer(column.type).literal(row[column.name]) }
+        elsif row.is_a?(Array)
+          row.zip(column_serializers).map { |value, serializer| serializer.literal(value) }
+        else
+          raise ''
+        end
+      end
+
+      rows_statement = insert_values.map { |row| row_values_statement(row) }.join(",\n")
+
       <<~SQL
         INSERT INTO #{name} VALUES
-        #{rows.map { |row| row_values_statement(row) }.join(",\n")};
-      SQL
+        #{rows_statement}
+SQL
     end
 
     def row_values_statement(row)
-      "(#{row.zip(column_serializers).map { |value, serializer| serializer.literal(value) }.join(', ')})"
+      "(#{row.join(', ')})"
     end
   end
 end
