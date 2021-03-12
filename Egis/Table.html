@@ -6,7 +6,7 @@
 <title>
   Class: Egis::Table
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
@@ -772,7 +772,29 @@
 167
 168
 169
-170</pre>
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -861,7 +883,19 @@
   <span class='comment'>##
 </span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
 </span>  <span class='comment'>#
-</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @example Insert with array of arrays
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       [&#39;hello world&#39;, &#39;mx&#39;, 1],
+</span>  <span class='comment'>#       [&#39;hello again&#39;, &#39;us&#39;, 2]
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example Insert with array of hashes
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       {message: &#39;hello world&#39;, country: &#39;mx&#39;, type: 1},
+</span>  <span class='comment'>#       {message: &#39;hello again&#39;, country: &#39;us&#39;, type: 2}
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays or hashes with row values
 </span>  <span class='comment'># @return [void]
 </span>
   <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
@@ -913,23 +947,33 @@
     <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Creating table </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> located in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_location'>location</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
-    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
-    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_all_columns'>all_columns</span>
+    <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span>
   <span class='kw'>end</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_insert_values'>insert_values</span> <span class='op'>=</span> <span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_row_clause'>row_clause</span> <span class='op'>=</span> <span class='id identifier rubyid_insert_values'>insert_values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
     <span class='heredoc_beg'>&lt;&lt;~SQL</span>
 <span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
-</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row_clause'>row_clause</span><span class='embexpr_end'>}</span><span class='tstring_content'>
 </span><span class='heredoc_end'>    SQL
 </span>  <span class='kw'>end</span>
 
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_column'>column</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+      <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1137,7 +1181,29 @@
 167
 168
 169
-170</pre>
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -1226,7 +1292,19 @@
   <span class='comment'>##
 </span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
 </span>  <span class='comment'>#
-</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @example Insert with array of arrays
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       [&#39;hello world&#39;, &#39;mx&#39;, 1],
+</span>  <span class='comment'>#       [&#39;hello again&#39;, &#39;us&#39;, 2]
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example Insert with array of hashes
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       {message: &#39;hello world&#39;, country: &#39;mx&#39;, type: 1},
+</span>  <span class='comment'>#       {message: &#39;hello again&#39;, country: &#39;us&#39;, type: 2}
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays or hashes with row values
 </span>  <span class='comment'># @return [void]
 </span>
   <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
@@ -1278,23 +1356,33 @@
     <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Creating table </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> located in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_location'>location</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
-    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
-    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_all_columns'>all_columns</span>
+    <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span>
   <span class='kw'>end</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_insert_values'>insert_values</span> <span class='op'>=</span> <span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_row_clause'>row_clause</span> <span class='op'>=</span> <span class='id identifier rubyid_insert_values'>insert_values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
     <span class='heredoc_beg'>&lt;&lt;~SQL</span>
 <span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
-</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row_clause'>row_clause</span><span class='embexpr_end'>}</span><span class='tstring_content'>
 </span><span class='heredoc_end'>    SQL
 </span>  <span class='kw'>end</span>
 
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_column'>column</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+      <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1502,7 +1590,29 @@
 167
 168
 169
-170</pre>
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -1591,7 +1701,19 @@
   <span class='comment'>##
 </span>  <span class='comment'># Insert data into the table. Mostly useful for testing purposes.
 </span>  <span class='comment'>#
-</span>  <span class='comment'># @param [Array] rows Array of arrays with row values
+</span>  <span class='comment'># @example Insert with array of arrays
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       [&#39;hello world&#39;, &#39;mx&#39;, 1],
+</span>  <span class='comment'>#       [&#39;hello again&#39;, &#39;us&#39;, 2]
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example Insert with array of hashes
+</span>  <span class='comment'>#   table.upload_data([
+</span>  <span class='comment'>#       {message: &#39;hello world&#39;, country: &#39;mx&#39;, type: 1},
+</span>  <span class='comment'>#       {message: &#39;hello again&#39;, country: &#39;us&#39;, type: 2}
+</span>  <span class='comment'>#   ])
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Array] rows Array of arrays or hashes with row values
 </span>  <span class='comment'># @return [void]
 </span>
   <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
@@ -1643,23 +1765,33 @@
     <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Creating table </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> located in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_location'>location</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_serializers'>column_serializers</span>
-    <span class='ivar'>@column_serializers</span> <span class='op'>||=</span> <span class='id identifier rubyid_column_types'>column_types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_type'>type</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>def</span> <span class='id identifier rubyid_column_types'>column_types</span>
-    <span class='lparen'>(</span><span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:type</span><span class='rparen'>)</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_all_columns'>all_columns</span>
+    <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_columns'>columns</span> <span class='op'>+</span> <span class='id identifier rubyid_schema'>schema</span><span class='period'>.</span><span class='id identifier rubyid_partitions'>partitions</span>
   <span class='kw'>end</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_insert_values'>insert_values</span> <span class='op'>=</span> <span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_row_clause'>row_clause</span> <span class='op'>=</span> <span class='id identifier rubyid_insert_values'>insert_values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
     <span class='heredoc_beg'>&lt;&lt;~SQL</span>
 <span class='tstring_content'>      INSERT INTO </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> VALUES
-</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rows'>rows</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>;
+</span><span class='tstring_content'>      </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row_clause'>row_clause</span><span class='embexpr_end'>}</span><span class='tstring_content'>
 </span><span class='heredoc_end'>    SQL
 </span>  <span class='kw'>end</span>
 
+  <span class='kw'>def</span> <span class='id identifier rubyid_row_literal_values'>row_literal_values</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_all_columns'>all_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_column'>column</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_row'>row</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+      <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>Types</span><span class='period'>.</span><span class='id identifier rubyid_serializer'>serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_column'>column</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>def</span> <span class='id identifier rubyid_row_values_statement'>row_values_statement</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='rparen'>)</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_column_serializers'>column_serializers</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='op'>|</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_literal'>literal</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_row'>row</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1987,14 +2119,14 @@
       <pre class="lines">
 
 
-113
-114
-115
-116
-117</pre>
+125
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>system_execution:</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -2050,12 +2182,12 @@
       <pre class="lines">
 
 
-132
-133
-134</pre>
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 144</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
   <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
@@ -2109,12 +2241,12 @@
       <pre class="lines">
 
 
-139
-140
-141</pre>
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
   <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
@@ -2142,7 +2274,32 @@
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Insert with array of arrays</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='lbracket'>[</span>
+    <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mx</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello again</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>us</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span>
+<span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Insert with array of hashes</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='lbracket'>[</span>
+    <span class='lbrace'>{</span><span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>country:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mx</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>type:</span> <span class='int'>1</span><span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span><span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello again</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>country:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>us</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>type:</span> <span class='int'>2</span><span class='rbrace'>}</span>
+<span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
 <ul class="param">
   
     <li>
@@ -2156,7 +2313,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Array of arrays with row values</p>
+<p>Array of arrays or hashes with row values</p>
 </div>
       
     </li>
@@ -2170,13 +2327,13 @@
       <pre class="lines">
 
 
-103
-104
-105
-106</pre>
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
@@ -2235,12 +2392,12 @@
       <pre class="lines">
 
 
-125
-126
-127</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
@@ -2255,9 +2412,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jul 23 08:27:19 2020 by
+  Generated on Fri Mar 12 07:46:25 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.25 (ruby-2.7.1).
+  0.9.26 (ruby-2.7.2).
 </div>
 
     </div>
