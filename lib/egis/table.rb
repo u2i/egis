@@ -97,7 +97,19 @@ module Egis
     ##
     # Insert data into the table. Mostly useful for testing purposes.
     #
-    # @param [Array] rows Array of arrays with row values
+    # @example Insert with array of arrays
+    #   table.upload_data([
+    #       ['hello world', 'mx', 1],
+    #       ['hello again', 'us', 2]
+    #   ])
+    #
+    # @example Insert with array of hashes
+    #   table.upload_data([
+    #       {message: 'hello world', country: 'mx', type: 1},
+    #       {message: 'hello again', country: 'us', type: 2}
+    #   ])
+    #
+    # @param [Array] rows Array of arrays or hashes with row values
     # @return [void]
 
     def upload_data(rows)
@@ -149,23 +161,33 @@ module Egis
       Egis.logger.info { "Creating table #{database.name}.#{name} located in #{location}" }
     end
 
-    def column_serializers
-      @column_serializers ||= column_types.map { |type| Egis::Types.serializer(type) }
+    def column_types
+      all_columns.map(&:type)
     end
 
-    def column_types
-      (schema.columns + schema.partitions).map(&:type)
+    def all_columns
+      schema.columns + schema.partitions
     end
 
     def data_insert_query(rows)
+      insert_values = rows.map { |row| row_literal_values(row) }
+      row_clause = insert_values.map { |row| row_values_statement(row) }.join(",\n")
+
       <<~SQL
         INSERT INTO #{name} VALUES
-        #{rows.map { |row| row_values_statement(row) }.join(",\n")};
+        #{row_clause}
       SQL
     end
 
+    def row_literal_values(row)
+      all_columns.map.with_index do |column, index|
+        value = row.is_a?(Hash) ? row[column.name] : row[index]
+        Egis::Types.serializer(column.type).literal(value)
+      end
+    end
+
     def row_values_statement(row)
-      "(#{row.zip(column_serializers).map { |value, serializer| serializer.literal(value) }.join(', ')})"
+      "(#{row.join(', ')})"
     end
   end
 end

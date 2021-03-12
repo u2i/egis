@@ -25,7 +25,7 @@ RSpec.describe 'Integration with AWS Athena' do
   input = [
     [1, 'hello world', 'mx', 1],
     [2, 'hello again', 'mx', 2],
-    [3, 'hello once more', 'us', 1],
+    {id: 3, message: 'hello once more', country: 'us', language: 1},
     [nil, nil, 'us', 2]
   ]
 
