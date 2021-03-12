@@ -97,7 +97,19 @@ module Egis
     ##
     # Insert data into the table. Mostly useful for testing purposes.
     #
-    # @param [Array] rows Array of arrays with row values
+    # @example Insert with array of arrays
+    #   table.upload_data([
+    #       ['hello world', 'mx', 1],
+    #       ['hello again', 'us', 2]
+    #   ])
+    #
+    # @example Insert with array of hashes
+    #   table.upload_data([
+    #       {message: 'hello world', country: 'mx', type: 1},
+    #       {message: 'hello again', country: 'us', type: 2}
+    #   ])
+    #
+    # @param [Array] rows Array of arrays or hashes with row values
     # @return [void]
 
     def upload_data(rows)

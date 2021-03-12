@@ -130,7 +130,7 @@ RSpec.describe Egis::Table do
 
     let(:time) { Time.utc(2020, 4, 8, 14, 21) }
 
-    context 'when rows is an array' do
+    context 'when `rows` is an array of arrays' do
       let(:rows) do
         [
           ['hello world', time, 'mx', 1],
@@ -159,7 +159,7 @@ RSpec.describe Egis::Table do
       end
     end
 
-    context 'when rows is a hash' do
+    context 'when `rows` is an array of hashes or arrays' do
       let(:rows) do
         [
           {message: 'hello world', time: time, country: 'mx', type: 1},

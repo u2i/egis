@@ -5,7 +5,7 @@
 
 ### 1.4.0
 
-- Add ability to insert data by hash values rather than arrays
+- Add ability to insert data with hash values rather than arrays
 
 ### 1.3.0
 
