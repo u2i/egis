@@ -3,8 +3,8 @@
 module Egis
   # @!visibility private
   class S3Cleaner
-    def initialize(aws_client_provider: Egis::AwsClientProvider.new)
-      @s3_client = aws_client_provider.s3_client
+    def initialize(client:)
+      @s3_client = client.aws_s3_client
     end
 
     def delete(bucket, prefix)

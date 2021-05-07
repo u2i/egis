@@ -19,9 +19,10 @@ module Egis
     def initialize(database, name, schema, location, options: {},
                    partitions_generator: Egis::PartitionsGenerator.new,
                    table_ddl_generator: Egis::TableDDLGenerator.new,
-                   output_downloader: Egis::OutputDownloader.new,
+                   output_downloader: Egis::OutputDownloader.new(client: database.client),
                    output_parser: Egis::OutputParser.new,
-                   table_data_wiper: Egis::TableDataWiper.new)
+                   s3_cleaner: Egis::S3Cleaner.new(client: database.client),
+                   table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: s3_cleaner))
       @database = database
       @name = name
       @schema = schema

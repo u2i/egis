@@ -4,8 +4,11 @@ require 'spec_helper'
 
 RSpec.describe Egis::Client do
   let(:client) { described_class.new(aws_client_provider: aws_client_provider) }
-  let(:aws_client_provider) { instance_double(Egis::AwsClientProvider, athena_client: aws_athena_client) }
+  let(:aws_client_provider) do
+    instance_double(Egis::AwsClientProvider, s3_client: aws_s3_client, athena_client: aws_athena_client)
+  end
   let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
+  let(:aws_s3_client) { Aws::S3::Client.new(stub_responses: true) }
   let(:work_group) { 'test_work_group' }
 
   before do

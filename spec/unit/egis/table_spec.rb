@@ -7,10 +7,12 @@ RSpec.describe Egis::Table do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
                                                                             table_ddl_generator: table_ddl_generator,
                                                                             output_downloader: output_downloader,
-                                                                            table_data_wiper: table_data_wiper)
+                                                                            table_data_wiper: table_data_wiper,
+                                                                            s3_cleaner: s3_cleaner)
   end
 
   let(:database) { instance_double(Egis::Database) }
+  let(:s3_cleaner) { instance_double(Egis::S3Cleaner) }
   let(:table_name) { 'table' }
   let(:table_schema) { instance_double(Egis::TableSchema) }
   let(:table_location) { 's3://bucket/table_key' }
@@ -212,7 +214,9 @@ RSpec.describe Egis::Table do
 
     let(:expected_query) { 'SELECT * FROM table;' }
 
-    let(:query_status) { Egis::QueryStatus.new('123', :finished, 'query message', output_location) }
+    let(:query_status) do
+      Egis::QueryStatus.new('123', :finished, 'query message', output_location, output_downloader: output_downloader)
+    end
     let(:output_location) { Egis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
     it 'downloads and parses data correctly' do

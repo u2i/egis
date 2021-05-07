@@ -6,6 +6,10 @@ require 'aws-sdk-athena'
 module Egis
   # @!visibility private
   class AwsClientProvider
+    def initialize(configuration)
+      @configuration = configuration
+    end
+
     def s3_client
       Aws::S3::Client.new(client_config)
     end
@@ -16,9 +20,9 @@ module Egis
 
     private
 
-    def client_config
-      configuration = Egis.configuration
+    attr_reader :configuration
 
+    def client_config
       config = {}
       config[:region] = configuration.aws_region if configuration.aws_region
       config[:access_key_id] = configuration.aws_access_key_id if configuration.aws_access_key_id

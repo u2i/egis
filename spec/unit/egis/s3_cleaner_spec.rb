@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe Egis::S3Cleaner do
-  let(:cleaner) { described_class.new(aws_client_provider: aws_client_provider) }
+  let(:cleaner) { described_class.new(client: egis_client) }
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
-  let(:aws_client_provider) { instance_double(Egis::AwsClientProvider, s3_client: s3_client) }
+  let(:egis_client) { instance_double(Egis::Client, aws_s3_client: s3_client) }
 
   let(:s3_path_prefix) { 's3_path' }
   let(:bucket_name) { 'bucket_name' }
