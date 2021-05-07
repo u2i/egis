@@ -37,16 +37,18 @@ module Egis
 
     private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
 
-    attr_reader :aws_s3_client
+    attr_reader :output_downloader, :s3_cleaner
 
     def initialize(configuration: Egis.configuration,
                    aws_client_provider: Egis::AwsClientProvider.new(configuration),
                    s3_location_parser: Egis::S3LocationParser.new)
       @configuration = configuration
       @aws_athena_client = aws_client_provider.athena_client
-      @aws_s3_client = aws_client_provider.s3_client
       @s3_location_parser = s3_location_parser
       @query_status_backoff = configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
+
+      @output_downloader = Egis::OutputDownloader.new(aws_s3_client: aws_client_provider.s3_client)
+      @s3_cleaner = Egis::S3Cleaner.new(aws_s3_client: aws_client_provider.s3_client)
     end
 
     ##
@@ -106,7 +108,7 @@ module Egis
         QUERY_STATUS_MAPPING.fetch(query_status),
         query_execution.status.state_change_reason,
         parse_output_location(query_execution),
-        output_downloader: Egis::OutputDownloader.new(client: self)
+        output_downloader: output_downloader
       )
     end
 

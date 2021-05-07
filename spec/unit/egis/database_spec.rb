@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe Egis::Database do
-  let(:database) { described_class.new(database_name, client: client, output_downloader: output_downloader) }
-  let(:client) { instance_double(Egis::Client, aws_s3_client: aws_s3_client) }
-  let(:aws_s3_client) { Aws::S3::Client.new(stub_responses: true) }
+  let(:database) { described_class.new(database_name, client: client) }
+  let(:client) { instance_double(Egis::Client, output_downloader: output_downloader, s3_cleaner: s3_cleaner) }
   let(:output_downloader) { instance_double(Egis::OutputDownloader) }
+  let(:s3_cleaner) { instance_double(Egis::S3Cleaner) }
 
   let(:database_name) { 'name' }
   let(:table_name) { 'table' }

@@ -14,10 +14,9 @@ module Egis
   #   @return [String] Athena database name
   #
   class Database
-    def initialize(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new(client: client))
+    def initialize(name, client: Egis::Client.new)
       @client = client
       @name = name
-      @output_downloader = output_downloader
     end
 
     attr_reader :name, :client
@@ -33,7 +32,7 @@ module Egis
     # @return [Egis::Table]
 
     def table(table_name, table_schema, table_location, **options)
-      Table.new(self, table_name, table_schema, table_location, options: options, output_downloader: output_downloader)
+      Table.new(self, table_name, table_schema, table_location, options: options)
     end
 
     ##
@@ -103,13 +102,11 @@ module Egis
 
     def exists?
       query_status = client.execute_query("SHOW DATABASES LIKE '#{name}';", async: false, system_execution: true)
-      parsed_result = output_downloader.download(query_status.output_location)
+      parsed_result = client.output_downloader.download(query_status.output_location)
       parsed_result.flatten.include?(name)
     end
 
     private
-
-    attr_reader :output_downloader
 
     def log_database_creation
       Egis.logger.info { "Creating database #{name}" }
