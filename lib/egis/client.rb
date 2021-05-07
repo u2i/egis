@@ -33,16 +33,16 @@ module Egis
       'CANCELLED' => Egis::QueryStatus::CANCELLED
     }.freeze
 
-    DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
-
-    private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
+    private_constant :QUERY_STATUS_MAPPING
 
     attr_reader :output_downloader, :s3_cleaner
 
-    def initialize(configuration: Egis.configuration,
-                   aws_client_provider: Egis::AwsClientProvider.new(configuration),
-                   s3_location_parser: Egis::S3LocationParser.new)
-      @configuration = configuration
+    def initialize(aws_client_provider: nil,
+                   s3_location_parser: Egis::S3LocationParser.new,
+                   &block
+    )
+      @configuration = block_given? ? Egis.configuration.configure(&block) : Egis.configuration
+      aws_client_provider ||= Egis::AwsClientProvider.new(configuration)
       @aws_athena_client = aws_client_provider.athena_client
       @s3_location_parser = s3_location_parser
       @query_status_backoff = configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
@@ -114,7 +114,7 @@ module Egis
 
     private
 
-    attr_reader :configuration, :aws_athena_client, :s3_location_parser, :query_status_backoff
+    attr_reader :configuration, :aws_athena_client, :s3_location_parser
 
     def query_execution_params(query, work_group, database, output_location)
       work_group_params = work_group || configuration.work_group
@@ -137,7 +137,7 @@ module Egis
     def wait_for_query_to_finish(query_id)
       attempt = 1
       loop do
-        sleep(query_status_backoff.call(attempt))
+        sleep(configuration.query_status_backoff.call(attempt))
         status = query_status(query_id)
 
         return status unless status.queued? || status.running?

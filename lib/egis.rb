@@ -50,8 +50,8 @@ require 'egis/s3_location_parser'
 #
 module Egis
   class << self
-    def configure
-      yield(configuration)
+    def configure(&block)
+      configuration.configure(&block)
     end
 
     # @!visibility private
