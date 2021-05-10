@@ -38,20 +38,15 @@ module Egis
 
     private_constant :QUERY_STATUS_MAPPING
 
-    attr_reader :output_downloader, :s3_cleaner
-
     def initialize(aws_client_provider: nil,
                    s3_location_parser: Egis::S3LocationParser.new,
-                   &block
-    )
+                   &block)
       @configuration = block_given? ? Egis.configuration.dup.configure(&block) : Egis.configuration
       aws_client_provider ||= Egis::AwsClientProvider.new(configuration)
       @aws_athena_client = aws_client_provider.athena_client
+      @aws_s3_client = aws_client_provider.s3_client
       @s3_location_parser = s3_location_parser
-      @query_status_backoff = configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
-
-      @output_downloader = Egis::OutputDownloader.new(aws_s3_client: aws_client_provider.s3_client)
-      @s3_cleaner = Egis::S3Cleaner.new(aws_s3_client: aws_client_provider.s3_client)
+      @query_status_backoff = configuration.query_status_backoff
     end
 
     ##
@@ -115,9 +110,19 @@ module Egis
       )
     end
 
+    # @!visibility private
+    def output_downloader
+      @output_downloader ||= Egis::OutputDownloader.new(aws_s3_client: aws_s3_client)
+    end
+
+    # @!visibility private
+    def s3_cleaner
+      @s3_cleaner ||= Egis::S3Cleaner.new(aws_s3_client: aws_s3_client)
+    end
+
     private
 
-    attr_reader :configuration, :aws_athena_client, :s3_location_parser
+    attr_reader :configuration, :aws_athena_client, :s3_location_parser, :aws_s3_client
 
     def query_execution_params(query, work_group, database, output_location)
       work_group_params = work_group || configuration.work_group
