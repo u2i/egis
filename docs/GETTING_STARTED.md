@@ -24,6 +24,13 @@ Egis.configure do |config|
 end
 ```
 
+Alternatively, egis can be configured in runtime:
+```ruby
+Egis::Client.new do |config|
+  config.aws_region = 'AWS region'
+end
+```
+
 `Egis` client is a class that provides you with the interface for schema manipulation and running queries
 
 ```ruby

@@ -3,6 +3,10 @@
 
 ## 1.0
 
+### 1.5.0
+
+- Optionally configure Egis::Client in runtime
+
 ### 1.4.0
 
 - Add ability to insert data with hash values rather than arrays

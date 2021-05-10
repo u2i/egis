@@ -4,6 +4,9 @@ module Egis
   ##
   # The most fundamental {Egis} class. Provides an interface for executing Athena queries.
   #
+  # @yieldparam config [Egis::Configuration] Egis configuration block, if missing Egis will use global configuration
+  #   provided by {Egis.configure}
+  #
   # See configuration instructions {Egis.configure}.
   #
   # @see Egis.configure
