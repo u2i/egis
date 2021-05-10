@@ -16,6 +16,34 @@ RSpec.describe Egis::Client do
   let(:aws_s3_client) { Aws::S3::Client.new(stub_responses: true) }
   let(:work_group) { 'test_work_group' }
 
+  describe '#initialize' do
+    subject(:client) { described_class.new }
+
+    let(:default_region) { 'us-east-1' }
+    let(:custom_region) { 'us-west-1' }
+
+    before do
+      @old_region = Egis.configuration.aws_region
+      Egis.configure { |config| config.aws_region = default_region }
+    end
+    after { Egis.configuration.aws_region = @old_region }
+
+    context 'when using global configuration' do
+      it { expect(client.send(:aws_athena_client).config.region).to eq(default_region) }
+    end
+
+    context 'when using local configuration' do
+      subject(:client) do
+        described_class.new { |config| config.aws_region = custom_region }
+      end
+
+      specify do
+        expect(client.send(:aws_athena_client).config.region).to eq(custom_region)
+        expect(Egis.configuration.aws_region).to eq(default_region)
+      end
+    end
+  end
+
   describe '#query_status' do
     subject { client.query_status(query_execution_id) }
 

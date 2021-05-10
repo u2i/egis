@@ -44,7 +44,7 @@ module Egis
                    s3_location_parser: Egis::S3LocationParser.new,
                    &block
     )
-      @configuration = block_given? ? Egis.configuration.configure(&block) : Egis.configuration
+      @configuration = block_given? ? Egis.configuration.dup.configure(&block) : Egis.configuration
       aws_client_provider ||= Egis::AwsClientProvider.new(configuration)
       @aws_athena_client = aws_client_provider.athena_client
       @s3_location_parser = s3_location_parser
