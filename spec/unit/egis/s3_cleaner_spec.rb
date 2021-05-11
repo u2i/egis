@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Egis::S3Cleaner do
-  let(:cleaner) { described_class.new(aws_s3_client: s3_client) }
+  let(:cleaner) { described_class.new(s3_client) }
   let(:s3_client) { Aws::S3::Client.new(stub_responses: true) }
 
   let(:s3_path_prefix) { 's3_path' }

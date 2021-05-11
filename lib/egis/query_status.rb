@@ -23,7 +23,8 @@ module Egis
     attr_reader :id, :status, :message, :output_location
 
     def initialize(id, status, message, output_location,
-                   output_downloader: Egis::OutputDownloader.new,
+                   client: Egis::Client.new,
+                   output_downloader: Egis::OutputDownloader.new(client.aws_s3_client),
                    output_parser: Egis::OutputParser.new)
       raise ArgumentError, "Unsupported status #{status}" unless STATUSES.include?(status)
 

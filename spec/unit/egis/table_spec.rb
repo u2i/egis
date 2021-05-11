@@ -6,11 +6,11 @@ RSpec.describe Egis::Table do
   let(:table) do
     described_class.new(database, table_name, table_schema, table_location, partitions_generator: partitions_generator,
                                                                             table_ddl_generator: table_ddl_generator,
+                                                                            output_downloader: output_downloader,
                                                                             table_data_wiper: table_data_wiper)
   end
 
-  let(:database) { instance_double(Egis::Database, client: egis_client) }
-  let(:egis_client) { instance_double(Egis::Client, output_downloader: output_downloader) }
+  let(:database) { instance_double(Egis::Database) }
   let(:table_name) { 'table' }
   let(:table_schema) { instance_double(Egis::TableSchema) }
   let(:table_location) { 's3://bucket/table_key' }

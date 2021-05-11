@@ -17,10 +17,13 @@ module Egis
     DEFAULT_OPTIONS = {format: :tsv}.freeze
 
     def initialize(database, name, schema, location, options: {},
+                   client: Egis::Client.new,
                    partitions_generator: Egis::PartitionsGenerator.new,
                    table_ddl_generator: Egis::TableDDLGenerator.new,
+                   output_downloader: Egis::OutputDownloader.new(client.aws_s3_client),
                    output_parser: Egis::OutputParser.new,
-                   table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: database.client.s3_cleaner))
+                   s3_cleaner: Egis::S3Cleaner.new(client.aws_s3_client),
+                   table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: s3_cleaner))
       @database = database
       @name = name
       @schema = schema
@@ -28,6 +31,7 @@ module Egis
       @options = DEFAULT_OPTIONS.merge(options)
       @partitions_generator = partitions_generator
       @table_ddl_generator = table_ddl_generator
+      @output_downloader = output_downloader
       @output_parser = output_parser
       @table_data_wiper = table_data_wiper
     end
@@ -122,7 +126,7 @@ module Egis
 
     def download_data
       result = database.execute_query("SELECT * FROM #{name};", async: false, system_execution: true)
-      content = database.client.output_downloader.download(result.output_location)
+      content = output_downloader.download(result.output_location)
       output_parser.parse(content, column_types)
     end
 
@@ -152,7 +156,7 @@ module Egis
 
     private
 
-    attr_reader :options, :partitions_generator, :table_ddl_generator, :output_parser,
+    attr_reader :options, :partitions_generator, :table_ddl_generator, :output_downloader, :output_parser,
                 :table_data_wiper
 
     def log_table_creation
