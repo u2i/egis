@@ -38,15 +38,17 @@ module Egis
 
     private_constant :QUERY_STATUS_MAPPING
 
-    def initialize(aws_client_provider: nil,
+    attr_reader :output_downloader, :s3_cleaner
+
+    def initialize(aws_client_provider: Egis::AwsClientProvider.new,
                    s3_location_parser: Egis::S3LocationParser.new,
                    &block)
       @configuration = block_given? ? Egis.configuration.dup.configure(&block) : Egis.configuration
-      aws_client_provider ||= Egis::AwsClientProvider.new(configuration)
-      @aws_athena_client = aws_client_provider.athena_client
-      @aws_s3_client = aws_client_provider.s3_client
+      @aws_athena_client = aws_client_provider.athena_client(configuration)
+      @aws_s3_client = aws_client_provider.s3_client(configuration)
       @s3_location_parser = s3_location_parser
-      @query_status_backoff = configuration.query_status_backoff
+      @output_downloader = Egis::OutputDownloader.new(aws_s3_client)
+      @s3_cleaner = Egis::S3Cleaner.new(aws_s3_client)
     end
 
     ##
@@ -108,16 +110,6 @@ module Egis
         parse_output_location(query_execution),
         output_downloader: output_downloader
       )
-    end
-
-    # @!visibility private
-    def output_downloader
-      @output_downloader ||= Egis::OutputDownloader.new(aws_s3_client: aws_s3_client)
-    end
-
-    # @!visibility private
-    def s3_cleaner
-      @s3_cleaner ||= Egis::S3Cleaner.new(aws_s3_client: aws_s3_client)
     end
 
     private

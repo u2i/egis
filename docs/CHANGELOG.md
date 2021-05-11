@@ -5,7 +5,7 @@
 
 ### 1.5.0
 
-- Optionally configure Egis::Client in runtime
+- Ability to configure Egis per client
 
 ### 1.4.0
 
