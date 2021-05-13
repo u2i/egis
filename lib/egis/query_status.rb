@@ -52,6 +52,10 @@ module Egis
       status == RUNNING
     end
 
+    def cancelled?
+      status == CANCELLED
+    end
+
     def in_progress?
       [RUNNING, QUEUED].include?(status)
     end
