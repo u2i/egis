@@ -4,8 +4,10 @@ require 'spec_helper'
 
 RSpec.describe Egis::Database do
   let(:database) { described_class.new(database_name, client: client, output_downloader: output_downloader) }
-  let(:client) { instance_double(Egis::Client) }
+  let(:client) { instance_double(Egis::Client, aws_s3_client: aws_s3_client) }
+  let(:aws_s3_client) { Aws::S3::Client.new(stub_responses: true) }
   let(:output_downloader) { instance_double(Egis::OutputDownloader) }
+  let(:s3_cleaner) { instance_double(Egis::S3Cleaner) }
 
   let(:database_name) { 'name' }
   let(:table_name) { 'table' }
@@ -101,7 +103,9 @@ RSpec.describe Egis::Database do
     subject { database.exists? }
 
     let(:location) { Egis::QueryOutputLocation.new('url', 'bucket', 'key') }
-    let(:query_status) { Egis::QueryStatus.new('123', Egis::QueryStatus::FINISHED, 'ok', location) }
+    let(:query_status) do
+      Egis::QueryStatus.new('123', Egis::QueryStatus::FINISHED, 'ok', location, output_downloader: output_downloader)
+    end
     let(:query) { "SHOW DATABASES LIKE '#{database_name}';" }
 
     context 'when db present' do

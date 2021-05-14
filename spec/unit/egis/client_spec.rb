@@ -3,15 +3,44 @@
 require 'spec_helper'
 
 RSpec.describe Egis::Client do
-  let(:client) { described_class.new(aws_client_provider: aws_client_provider) }
-  let(:aws_client_provider) { instance_double(Egis::AwsClientProvider, athena_client: aws_athena_client) }
-  let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
-  let(:work_group) { 'test_work_group' }
-
-  before do
-    ::Egis.configure do |config|
+  let(:client) do
+    described_class.new(aws_client_provider: aws_client_provider) do |config|
       config.work_group = work_group
       config.query_status_backoff = ->(_i) { 0.01 }
+    end
+  end
+  let(:aws_client_provider) do
+    instance_double(Egis::AwsClientProvider, s3_client: aws_s3_client, athena_client: aws_athena_client)
+  end
+  let(:aws_athena_client) { Aws::Athena::Client.new(stub_responses: true) }
+  let(:aws_s3_client) { Aws::S3::Client.new(stub_responses: true) }
+  let(:work_group) { 'test_work_group' }
+
+  describe '#initialize' do
+    subject(:client) { described_class.new }
+
+    let(:default_region) { 'us-east-1' }
+    let(:custom_region) { 'us-west-1' }
+
+    before do
+      @old_region = Egis.configuration.aws_region
+      Egis.configure { |config| config.aws_region = default_region }
+    end
+    after { Egis.configuration.aws_region = @old_region }
+
+    context 'when using global configuration' do
+      it { expect(client.send(:aws_athena_client).config.region).to eq(default_region) }
+    end
+
+    context 'when using local configuration' do
+      subject(:client) do
+        described_class.new { |config| config.aws_region = custom_region }
+      end
+
+      specify do
+        expect(client.send(:aws_athena_client).config.region).to eq(custom_region)
+        expect(Egis.configuration.aws_region).to eq(default_region)
+      end
     end
   end
 

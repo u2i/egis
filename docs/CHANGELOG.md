@@ -3,6 +3,10 @@
 
 ## 1.0
 
+### 1.5.0
+
+- Ability to configure Egis per client
+
 ### 1.4.0
 
 - Add ability to insert data with hash values rather than arrays

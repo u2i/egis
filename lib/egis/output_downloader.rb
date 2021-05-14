@@ -5,8 +5,8 @@ require 'csv'
 module Egis
   # @!visibility private
   class OutputDownloader
-    def initialize(aws_client_provider: Egis::AwsClientProvider.new)
-      @s3_client = aws_client_provider.s3_client
+    def initialize(aws_s3_client)
+      @s3_client = aws_s3_client
     end
 
     def download(output_location)

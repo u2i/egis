@@ -8,6 +8,12 @@ module Egis
 
     def initialize
       @logger = Logger.new(STDOUT, level: :info)
+      @query_status_backoff = ->(attempt) { 1.5**attempt - 1 }
+    end
+
+    def configure
+      yield(self)
+      self
     end
   end
 end

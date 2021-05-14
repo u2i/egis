@@ -212,7 +212,9 @@ RSpec.describe Egis::Table do
 
     let(:expected_query) { 'SELECT * FROM table;' }
 
-    let(:query_status) { Egis::QueryStatus.new('123', :finished, 'query message', output_location) }
+    let(:query_status) do
+      Egis::QueryStatus.new('123', :finished, 'query message', output_location, output_downloader: output_downloader)
+    end
     let(:output_location) { Egis::QueryOutputLocation.new('s3://bucket/path', 'bucket', 'path') }
 
     it 'downloads and parses data correctly' do

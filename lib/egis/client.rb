@@ -4,6 +4,9 @@ module Egis
   ##
   # The most fundamental {Egis} class. Provides an interface for executing Athena queries.
   #
+  # @yieldparam config [Egis::Configuration] Egis configuration block, if missing Egis will use global configuration
+  #   provided by {Egis.configure}
+  #
   # See configuration instructions {Egis.configure}.
   #
   # @see Egis.configure
@@ -33,14 +36,17 @@ module Egis
       'CANCELLED' => Egis::QueryStatus::CANCELLED
     }.freeze
 
-    DEFAULT_QUERY_STATUS_BACKOFF = ->(attempt) { 1.5**attempt - 1 }
+    private_constant :QUERY_STATUS_MAPPING
 
-    private_constant :QUERY_STATUS_MAPPING, :DEFAULT_QUERY_STATUS_BACKOFF
+    attr_reader :aws_s3_client
 
-    def initialize(aws_client_provider: Egis::AwsClientProvider.new, s3_location_parser: Egis::S3LocationParser.new)
-      @aws_athena_client = aws_client_provider.athena_client
+    def initialize(aws_client_provider: Egis::AwsClientProvider.new,
+                   s3_location_parser: Egis::S3LocationParser.new,
+                   &block)
+      @configuration = block_given? ? Egis.configuration.dup.configure(&block) : Egis.configuration
+      @aws_athena_client = aws_client_provider.athena_client(configuration)
+      @aws_s3_client = aws_client_provider.s3_client(configuration)
       @s3_location_parser = s3_location_parser
-      @query_status_backoff = Egis.configuration.query_status_backoff || DEFAULT_QUERY_STATUS_BACKOFF
     end
 
     ##
@@ -99,16 +105,17 @@ module Egis
         query_execution.query_execution_id,
         QUERY_STATUS_MAPPING.fetch(query_status),
         query_execution.status.state_change_reason,
-        parse_output_location(query_execution)
+        parse_output_location(query_execution),
+        client: self
       )
     end
 
     private
 
-    attr_reader :aws_athena_client, :s3_location_parser, :query_status_backoff
+    attr_reader :configuration, :aws_athena_client, :s3_location_parser
 
     def query_execution_params(query, work_group, database, output_location)
-      work_group_params = work_group || Egis.configuration.work_group
+      work_group_params = work_group || configuration.work_group
 
       params = {query_string: query}
       params[:work_group] = work_group_params if work_group_params
@@ -128,7 +135,7 @@ module Egis
     def wait_for_query_to_finish(query_id)
       attempt = 1
       loop do
-        sleep(query_status_backoff.call(attempt))
+        sleep(configuration.query_status_backoff.call(attempt))
         status = query_status(query_id)
 
         return status unless status.queued? || status.running?

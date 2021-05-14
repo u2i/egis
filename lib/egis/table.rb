@@ -17,11 +17,13 @@ module Egis
     DEFAULT_OPTIONS = {format: :tsv}.freeze
 
     def initialize(database, name, schema, location, options: {},
+                   client: Egis::Client.new,
                    partitions_generator: Egis::PartitionsGenerator.new,
                    table_ddl_generator: Egis::TableDDLGenerator.new,
-                   output_downloader: Egis::OutputDownloader.new,
+                   output_downloader: Egis::OutputDownloader.new(client.aws_s3_client),
                    output_parser: Egis::OutputParser.new,
-                   table_data_wiper: Egis::TableDataWiper.new)
+                   s3_cleaner: Egis::S3Cleaner.new(client.aws_s3_client),
+                   table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: s3_cleaner))
       @database = database
       @name = name
       @schema = schema

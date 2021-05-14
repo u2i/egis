@@ -6,7 +6,7 @@ module Egis
     class TestingMode
       def initialize(test_id, s3_bucket,
                      client: Egis::Client.new,
-                     output_downloader: Egis::OutputDownloader.new,
+                     output_downloader: Egis::OutputDownloader.new(client.aws_s3_client),
                      s3_location_parser: Egis::S3LocationParser.new)
         @test_id = test_id
         @s3_bucket = s3_bucket

@@ -14,10 +14,10 @@ module Egis
   #   @return [String] Athena database name
   #
   class Database
-    def initialize(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)
+    def initialize(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new(client.aws_s3_client))
       @client = client
-      @name = name
       @output_downloader = output_downloader
+      @name = name
     end
 
     attr_reader :name
@@ -33,7 +33,7 @@ module Egis
     # @return [Egis::Table]
 
     def table(table_name, table_schema, table_location, **options)
-      Table.new(self, table_name, table_schema, table_location, options: options)
+      Table.new(self, table_name, table_schema, table_location, client: client, options: options)
     end
 
     ##
