@@ -404,7 +404,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(database, name, schema, location, options: {}, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new, output_parser: Egis::OutputParser.new, table_data_wiper: Egis::TableDataWiper.new)  &#x21d2; Table </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(database, name, schema, location, options: {}, client: Egis::Client.new, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new(client.aws_s3_client), output_parser: Egis::OutputParser.new, s3_cleaner: Egis::S3Cleaner.new(client.aws_s3_client), table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: s3_cleaner))  &#x21d2; Table </a>
     
 
     
@@ -508,7 +508,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(database, name, schema, location, options: {}, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new, output_parser: Egis::OutputParser.new, table_data_wiper: Egis::TableDataWiper.new)  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></tt> 
+    #<strong>initialize</strong>(database, name, schema, location, options: {}, client: Egis::Client.new, partitions_generator: Egis::PartitionsGenerator.new, table_ddl_generator: Egis::TableDDLGenerator.new, output_downloader: Egis::OutputDownloader.new(client.aws_s3_client), output_parser: Egis::OutputParser.new, s3_cleaner: Egis::S3Cleaner.new(client.aws_s3_client), table_data_wiper: Egis::TableDataWiper.new(s3_cleaner: s3_cleaner))  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Table (class)">Table</a></span></tt> 
   
 
   
@@ -547,17 +547,21 @@
 32
 33
 34
-35</pre>
+35
+36
+37</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+               <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span>
                <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
                <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-               <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+               <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
                <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-               <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+               <span class='label'>s3_cleaner:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>S3Cleaner</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
+               <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>s3_cleaner:</span> <span class='id identifier rubyid_s3_cleaner'>s3_cleaner</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
@@ -794,7 +798,9 @@
 189
 190
 191
-192</pre>
+192
+193
+194</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -803,11 +809,13 @@
   <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span>
                  <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
                  <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
                  <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+                 <span class='label'>s3_cleaner:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>S3Cleaner</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>s3_cleaner:</span> <span class='id identifier rubyid_s3_cleaner'>s3_cleaner</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
     <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
     <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
@@ -1203,7 +1211,9 @@
 189
 190
 191
-192</pre>
+192
+193
+194</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -1212,11 +1222,13 @@
   <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span>
                  <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
                  <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
                  <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+                 <span class='label'>s3_cleaner:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>S3Cleaner</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>s3_cleaner:</span> <span class='id identifier rubyid_s3_cleaner'>s3_cleaner</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
     <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
     <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
@@ -1612,7 +1624,9 @@
 189
 190
 191
-192</pre>
+192
+193
+194</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 16</span>
@@ -1621,11 +1635,13 @@
   <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Egis::Table::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>format:</span> <span class='symbol'>:tsv</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
 
   <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_database'>database</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_schema'>schema</span><span class='comma'>,</span> <span class='id identifier rubyid_location'>location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span>
+                 <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span>
                  <span class='label'>partitions_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>PartitionsGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
                  <span class='label'>table_ddl_generator:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDDLGenerator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
+                 <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
                  <span class='label'>output_parser:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputParser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span>
-                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+                 <span class='label'>s3_cleaner:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>S3Cleaner</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='comma'>,</span>
+                 <span class='label'>table_data_wiper:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>TableDataWiper</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>s3_cleaner:</span> <span class='id identifier rubyid_s3_cleaner'>s3_cleaner</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='ivar'>@database</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span>
     <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
     <span class='ivar'>@schema</span> <span class='op'>=</span> <span class='id identifier rubyid_schema'>schema</span>
@@ -1855,13 +1871,13 @@
       <pre class="lines">
 
 
-72
-73
 74
-75</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -1923,13 +1939,13 @@
       <pre class="lines">
 
 
-81
-82
 83
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_partitions!'>add_partitions!</span><span class='lparen'>(</span><span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_load_partitions_query'>load_partitions_query</span> <span class='op'>=</span> <span class='id identifier rubyid_partitions_generator'>partitions_generator</span><span class='period'>.</span><span class='id identifier rubyid_to_sql'>to_sql</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='comma'>,</span> <span class='label'>permissive:</span> <span class='kw'>false</span><span class='rparen'>)</span>
@@ -1966,15 +1982,15 @@
       <pre class="lines">
 
 
-44
-45
 46
 47
 48
-49</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_log_table_creation'>log_table_creation</span>
@@ -2013,15 +2029,15 @@
       <pre class="lines">
 
 
-56
-57
 58
 59
 60
-61</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create!'>create!</span>
   <span class='id identifier rubyid_log_table_creation'>log_table_creation</span>
@@ -2060,12 +2076,12 @@
       <pre class="lines">
 
 
-93
-94
-95</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_discover_partitions'>discover_partitions</span>
   <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MSCK REPAIR TABLE </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>system_execution:</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -2119,14 +2135,14 @@
       <pre class="lines">
 
 
-125
-126
 127
 128
-129</pre>
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_download_data'>download_data</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_database'>database</span><span class='period'>.</span><span class='id identifier rubyid_execute_query'>execute_query</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * FROM </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>async:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>system_execution:</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -2182,12 +2198,12 @@
       <pre class="lines">
 
 
-144
-145
-146</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_format'>format</span>
   <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:format</span><span class='rparen'>)</span>
@@ -2241,12 +2257,12 @@
       <pre class="lines">
 
 
-151
-152
-153</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
   <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mode'>mode</span><span class='period'>.</span><span class='id identifier rubyid_s3_path'>s3_path</span><span class='lparen'>(</span><span class='ivar'>@location</span><span class='rparen'>)</span>
@@ -2327,13 +2343,13 @@
       <pre class="lines">
 
 
-115
-116
 117
-118</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_data_insert_query'>data_insert_query</span><span class='lparen'>(</span><span class='id identifier rubyid_rows'>rows</span><span class='rparen'>)</span>
@@ -2392,12 +2408,12 @@
       <pre class="lines">
 
 
-137
-138
-139</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/egis/table.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wipe_data'>wipe_data</span><span class='lparen'>(</span><span class='label'>partitions:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_table_data_wiper'>table_data_wiper</span><span class='period'>.</span><span class='id identifier rubyid_wipe_table_data'>wipe_table_data</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_partitions'>partitions</span><span class='rparen'>)</span>
@@ -2412,9 +2428,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Mar 12 07:46:25 2021 by
+  Generated on Fri May 14 10:31:23 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.26 (ruby-2.7.2).
+  0.9.26 (ruby-2.7.3).
 </div>
 
     </div>

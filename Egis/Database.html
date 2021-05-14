@@ -310,7 +310,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)  &#x21d2; Database </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new(client.aws_s3_client))  &#x21d2; Database </a>
     
 
     
@@ -390,7 +390,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new)  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span></tt> 
+    #<strong>initialize</strong>(name, client: Egis::Client.new, output_downloader: Egis::OutputDownloader.new(client.aws_s3_client))  &#x21d2; <tt><span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span></tt> 
   
 
   
@@ -422,10 +422,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 17</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
-  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+  <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -598,10 +598,10 @@
       <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 16</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span></span>
-  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client.html#initialize-instance_method" title="Egis::Client#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='label'>output_downloader:</span> <span class='const'><span class='object_link'><a href="../Egis.html" title="Egis (module)">Egis</a></span></span><span class='op'>::</span><span class='const'>OutputDownloader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_aws_s3_client'>aws_s3_client</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
-    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
     <span class='ivar'>@output_downloader</span> <span class='op'>=</span> <span class='id identifier rubyid_output_downloader'>output_downloader</span>
+    <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:name</span>
@@ -617,7 +617,7 @@
 </span>  <span class='comment'># @return [Egis::Table]
 </span>
   <span class='kw'>def</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-    <span class='const'><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Table.html#initialize-instance_method" title="Egis::Table#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Table.html#initialize-instance_method" title="Egis::Table#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='id identifier rubyid_client'>client</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'>##
@@ -1280,7 +1280,7 @@
       <pre class="code"><span class="info file"># File 'lib/egis/database.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_table'>table</span><span class='lparen'>(</span><span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Table.html#initialize-instance_method" title="Egis::Table#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Table.html#initialize-instance_method" title="Egis::Table#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_table_name'>table_name</span><span class='comma'>,</span> <span class='id identifier rubyid_table_schema'>table_schema</span><span class='comma'>,</span> <span class='id identifier rubyid_table_location'>table_location</span><span class='comma'>,</span> <span class='label'>client:</span> <span class='id identifier rubyid_client'>client</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1292,9 +1292,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Mar 12 07:46:25 2021 by
+  Generated on Fri May 14 10:31:23 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.26 (ruby-2.7.2).
+  0.9.26 (ruby-2.7.3).
 </div>
 
     </div>
