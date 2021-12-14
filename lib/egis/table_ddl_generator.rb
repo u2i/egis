@@ -45,15 +45,39 @@ module Egis
     end
 
     def serde_row_format_statement(format)
-      row_format = "ROW FORMAT SERDE '#{format[:serde]}'"
-      return row_format unless format.key?(:serde_properties)
-
-      serde_properties = format[:serde_properties].map { |property, value| "'#{property}' = '#{value}'" }
       <<-SQL
-        #{row_format}
+        ROW FORMAT SERDE '#{format[:serde]}'
+        #{serde_properties(format)}
+        #{serde_input_format(format)}
+        #{serde_output_format(format)}
+      SQL
+    end
+
+    def serde_properties(format)
+      return '' unless format.key?(:serde_properties)
+
+      serde_properties = format.fetch(:serde_properties).map { |property, value| "'#{property}' = '#{value}'" }
+
+      <<-SQL
         WITH SERDEPROPERTIES (
           #{serde_properties.join(",\n")}
         )
+      SQL
+    end
+
+    def serde_input_format(format)
+      return '' unless format.key?(:serde_input_format)
+
+      <<-SQL
+        STORED AS INPUTFORMAT '#{format.fetch(:serde_input_format)}'
+      SQL
+    end
+
+    def serde_output_format(format)
+      return '' unless format.key?(:serde_output_format)
+
+      <<-SQL
+        OUTPUTFORMAT '#{format.fetch(:serde_output_format)}'
       SQL
     end
 

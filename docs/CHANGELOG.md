@@ -3,6 +3,10 @@
 
 ## 1.0
 
+### 1.6.0
+
+- Add support for INPUTFORMAT and OUTPUTFORMAT when creating table
+
 ### 1.5.0
 
 - Ability to configure Egis per client

@@ -190,6 +190,62 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
+      context 'when given table serde with serde input format' do
+        let(:format) do
+          {
+            serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe',
+            serde_input_format: 'org.apache.hadoop.mapred.TextInputFormat'
+          }
+        end
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+            STORED AS INPUTFORMAT 'org.apache.hadoop.mapred.TextInputFormat'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when given table serde with serde output format' do
+        let(:format) do
+          {
+            serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe',
+            serde_output_format: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+          }
+        end
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+            OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
       context 'when given an unsupported format' do
         let(:format) { :unknown_format }
 

@@ -28,8 +28,14 @@ module Egis
     # @param [String] table_name
     # @param [Egis::TableSchema] table_schema
     # @param [String] table_location S3 URL with table location (e.g. `s3://s3_bucket/table/location/`)
-    # @param [:tsv, :csv, :orc, {serde: 'SerdeClass', serde_properties: {property: value}}] format Table format
-    # (defaults to :tsv)
+    # @param [:tsv, :csv, :orc, Hash] format Table Format. You can use Hash if you want to be more specific:
+    #   {
+    #     serde: 'SerdeClass',
+    #     serde_properties: {property: value},
+    #     serde_input_format: 'InputFormatClass',
+    #     serde_output_format: 'OutputFormatClass'
+    #   }
+    #   (defaults to :tsv)
     # @return [Egis::Table]
 
     def table(table_name, table_schema, table_location, **options)
