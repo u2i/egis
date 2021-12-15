@@ -34,60 +34,28 @@ module Egis
       columns.map { |column| "`#{column.name}` #{column.type}" }.join(",\n")
     end
 
-    def serde?(format)
-      format.is_a?(Hash) && format.key?(:serde)
-    end
-
     def row_format_statement(format)
-      return serde_row_format_statement(format) if serde?(format)
+      return "ROW FORMAT #{format}" if format.is_a?(String)
 
-      delimited_row_format_statement(format)
+      format_preset(format)
     end
 
-    def serde_row_format_statement(format)
-      <<-SQL
-        ROW FORMAT SERDE '#{format[:serde]}'
-        #{serde_properties(format)}
-        #{serde_input_format(format)}
-        #{serde_output_format(format)}
-      SQL
-    end
-
-    def serde_properties(format)
-      return '' unless format.key?(:serde_properties)
-
-      serde_properties = format.fetch(:serde_properties).map { |property, value| "'#{property}' = '#{value}'" }
-
-      <<-SQL
-        WITH SERDEPROPERTIES (
-          #{serde_properties.join(",\n")}
-        )
-      SQL
-    end
-
-    def serde_input_format(format)
-      return '' unless format.key?(:serde_input_format)
-
-      <<-SQL
-        STORED AS INPUTFORMAT '#{format.fetch(:serde_input_format)}'
-      SQL
-    end
-
-    def serde_output_format(format)
-      return '' unless format.key?(:serde_output_format)
-
-      <<-SQL
-        OUTPUTFORMAT '#{format.fetch(:serde_output_format)}'
-      SQL
-    end
-
-    def delimited_row_format_statement(format)
+    def format_preset(format) # rubocop:disable Metrics/MethodLength
       case format
       when :csv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
       when :tsv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'"
       when :orc
+        <<~SQL
+          ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
+          WITH SERDEPROPERTIES (
+            'orc.column.index.access' = 'false'
+          )
+          STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'
+          OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
+        SQL
+      when :orc_legacy
         'STORED AS ORC'
       else
         raise Errors::UnsupportedTableFormat, format.to_s

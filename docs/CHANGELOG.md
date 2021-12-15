@@ -3,9 +3,10 @@
 
 ## 1.0
 
-### 1.6.0
+### 2.0.0
 
-- Add support for INPUTFORMAT and OUTPUTFORMAT when creating table
+- **[breaking change]** Make `:orc` table format to have `orc.column.index.access` disabled by default. `:orc_legacy` preset replaces the previous one
+- **[breaking change]** Simplify table format to take either symbols for presets or a string if you want to specify a custom format
 
 ### 1.5.0
 
