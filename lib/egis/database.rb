@@ -28,8 +28,7 @@ module Egis
     # @param [String] table_name
     # @param [Egis::TableSchema] table_schema
     # @param [String] table_location S3 URL with table location (e.g. `s3://s3_bucket/table/location/`)
-    # @param [:tsv, :csv, :orc, {serde: 'SerdeClass', serde_properties: {property: value}}] format Table format
-    # (defaults to :tsv)
+    # @param [:tsv, :csv, :orc, :orc_index_access, :json, String] format Table Format (defaults to :tsv)
     # @return [Egis::Table]
 
     def table(table_name, table_schema, table_location, **options)

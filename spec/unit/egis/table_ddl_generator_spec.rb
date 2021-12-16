@@ -71,7 +71,7 @@ RSpec.describe Egis::TableDDLGenerator do
     describe 'table format' do
       subject { strip_whitespaces(generator.create_table_sql(table)) }
 
-      context 'when given tsv format' do
+      context 'when given tsv format preset' do
         let(:format) { :tsv }
 
         let(:expected_query) do
@@ -93,7 +93,7 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given csv format' do
+      context 'when given csv format preset' do
         let(:format) { :csv }
 
         let(:expected_query) do
@@ -115,8 +115,35 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given ORC format' do
+      context 'when given orc format preset' do
         let(:format) { :orc }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
+            WITH SERDEPROPERTIES (
+              'orc.column.index.access' = 'false'
+            )
+            STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'
+            OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when given orc_index_access format preset' do
+        let(:format) { :orc_index_access }
 
         let(:expected_query) do
           strip_whitespaces <<~SQL
@@ -137,8 +164,8 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given table serde' do
-        let(:format) { {serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'} }
+      context 'when given json format preset' do
+        let(:format) { :json }
 
         let(:expected_query) do
           strip_whitespaces <<~SQL
@@ -151,7 +178,7 @@ RSpec.describe Egis::TableDDLGenerator do
               `dth` int,
               `type` string
             )
-            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+            ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
             LOCATION '#{location}';
           SQL
         end
@@ -159,13 +186,8 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given table serde with serde properties' do
-        let(:format) do
-          {
-            serde: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe',
-            serde_properties: {'serialization.format' => ',', 'field.delim' => ','}
-          }
-        end
+      context 'when format is a string' do
+        let(:format) { 'CUSTOM FORMAT STRING' }
 
         let(:expected_query) do
           strip_whitespaces <<~SQL
@@ -178,11 +200,7 @@ RSpec.describe Egis::TableDDLGenerator do
               `dth` int,
               `type` string
             )
-            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
-            WITH SERDEPROPERTIES (
-              'serialization.format' = ',',
-              'field.delim' = ','
-            )
+            CUSTOM FORMAT STRING
             LOCATION '#{location}';
           SQL
         end
@@ -190,7 +208,7 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given an unsupported format' do
+      context 'when given an unsupported format preset' do
         let(:format) { :unknown_format }
 
         it 'raises an error' do

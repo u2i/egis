@@ -142,7 +142,6 @@ module Egis
 
     ##
     # @return Table data format
-
     def format
       options.fetch(:format)
     end

@@ -9,7 +9,7 @@ module Egis
           #{column_definition_sql(table.schema.columns)}
         )
         #{partition_statement(table.schema)}
-        #{row_format_statement(table.format)}
+        #{format_statement(table.format)}
         LOCATION '#{table.location}';
       SQL
     end
@@ -34,37 +34,31 @@ module Egis
       columns.map { |column| "`#{column.name}` #{column.type}" }.join(",\n")
     end
 
-    def serde?(format)
-      format.is_a?(Hash) && format.key?(:serde)
+    def format_statement(format)
+      return format if format.is_a?(String)
+
+      format_preset(format)
     end
 
-    def row_format_statement(format)
-      return serde_row_format_statement(format) if serde?(format)
-
-      delimited_row_format_statement(format)
-    end
-
-    def serde_row_format_statement(format)
-      row_format = "ROW FORMAT SERDE '#{format[:serde]}'"
-      return row_format unless format.key?(:serde_properties)
-
-      serde_properties = format[:serde_properties].map { |property, value| "'#{property}' = '#{value}'" }
-      <<-SQL
-        #{row_format}
-        WITH SERDEPROPERTIES (
-          #{serde_properties.join(",\n")}
-        )
-      SQL
-    end
-
-    def delimited_row_format_statement(format)
+    def format_preset(format) # rubocop:disable Metrics/MethodLength
       case format
       when :csv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
       when :tsv
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'"
       when :orc
+        <<~SQL
+          ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
+          WITH SERDEPROPERTIES (
+            'orc.column.index.access' = 'false'
+          )
+          STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'
+          OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
+        SQL
+      when :orc_index_access
         'STORED AS ORC'
+      when :json
+        "ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'"
       else
         raise Errors::UnsupportedTableFormat, format.to_s
       end
