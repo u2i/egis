@@ -115,28 +115,6 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when given orc_legacy format preset' do
-        let(:format) { :orc_legacy }
-
-        let(:expected_query) do
-          strip_whitespaces <<~SQL
-            CREATE EXTERNAL TABLE #{table_name} (
-              `id` int,
-              `message` string,
-              `time` timestamp
-            )
-            PARTITIONED BY (
-              `dth` int,
-              `type` string
-            )
-            STORED AS ORC
-            LOCATION '#{location}';
-          SQL
-        end
-
-        it { is_expected.to eq(expected_query) }
-      end
-
       context 'when given orc format preset' do
         let(:format) { :orc }
 
@@ -164,8 +142,8 @@ RSpec.describe Egis::TableDDLGenerator do
         it { is_expected.to eq(expected_query) }
       end
 
-      context 'when format is a string' do
-        let(:format) { 'CUSTOM FORMAT' }
+      context 'when given orc_index_access format preset' do
+        let(:format) { :orc_index_access }
 
         let(:expected_query) do
           strip_whitespaces <<~SQL
@@ -178,7 +156,51 @@ RSpec.describe Egis::TableDDLGenerator do
               `dth` int,
               `type` string
             )
-            ROW FORMAT CUSTOM FORMAT
+            STORED AS ORC
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when given json format preset' do
+        let(:format) { :json }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+            LOCATION '#{location}';
+          SQL
+        end
+
+        it { is_expected.to eq(expected_query) }
+      end
+
+      context 'when format is a string' do
+        let(:format) { 'CUSTOM FORMAT STRING' }
+
+        let(:expected_query) do
+          strip_whitespaces <<~SQL
+            CREATE EXTERNAL TABLE #{table_name} (
+              `id` int,
+              `message` string,
+              `time` timestamp
+            )
+            PARTITIONED BY (
+              `dth` int,
+              `type` string
+            )
+            CUSTOM FORMAT STRING
             LOCATION '#{location}';
           SQL
         end

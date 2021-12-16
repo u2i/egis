@@ -5,8 +5,9 @@
 
 ### 2.0.0
 
-- **[breaking change]** Make `:orc` table format to have `orc.column.index.access` disabled by default. `:orc_legacy` preset replaces the previous one
+- **[breaking change]** Make `:orc` table format to resolve columns by names instead of indexes. `:orc_index_access` preserves existing behavior
 - **[breaking change]** Simplify table format to take either symbols for presets or a string if you want to specify a custom format
+- Add `:json` table format preset
 
 ### 1.5.0
 

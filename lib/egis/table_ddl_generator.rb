@@ -9,7 +9,7 @@ module Egis
           #{column_definition_sql(table.schema.columns)}
         )
         #{partition_statement(table.schema)}
-        #{row_format_statement(table.format)}
+        #{format_statement(table.format)}
         LOCATION '#{table.location}';
       SQL
     end
@@ -34,8 +34,8 @@ module Egis
       columns.map { |column| "`#{column.name}` #{column.type}" }.join(",\n")
     end
 
-    def row_format_statement(format)
-      return "ROW FORMAT #{format}" if format.is_a?(String)
+    def format_statement(format)
+      return format if format.is_a?(String)
 
       format_preset(format)
     end
@@ -55,8 +55,10 @@ module Egis
           STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'
           OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'
         SQL
-      when :orc_legacy
+      when :orc_index_access
         'STORED AS ORC'
+      when :json
+        "ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'"
       else
         raise Errors::UnsupportedTableFormat, format.to_s
       end
