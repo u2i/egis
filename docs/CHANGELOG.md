@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.0
+
+### 3.0.0
+
+- **[breaking change]** Require Ruby 3.3 or newer; add Ruby 3.4 and 4.0 support
+- Declare `csv` and `logger` as runtime dependencies (no longer default gems in recent Rubies)
+- Upgrade development toolchain (RuboCop 1.x, CI actions)
+
 ## 2.0
 
 ### 2.0.0
