@@ -24,7 +24,10 @@ Gem::Specification.new do |spec|
     `git ls-files -z egis.gemspec lib/`.split("\x0")
   end
   spec.require_paths = ['lib']
+  spec.required_ruby_version = '>= 3.3'
 
   spec.add_dependency 'aws-sdk-athena', '~> 1.0'
   spec.add_dependency 'aws-sdk-s3', '~> 1.0'
+  spec.add_dependency 'csv'
+  spec.add_dependency 'logger'
 end

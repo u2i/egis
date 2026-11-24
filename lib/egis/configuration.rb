@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'logger'
+
 module Egis
   # @!visibility private
   class Configuration
@@ -7,7 +9,7 @@ module Egis
                   :query_status_backoff, :testing_s3_bucket, :logger
 
     def initialize
-      @logger = Logger.new(STDOUT, level: :info)
+      @logger = Logger.new($stdout, level: :info)
       @query_status_backoff = ->(attempt) { 1.5**attempt - 1 }
     end
 

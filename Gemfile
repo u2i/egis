@@ -8,5 +8,5 @@ gemspec
 gem 'bundler'
 gem 'rake', '>= 12.3.3'
 gem 'rspec', '~> 3.0'
-gem 'rubocop', '~> 0.82.0'
+gem 'rubocop', '~> 1.92'
 gem 'simplecov', require: false
