@@ -1,3 +1,6 @@
+AllCops:
+  TargetRubyVersion: 3.3
+
 Metrics/ParameterLists:
   CountKeywordArgs: false
 

@@ -22,7 +22,7 @@ RSpec.configure do |config|
 end
 
 Egis.configure do |config|
-  config.logger = Logger.new(STDOUT, level: :fatal)
+  config.logger = Logger.new($stdout, level: :fatal)
 end
 
 def strip_whitespaces(string)

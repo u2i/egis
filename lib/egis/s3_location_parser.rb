@@ -3,7 +3,7 @@
 module Egis
   # @!visibility private
   class S3LocationParser
-    S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}.freeze
+    S3_URL_PATTERN = %r{^s3://(?<bucket>\S+?)/(?<key>\S+)$}
 
     def parse_url(url)
       matched_data = S3_URL_PATTERN.match(url)
