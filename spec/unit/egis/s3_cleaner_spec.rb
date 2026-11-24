@@ -50,6 +50,7 @@ RSpec.describe Egis::S3Cleaner do
           context.params[:delete][:objects].each do |objects|
             deleted_objects << objects[:key]
           end
+          {}
         end)
 
         subject

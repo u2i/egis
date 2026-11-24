@@ -152,7 +152,7 @@ RSpec.describe Egis::Client do
 
       it 'executes Athena query' do
         expect(aws_athena_client).to receive(:start_query_execution).with(
-          query_string: query, work_group: work_group_parameter, query_execution_context: {database: database}
+          {query_string: query, work_group: work_group_parameter, query_execution_context: {database: database}}
         ).and_return(start_query_execution_response)
 
         subject
@@ -166,10 +166,12 @@ RSpec.describe Egis::Client do
 
       it 'executes Athena query' do
         expect(aws_athena_client).to receive(:start_query_execution).with(
-          query_string: query,
-          work_group: work_group,
-          result_configuration: {output_location: output_location},
-          query_execution_context: {database: database}
+          {
+            query_string: query,
+            work_group: work_group,
+            result_configuration: {output_location: output_location},
+            query_execution_context: {database: database}
+          }
         ).and_return(start_query_execution_response)
 
         subject
@@ -181,7 +183,7 @@ RSpec.describe Egis::Client do
 
       it 'executes Athena query' do
         expect(aws_athena_client).to receive(:start_query_execution).with(
-          query_string: query, work_group: work_group, query_execution_context: {database: database}
+          {query_string: query, work_group: work_group, query_execution_context: {database: database}}
         ).and_return(start_query_execution_response)
 
         subject
@@ -205,7 +207,7 @@ RSpec.describe Egis::Client do
           aws_athena_client.stub_responses(:get_query_execution, get_query_execution_response[state])
 
           expect(aws_athena_client).to receive(:start_query_execution).with(
-            query_string: query, work_group: work_group, query_execution_context: {database: database}
+            {query_string: query, work_group: work_group, query_execution_context: {database: database}}
           ).and_return(start_query_execution_response)
 
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
@@ -222,7 +224,7 @@ RSpec.describe Egis::Client do
 
         it 'executes Athena query, waits for result' do
           expect(aws_athena_client).to receive(:start_query_execution).with(
-            query_string: query, work_group: work_group, query_execution_context: {database: database}
+            {query_string: query, work_group: work_group, query_execution_context: {database: database}}
           ).and_return(start_query_execution_response)
 
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
@@ -237,7 +239,7 @@ RSpec.describe Egis::Client do
 
         it 'executes Athena query, waits for result' do
           expect(aws_athena_client).to receive(:start_query_execution).with(
-            query_string: query, work_group: work_group, query_execution_context: {database: database}
+            {query_string: query, work_group: work_group, query_execution_context: {database: database}}
           ).and_return(start_query_execution_response)
 
           expect(aws_athena_client).to receive(:get_query_execution).with({query_execution_id: query_execution_id}).
