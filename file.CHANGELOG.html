@@ -6,13 +6,13 @@
 <title>
   File: CHANGELOG
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "CHANGELOG";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -57,159 +59,134 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<h1 id="label-CHANGELOG">CHANGELOG</h1>
-
-<h2 id="label-2.0">2.0</h2>
-
-<h3 id="label-2.0.0">2.0.0</h3>
-<ul><li>
-<p><strong>[breaking change]</strong> Make <code>:orc</code> table format to resolve columns by names instead of indexes. <code>:orc_index_access</code> preserves existing behavior</p>
-</li><li>
-<p><strong>[breaking change]</strong> Simplify table format to take either symbols for presets or a string if you want to specify a custom format</p>
-</li><li>
-<p>Add <code>:json</code> table format preset</p>
-</li></ul>
-
-<h2 id="label-1.0">1.0</h2>
-
-<h3 id="label-1.5.0">1.5.0</h3>
-<ul><li>
-<p>Ability to configure Egis per client</p>
-</li></ul>
-
-<h3 id="label-1.4.0">1.4.0</h3>
-<ul><li>
-<p>Add ability to insert data with hash values rather than arrays</p>
-</li></ul>
-
-<h3 id="label-1.3.0">1.3.0</h3>
-<ul><li>
-<p>Add ability to create Athena tables with SerDe</p>
-</li></ul>
-
-<h3 id="label-1.2.1">1.2.1</h3>
-<ul><li>
-<p>Fix testing mode error when AWS credentials missing</p>
-</li></ul>
-
-<h3 id="label-1.2.0">1.2.0</h3>
-<ul><li>
-<p>Add logger</p>
-</li></ul>
-
-<h3 id="label-1.1.0">1.1.0</h3>
-<ul><li>
-<p>Ability to specify AWS credentials profile</p>
-</li></ul>
-
-<h3 id="label-1.0.1">1.0.1</h3>
-<ul><li>
-<p>Fixed <code>aws-sdk-s3</code> not being a runtime dependency</p>
-</li></ul>
-
-<h3 id="label-1.0.0">1.0.0</h3>
-<ul><li>
-<p>Added <code>fetch_result</code> method to <code>Aegis::QueryStatus</code></p>
-</li></ul>
-
-<h2 id="label-Unstable">Unstable</h2>
-
-<h3 id="label-0.4.0">0.4.0</h3>
-<ul><li>
-<p>Moved errors to <code>Aegis::Errors</code> module</p>
-</li></ul>
-
-<h3 id="label-0.3.6">0.3.6</h3>
-<ul><li>
-<p>Moved <code>NullSerializer</code> to <code>Types</code> module</p>
-</li></ul>
-
-<h3 id="label-0.3.5">0.3.5</h3>
-<ul><li>
-<p>Fixed <code>nil</code> value serialization</p>
-</li></ul>
-
-<h3 id="label-0.3.4">0.3.4</h3>
-<ul><li>
-<p>Fixed table&#39;s <code>download_data</code> to correctly return <code>nil</code> values</p>
-</li></ul>
-
-<h3 id="label-0.3.3">0.3.3</h3>
-<ul><li>
-<p>Fixed data wiping when S3 location is empty</p>
-</li></ul>
-
-<h3 id="label-0.3.2">0.3.2</h3>
-<ul><li>
-<p>Fixed table options</p>
-</li><li>
-<p>Replaced usage of deprecated last argument as keyword parameters with splat operator</p>
-</li></ul>
-
-<h3 id="label-0.3.1">0.3.1</h3>
-<ul><li>
-<p>Fixed testing mode table location translation</p>
-</li></ul>
-
-<h3 id="label-0.3.0">0.3.0</h3>
-<ul><li>
-<p><strong>[breaking change]</strong> Extracted table-related methods from <code>Database</code> into new <code>Table</code> class (<code>create_table</code>,  <code>add_partitions</code>, <code>discover_partitions</code>). Table objects are now being created using <code>Database.table</code> method.</p>
-</li><li>
-<p><strong>[breaking change]</strong> <code>.execute_query</code> methods in <code>async</code> mode now return <code>Aegis::QueryStatus</code> objects instead of  query id.</p>
-</li><li>
-<p>Introduced new testing framework. All database queries executed within <code>Aegis.testing { ... }</code> will be executed  inside a separated “virtual environment” in the testing bucket you can now configure.</p>
-</li><li>
-<p>Added a bunch of convenience methods:</p>
-</li><li>
-<p><code>QueryStatus.in_progress?</code></p>
-</li><li>
-<p><code>Database.exists?</code> to check whether a database with a given name already exists</p>
-</li><li>
-<p><code>Table.upload_data</code> to upload data to S3 directly from Ruby (especially useful in testing)</p>
-</li><li>
-<p><code>Table.download_data</code> to download table data into memory (especially useful in testing)</p>
-</li><li>
-<p><code>Table.wipe_data</code> to purge table&#39;s S3 location</p>
-</li><li>
-<p>Introduced <code>Aegis::Types</code> module for working with Athena data types. <code>Aegis::Types.serializer(type)</code> returns proper  type serializer which has <code>literal</code>, <code>dump</code> and <code>load</code> methods.</p>
-</li><li>
-<p><code>literal</code> returns a string literal you can embed within your queries. For example, <code>Aegis::Types.serializer(:timestamp).literal(Time.now)</code> returns <code>timestamp &#39;2020-04-14 10:36:48&#39;</code> which you can use directly in a Athena query.</p>
-</li><li>
-<p><code>dump</code> serializes Ruby value object into a string that can be used in S3 data file</p>
-</li><li>
-<p><code>load</code> loads serialized string value back to Ruby object</p>
-</li></ul>
-
-<h3 id="label-0.2.0">0.2.0</h3>
-<ul><li>
-<p><strong>[breaking change]</strong> Removed <code>permissive</code> parameter replacing it with bang method versions. Changed methods:  <code>Database.create</code>, <code>Database.drop</code>, <code>Database.create_table</code>, <code>Database.load_partitions</code></p>
-</li><li>
-<p><strong>[breaking change]</strong> Replaced <code>Database.load_partitions</code> with two simpler methods:  <code>Database.add_partitions</code>, <code>Database.discover_partitions</code></p>
-</li><li>
-<p><strong>[breaking change]</strong> <code>Database.execute_query</code> is async by default now</p>
-</li></ul>
-
-<h3 id="label-0.1.0">0.1.0</h3>
-
+      <div id="content"><div id='filecontents'><h1 id="CHANGELOG">CHANGELOG</h1>
+<h2 id="3_0">3.0</h2>
+<h3 id="3_0_0">3.0.0</h3>
+<ul>
+<li><strong>[breaking change]</strong> Require Ruby 3.3 or newer; add Ruby 3.4 and 4.0 support</li>
+<li>Declare <code>csv</code> and <code>logger</code> as runtime dependencies (no longer default gems in recent Rubies)</li>
+<li>Upgrade development toolchain (RuboCop 1.x, CI actions)</li>
+</ul>
+<h2 id="2_0">2.0</h2>
+<h3 id="2_0_0">2.0.0</h3>
+<ul>
+<li><strong>[breaking change]</strong> Make <code>:orc</code> table format to resolve columns by names instead of indexes. <code>:orc_index_access</code> preserves existing behavior</li>
+<li><strong>[breaking change]</strong> Simplify table format to take either symbols for presets or a string if you want to specify a custom format</li>
+<li>Add <code>:json</code> table format preset</li>
+</ul>
+<h2 id="1_0">1.0</h2>
+<h3 id="1_5_0">1.5.0</h3>
+<ul>
+<li>Ability to configure Egis per client</li>
+</ul>
+<h3 id="1_4_0">1.4.0</h3>
+<ul>
+<li>Add ability to insert data with hash values rather than arrays</li>
+</ul>
+<h3 id="1_3_0">1.3.0</h3>
+<ul>
+<li>Add ability to create Athena tables with SerDe</li>
+</ul>
+<h3 id="1_2_1">1.2.1</h3>
+<ul>
+<li>Fix testing mode error when AWS credentials missing</li>
+</ul>
+<h3 id="1_2_0">1.2.0</h3>
+<ul>
+<li>Add logger</li>
+</ul>
+<h3 id="1_1_0">1.1.0</h3>
+<ul>
+<li>Ability to specify AWS credentials profile</li>
+</ul>
+<h3 id="1_0_1">1.0.1</h3>
+<ul>
+<li>Fixed <code>aws-sdk-s3</code> not being a runtime dependency</li>
+</ul>
+<h3 id="1_0_0">1.0.0</h3>
+<ul>
+<li>Added <code>fetch_result</code> method to <code>Aegis::QueryStatus</code></li>
+</ul>
+<h2 id="Unstable">Unstable</h2>
+<h3 id="0_4_0">0.4.0</h3>
+<ul>
+<li>Moved errors to <code>Aegis::Errors</code> module</li>
+</ul>
+<h3 id="0_3_6">0.3.6</h3>
+<ul>
+<li>Moved <code>NullSerializer</code> to <code>Types</code> module</li>
+</ul>
+<h3 id="0_3_5">0.3.5</h3>
+<ul>
+<li>Fixed <code>nil</code> value serialization</li>
+</ul>
+<h3 id="0_3_4">0.3.4</h3>
+<ul>
+<li>Fixed table's <code>download_data</code> to correctly return <code>nil</code> values</li>
+</ul>
+<h3 id="0_3_3">0.3.3</h3>
+<ul>
+<li>Fixed data wiping when S3 location is empty</li>
+</ul>
+<h3 id="0_3_2">0.3.2</h3>
+<ul>
+<li>Fixed table options</li>
+<li>Replaced usage of deprecated last argument as keyword parameters with splat operator</li>
+</ul>
+<h3 id="0_3_1">0.3.1</h3>
+<ul>
+<li>Fixed testing mode table location translation</li>
+</ul>
+<h3 id="0_3_0">0.3.0</h3>
+<ul>
+<li><strong>[breaking change]</strong> Extracted table-related methods from <code>Database</code> into new <code>Table</code> class (<code>create_table</code>,
+<code>add_partitions</code>, <code>discover_partitions</code>). Table objects are now being created using <code>Database.table</code> method.</li>
+<li><strong>[breaking change]</strong> <code>.execute_query</code> methods in <code>async</code> mode now return <code>Aegis::QueryStatus</code> objects instead of
+query id.</li>
+<li>Introduced new testing framework. All database queries executed within <code>Aegis.testing { ... }</code> will be executed
+inside a separated &quot;virtual environment&quot; in the testing bucket you can now configure.</li>
+<li>Added a bunch of convenience methods:
+<ul>
+<li><code>QueryStatus.in_progress?</code></li>
+<li><code>Database.exists?</code> to check whether a database with a given name already exists</li>
+<li><code>Table.upload_data</code> to upload data to S3 directly from Ruby (especially useful in testing)</li>
+<li><code>Table.download_data</code> to download table data into memory (especially useful in testing)</li>
+<li><code>Table.wipe_data</code> to purge table's S3 location</li>
+</ul>
+</li>
+<li>Introduced <code>Aegis::Types</code> module for working with Athena data types. <code>Aegis::Types.serializer(type)</code> returns proper
+type serializer which has <code>literal</code>, <code>dump</code> and <code>load</code> methods.
+<ul>
+<li><code>literal</code> returns a string literal you can embed within your queries.
+For example, <code>Aegis::Types.serializer(:timestamp).literal(Time.now)</code> returns <code>timestamp '2020-04-14 10:36:48'</code> which
+you can use directly in a Athena query.</li>
+<li><code>dump</code> serializes Ruby value object into a string that can be used in S3 data file</li>
+<li><code>load</code> loads serialized string value back to Ruby object</li>
+</ul>
+</li>
+</ul>
+<h3 id="0_2_0">0.2.0</h3>
+<ul>
+<li><strong>[breaking change]</strong> Removed <code>permissive</code> parameter replacing it with bang method versions. Changed methods:
+<code>Database.create</code>, <code>Database.drop</code>, <code>Database.create_table</code>, <code>Database.load_partitions</code></li>
+<li><strong>[breaking change]</strong> Replaced <code>Database.load_partitions</code> with two simpler methods:
+<code>Database.add_partitions</code>, <code>Database.discover_partitions</code></li>
+<li><strong>[breaking change]</strong> <code>Database.execute_query</code> is async by default now</li>
+</ul>
+<h3 id="0_1_0">0.1.0</h3>
 <p>Initial gem implementation including core features like:</p>
-<ul><li>
-<p>table schema DSL</p>
-</li><li>
-<p>database / table creation</p>
-</li><li>
-<p>partition loading</p>
-</li><li>
-<p>synchronous and asynchronous query execution</p>
-</li><li>
-<p>query status monitoring</p>
-</li></ul>
-</div></div>
+<ul>
+<li>table schema DSL</li>
+<li>database / table creation</li>
+<li>partition loading</li>
+<li>synchronous and asynchronous query execution</li>
+<li>query status monitoring</li>
+</ul></div></div>
 
       <div id="footer">
-  Generated on Thu Dec 16 12:53:30 2021 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.5).
+  Generated on Wed Nov 25 16:43:32 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-4.0.10).
 </div>
 
     </div>

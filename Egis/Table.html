@@ -6,13 +6,13 @@
 <title>
   Class: Egis::Table
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Egis::Table";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,18 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/egis/table.rb</dd>
+    <dd>lib/egis/table.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Interface for Athena table manipulation.</p>
-
+    <p>Interface for Athena table manipulation.</p>
 <p>It is recommended to create table objects using <span class='object_link'><a href="Database.html#table-instance_method" title="Egis::Database#table (method)">Database#table</a></span> method.</p>
-
 
   </div>
 </div>
@@ -184,9 +184,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Athena table name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Athena table name.</p></div></span>
   
 </li>
 
@@ -213,9 +211,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Table&#39;s schema object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Table's schema object.</p></div></span>
   
 </li>
 
@@ -250,9 +246,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates partitions with all possible combinations of given partition values.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates partitions with all possible combinations of given partition values.</p></div></span>
   
 </li>
 
@@ -274,9 +268,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates partitions with all possible combinations of given partition values.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates partitions with all possible combinations of given partition values.</p></div></span>
   
 </li>
 
@@ -298,9 +290,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates table in Athena.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates table in Athena.</p></div></span>
   
 </li>
 
@@ -322,9 +312,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p></div></span>
   
 </li>
 
@@ -346,9 +334,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Tells Athena to automatically discover table's partitions by scanning table's S3 location.</p></div></span>
   
 </li>
 
@@ -370,9 +356,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Downloads table contents into memory.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Downloads table contents into memory.</p></div></span>
   
 </li>
 
@@ -394,9 +378,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Table data format.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Table data format.</p></div></span>
   
 </li>
 
@@ -420,9 +402,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Table.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Table.</p></div></span>
   
 </li>
 
@@ -444,9 +424,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Table location URL.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Table location URL.</p></div></span>
   
 </li>
 
@@ -468,9 +446,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Insert data into the table.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Insert data into the table.</p></div></span>
   
 </li>
 
@@ -492,14 +468,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Removes table&#39;s content on S3.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Removes table's content on S3.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -516,9 +491,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Table.</p>
-
+    <p>Returns a new instance of Table.</p>
 
   </div>
 </div>
@@ -1000,9 +973,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns Athena table name.</p>
-
+    <p>Returns Athena table name.</p>
 
   </div>
 </div>
@@ -1019,9 +990,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Athena table name</p>
-</div>
+        <div class='inline'><p>Athena table name</p></div>
       
     </li>
   
@@ -1411,9 +1380,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns table&#39;s schema object.</p>
-
+    <p>Returns table's schema object.</p>
 
   </div>
 </div>
@@ -1430,9 +1397,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>table&#39;s schema object</p>
-</div>
+        <div class='inline'><p>table's schema object</p></div>
       
     </li>
   
@@ -1827,16 +1792,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Creates partitions with all possible combinations of given partition values.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Creates partitions with all possible combinations of given partition values.</p>
 
   </div>
 </div>
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='label'>year:</span> <span class='lbracket'>[</span><span class='int'>2000</span><span class='comma'>,</span> <span class='int'>2001</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
@@ -1893,18 +1856,15 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Creates partitions with all possible combinations of given partition values.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Creates partitions with all possible combinations of given partition values.</p>
 <p>It raises error when a partition already exists.</p>
-
 
   </div>
 </div>
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_add_partitions'>add_partitions</span><span class='lparen'>(</span><span class='label'>year:</span> <span class='lbracket'>[</span><span class='int'>2000</span><span class='comma'>,</span> <span class='int'>2001</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
@@ -1961,9 +1921,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Creates table in Athena.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Creates table in Athena.</p>
 
   </div>
 </div>
@@ -2008,9 +1966,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Table#create (method)">#create</a></span> but raising error when table with a given name already exists.</p>
 
   </div>
 </div>
@@ -2055,9 +2011,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Tells Athena to automatically discover table&#39;s partitions by scanning table&#39;s S3 location. This operation might take long time with big number of partitions. If that&#39;s the case, instead of this method use <span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span> to define partitions manually.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Tells Athena to automatically discover table's partitions by scanning table's S3 location.
+This operation might take long time with big number of partitions. If that's the case, instead of this method use
+<span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span> to define partitions manually.</p>
 
   </div>
 </div>
@@ -2096,9 +2052,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Downloads table contents into memory. Mostly useful for testing purposes.</p>
-
+    <p>Downloads table contents into memory. Mostly useful for testing purposes.</p>
 
   </div>
 </div>
@@ -2115,9 +2069,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of arrays with row values.</p>
-</div>
+        <div class='inline'><p>Array of arrays with row values.</p></div>
       
     </li>
   
@@ -2159,9 +2111,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns Table data format.</p>
-
+    <p>Returns Table data format.</p>
 
   </div>
 </div>
@@ -2178,9 +2128,7 @@
       
       
         
-        <div class='inline'>
-<p>Table data format</p>
-</div>
+        <div class='inline'><p>Table data format</p></div>
       
     </li>
   
@@ -2218,9 +2166,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns table location URL.</p>
-
+    <p>Returns table location URL.</p>
 
   </div>
 </div>
@@ -2237,9 +2183,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>table location URL</p>
-</div>
+        <div class='inline'><p>table location URL</p></div>
       
     </li>
   
@@ -2277,21 +2221,17 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Insert data into the table. Mostly useful for testing purposes.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Insert data into the table. Mostly useful for testing purposes.</p>
 
   </div>
 </div>
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Insert with array of arrays</p>
-</div></p>
+        <h5 class="example_title"><div class='inline'><p>Insert with array of arrays</p></div></h5>
       
       <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='lbracket'>[</span>
     <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mx</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -2299,9 +2239,7 @@
 <span class='rbracket'>]</span><span class='rparen'>)</span></code></pre>
     
       
-        <p class="example_title"><div class='inline'>
-<p>Insert with array of hashes</p>
-</div></p>
+        <h5 class="example_title"><div class='inline'><p>Insert with array of hashes</p></div></h5>
       
       <pre class="example code"><code><span class='id identifier rubyid_table'>table</span><span class='period'>.</span><span class='id identifier rubyid_upload_data'>upload_data</span><span class='lparen'>(</span><span class='lbracket'>[</span>
     <span class='lbrace'>{</span><span class='label'>message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello world</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>country:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mx</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>type:</span> <span class='int'>1</span><span class='rbrace'>}</span><span class='comma'>,</span>
@@ -2322,9 +2260,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of arrays or hashes with row values</p>
-</div>
+        <div class='inline'><p>Array of arrays or hashes with row values</p></div>
       
     </li>
   
@@ -2365,9 +2301,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Removes table&#39;s content on S3. Optionally, you can limit files removed to specific partitions.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Removes table's content on S3. Optionally, you can limit files removed to specific partitions.</p>
 
   </div>
 </div>
@@ -2387,9 +2321,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Partitions values to remove. Follows the same argument format as <span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span>.</p>
-</div>
+        <div class='inline'><p>Partitions values to remove. Follows the same argument format as <span class='object_link'><a href="#add_partitions-instance_method" title="Egis::Table#add_partitions (method)">#add_partitions</a></span>.</p></div>
       
     </li>
   
@@ -2422,9 +2354,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 16 12:53:30 2021 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.5).
+  Generated on Wed Nov 25 16:43:32 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-4.0.10).
 </div>
 
     </div>

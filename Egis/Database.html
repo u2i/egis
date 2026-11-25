@@ -6,13 +6,13 @@
 <title>
   Class: Egis::Database
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Egis::Database";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,20 +96,19 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/egis/database.rb</dd>
+    <dd>lib/egis/database.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Interface for database manipulation and querying.</p>
-
-<p>Extends the interface of <span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span> but all the queries scheduled using <span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span> are executed within the database&#39;s context. SQL table references without explicit database will implicitly refer to the database they are executed from.</p>
-
+    <p>Interface for database manipulation and querying.</p>
+<p>Extends the interface of <span class='object_link'><a href="Client.html" title="Egis::Client (class)">Client</a></span> but all the queries scheduled using <span class='object_link'><a href="" title="Egis::Database (class)">Database</a></span> are executed
+within the database's context. SQL table references without explicit database will implicitly refer to
+the database they are executed from.</p>
 <p>It is recommended to create database objects using <span class='object_link'><a href="Client.html#database-instance_method" title="Egis::Client#database (method)">Client#database</a></span> method.</p>
-
 
   </div>
 </div>
@@ -143,9 +144,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Athena database name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Athena database name.</p></div></span>
   
 </li>
 
@@ -180,9 +179,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates database in Athena.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates database in Athena.</p></div></span>
   
 </li>
 
@@ -204,9 +201,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p></div></span>
   
 </li>
 
@@ -228,9 +223,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Removes database in Athena.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Removes database in Athena.</p></div></span>
   
 </li>
 
@@ -252,9 +245,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p></div></span>
   
 </li>
 
@@ -276,9 +267,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Executes Athena query.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Executes Athena query.</p></div></span>
   
 </li>
 
@@ -300,9 +289,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Checks whether database with such name exists in Athena.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Checks whether database with such name exists in Athena.</p></div></span>
   
 </li>
 
@@ -326,9 +313,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Database.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Database.</p></div></span>
   
 </li>
 
@@ -350,9 +335,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Check the status of asynchronous query execution.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Check the status of asynchronous query execution.</p></div></span>
   
 </li>
 
@@ -374,14 +357,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -398,9 +380,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Database.</p>
-
+    <p>Returns a new instance of Database.</p>
 
   </div>
 </div>
@@ -450,9 +430,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns Athena database name.</p>
-
+    <p>Returns Athena database name.</p>
 
   </div>
 </div>
@@ -469,9 +447,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Athena database name</p>
-</div>
+        <div class='inline'><p>Athena database name</p></div>
       
     </li>
   
@@ -728,9 +704,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Creates database in Athena.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Creates database in Athena.</p>
 
   </div>
 </div>
@@ -775,9 +749,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>The same as <span class='object_link'><a href="#create-instance_method" title="Egis::Database#create (method)">#create</a></span> but raising error if it already exists.</p>
 
   </div>
 </div>
@@ -820,9 +792,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Removes database in Athena.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>Removes database in Athena.</p>
 
   </div>
 </div>
@@ -867,9 +837,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>The same as <span class='object_link'><a href="#drop-instance_method" title="Egis::Database#drop (method)">#drop</a></span> but raising error if it the database does not exist.</p>
 
   </div>
 </div>
@@ -912,9 +880,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Executes Athena query. By default, queries are being executed asynchronously.</p>
-
+    <p>Executes Athena query. By default, queries are being executed asynchronously.</p>
 
   </div>
 </div>
@@ -932,9 +898,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>SQL query to execute</p>
-</div>
+        <div class='inline'><p>SQL query to execute</p></div>
       
     </li>
   
@@ -948,9 +912,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Decide whether you want to run query asynchronously or block execution until it finishes</p>
-</div>
+        <div class='inline'><p>Decide whether you want to run query asynchronously or block execution until it finishes</p></div>
       
     </li>
   
@@ -964,9 +926,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Change Athena work group the query will be executed in.</p>
-</div>
+        <div class='inline'><p>Change Athena work group the query will be executed in.</p></div>
       
     </li>
   
@@ -980,9 +940,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Run query in the context of a specific database (implicit table references are expected to be in given database).</p>
-</div>
+        <div class='inline'><p>Run query in the context of a specific database (implicit table references are expected
+to be in given database).</p></div>
       
     </li>
   
@@ -996,9 +955,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>S3 url of the desired output location. By default, Athena uses location defined in by workgroup.</p>
-</div>
+        <div class='inline'><p>S3 url of the desired output location. By default, Athena uses location defined in
+by workgroup.</p></div>
       
     </li>
   
@@ -1050,9 +1008,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Checks whether database with such name exists in Athena.</p>
-
+    <p>Checks whether database with such name exists in Athena.</p>
 
   </div>
 </div>
@@ -1108,9 +1064,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Check the status of asynchronous query execution.</p>
-
+    <p>Check the status of asynchronous query execution.</p>
 
   </div>
 </div>
@@ -1128,9 +1082,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Query id from <span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">QueryStatus</a></span> returned by <span class='object_link'><a href="#execute_query-instance_method" title="Egis::Database#execute_query (method)">#execute_query</a></span> method</p>
-</div>
+        <div class='inline'><p>Query id from <span class='object_link'><a href="QueryStatus.html" title="Egis::QueryStatus (class)">QueryStatus</a></span> returned by <span class='object_link'><a href="#execute_query-instance_method" title="Egis::Database#execute_query (method)">#execute_query</a></span> method</p></div>
       
     </li>
   
@@ -1182,9 +1134,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object. Executing it doesn&#39;t create Athena table yet.</p>
-
+    <p>Creates <span class='object_link'><a href="Table.html" title="Egis::Table (class)">Table</a></span> object. Executing it doesn't create Athena table yet.</p>
 
   </div>
 </div>
@@ -1224,9 +1174,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>S3 URL with table location (e.g. <code>s3://s3_bucket/table/location/</code>)</p>
-</div>
+        <div class='inline'><p>S3 URL with table location (e.g. <code>s3://s3_bucket/table/location/</code>)</p></div>
       
     </li>
   
@@ -1240,9 +1188,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Table Format (defaults to :tsv)</p>
-</div>
+        <div class='inline'><p>Table Format (defaults to :tsv)</p></div>
       
     </li>
   
@@ -1288,9 +1234,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 16 12:53:30 2021 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.5).
+  Generated on Wed Nov 25 16:43:33 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-4.0.10).
 </div>
 
     </div>
